@@ -1,6 +1,8 @@
 #Importanto a biblioteca responável por capturar dados de máquina
 import psutil
 
+import os
+
 #Importanto as bibliotecas responsáveis por gerar os gráficos
 import matplotlib.pyplot as plt # Definindo um "apelido" para a biblioteca
 from matplotlib.animation import FuncAnimation
@@ -9,8 +11,13 @@ from matplotlib.animation import FuncAnimation
 from conexao import criar_conexao
 from comandoSql import insere_dadosHardware
 
+if os.name == "nt":
+    so = "Windows"
+else:
+    so = "Linux"
+
 # Variável de conexão com  o banco, altere as informações necessárias como: host, usuario, senha e nome do banco para ficar de acordo com o Banco Criado na sua máquina
-con = criar_conexao("localhost", "root", "Vini_0507", "dados_de_maquina")
+con = criar_conexao("localhost", "aluno", "sptech", "dados_de_maquina")
 
 dispositivos = psutil.disk_partitions();
 
@@ -37,21 +44,38 @@ def definirGraficos(frame):
     #Criando um sistema que detecata quantas unidades de armazenamento tem na sua máquina e gerando um gráfico do tipo Pie = Torta/Pizza com a % de disco espaço e de espaço disponível
     i = 3
     cores = '#a5a8a8','#55cfed' # setando as cores que serão utilizadas no gráfico para ficarem estáticas.
-    for dispositivo in dispositivos:
-        armzTotalDisco = round((psutil.disk_usage(f'{dispositivo.device}')[0]) / (10**9),2); # Capturando a capacidade total de armazenamento do disco
-        espacoUsadoDisco = round((psutil.disk_usage(f'{dispositivo.device}')[1]) / (10**9),2); # Capturando o espaço usado do disco
-        espacoLivreDisco = round((psutil.disk_usage(f'{dispositivo.device}')[2]) / (10**9),2); # Capturando o espaço disponível do disco
+
+    if so == "Windows":
+        for dispositivo in dispositivos:
+            armzTotalDisco = round((psutil.disk_usage(f'{dispositivo.device}')[0]) / (10**9),2); # Capturando a capacidade total de armazenamento do disco
+            espacoUsadoDisco = round((psutil.disk_usage(f'{dispositivo.device}')[1]) / (10**9),2); # Capturando o espaço usado do disco
+            espacoLivreDisco = round((psutil.disk_usage(f'{dispositivo.device}')[2]) / (10**9),2); # Capturando o espaço disponível do disco
+
+            labels = f'Espaço Usado - {espacoUsadoDisco} Gb', f'Espaço Disponível - {espacoLivreDisco} Gb' # Definindo as lavels (Textos) da legenda
+            sizes = [((espacoUsadoDisco/armzTotalDisco)*100), ((espacoLivreDisco/armzTotalDisco)*100)] # Definindo os tamanhos do gráfico de pizza em %
+            
+            graficosUnidArmz = plt.subplot(2,2,i) # Plotando o gráfico de pizza nas posições corretas da janela de gráficos
+            graficosUnidArmz.pie(sizes, autopct='%1.1f%%', startangle=0, colors = cores) # Setando as configurações do gráfico, como as medidas com arredondamento de 1 casa decimal, o ângulo de inicio do gráfico e suas cores.
+            graficosUnidArmz.title.set_text(f'Unidade - {dispositivo.device}') # título do gráfico
+            graficosUnidArmz.legend(labels, loc="best", bbox_to_anchor=((0.55, -0.5, 0.5, 0.5))) # Setando as configurações da legenda, como os títulos e sua posição.
+            graficosUnidArmz.axis('equal')  # Definindo a proporção de forma do gráficos para que as unidades de dados sejam as mesmas em todas as direções.
+            
+            i = i+1
+    else:
+        armzTotalDisco = round((psutil.disk_usage('/')[0]) / (10**9),2); # Capturando a capacidade total de armazenamento do disco
+        espacoUsadoDisco = round((psutil.disk_usage('/')[1]) / (10**9),2); # Capturando o espaço usado do disco
+        espacoLivreDisco = round((psutil.disk_usage('/')[2]) / (10**9),2); # Capturando o espaço disponível do disco
 
         labels = f'Espaço Usado - {espacoUsadoDisco} Gb', f'Espaço Disponível - {espacoLivreDisco} Gb' # Definindo as lavels (Textos) da legenda
         sizes = [((espacoUsadoDisco/armzTotalDisco)*100), ((espacoLivreDisco/armzTotalDisco)*100)] # Definindo os tamanhos do gráfico de pizza em %
-        
-        graficosUnidArmz = plt.subplot(2,2,i) # Plotando o gráfico de pizza nas posições corretas da janela de gráficos
+
+            
+        graficosUnidArmz = plt.subplot(2,2,3) # Plotando o gráfico de pizza nas posições corretas da janela de gráficos
         graficosUnidArmz.pie(sizes, autopct='%1.1f%%', startangle=0, colors = cores) # Setando as configurações do gráfico, como as medidas com arredondamento de 1 casa decimal, o ângulo de inicio do gráfico e suas cores.
-        graficosUnidArmz.title.set_text(f'Unidade - {dispositivo.device}') # título do gráfico
+        graficosUnidArmz.title.set_text(f'Unidade - /') # título do gráfico
         graficosUnidArmz.legend(labels, loc="best", bbox_to_anchor=((0.55, -0.5, 0.5, 0.5))) # Setando as configurações da legenda, como os títulos e sua posição.
-        graficosUnidArmz.axis('equal')  # Definindo a proporção de forma do gráficos para que as unidades de dados sejam as mesmas em todas as direções.
-        
-        i = i+1
+        graficosUnidArmz.axis('equal')  # Definindo a proporção de forma do gráficos para que as unidades de dados sejam as mesmas em todas as direções.    
+    
     conRAM = consumoRAM[-1] # Armazenando em uma variavel o último valor inserido no vetor de consumoRAM
     conCPU = consumoCPU[-1] # Armazenando em uma variavel o último valor inserido no vetor de consumoCPU
     dadosHardware = str(conCPU) + ',' + str(conRAM) + ');' # Criando uma varivel do tipo strig para passar como parâmetro para a função de inserir dados no banco. (aqui é para complementar o insert do arquivo comandosSql.py)
