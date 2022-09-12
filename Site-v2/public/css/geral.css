@@ -1,0 +1,552 @@
+:root {
+    --azulEscuro: #062335;
+    --azulMedio: #2c6487;
+    --azulClaro: #3080b0;
+    --alternativo: #262335;
+    --roxo: #8e82d3;
+    --branco: #f0f8ff;
+    --bege: #f5deb3;
+    --shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.37);
+    --shadowGlow: 0px 0px 20px 0px white;
+    --radius: 10px;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+li {
+    text-decoration: none;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.FundoNavbar .container {
+    width: 100%;
+}
+
+.home {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logoLink {
+    width: 40%;
+}
+
+.logo {
+    width: 100%;
+    transition: 400ms;
+}
+
+.logo:hover {
+    -webkit-filter: drop-shadow(5px 5px 5px #222);
+    filter: drop-shadow(0px 0px 10px grey);
+}
+
+.container {
+    margin: auto;
+    display: flex;
+    width: 80%;
+}
+
+.navLinks {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+    align-items: center;
+    border-radius: var(--radius);
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    padding-right: 40px;
+}
+
+.navbar li {
+    background-color: var(--azulClaro);
+    margin: 10px;
+    border-radius: var(--radius);
+    padding: 5px;
+}
+
+.navbar a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    width: 100%;
+}
+
+.navbar img {
+    width: 100%;
+}
+
+.navbar span {
+    display: none;
+    margin-right: 8px;
+}
+
+.login {
+    width: 10%;
+    margin-right: 15px;
+}
+
+.login a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    width: 100%;
+}
+
+.login:hover {
+    box-shadow: 0px 0px 0px 0px;
+}
+
+.login img {
+    width: 100%;
+}
+
+.login span {
+    display: none;
+}
+
+.navbar,
+.login {
+    display: flex;
+    list-style: none;
+    border-radius: var(--radius);
+    transition: 400ms;
+    font-weight: 900;
+    align-items: center;
+}
+
+.navbar li {
+    width: clamp(5vw, 2rem + 2vw, 2vw);
+    font-size: clamp(5px, 5px + 2vw, 25px);
+    padding: 1rem + 2vw;
+}
+
+.login li {
+    display: flex;
+    justify-content: center;
+    width: clamp(18vw, 2rem + 2vw, 22vw);
+    font-size: clamp(5px, 5px + 2vw, 25px);
+    padding: 1rem + 2vw;
+}
+
+.FundoNavbar {
+    background-color: var(--branco);
+    color: #062335;
+    height: 90%;
+    width: clamp(14rem, 100%, 100vw);
+}
+
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--alternativo);
+    color: var(--branco);
+    padding: 2.8rem;
+    padding-top: 2.8rem;
+}
+
+.footer .retanguloFantasma {
+    background-color: #d2d1d4be;
+    width: 73%;
+    height: 5rem;
+    margin-right: 40px;
+    margin-top: -100px;
+}
+
+.footer .retangulo {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--roxo);
+    width: 65%;
+    height: 2.5rem;
+    padding: 2rem;
+    padding-left: 1.8rem;
+    padding-right: 1.8rem;
+    margin-top: -5rem;
+    align-items: center;
+    text-align: left;
+}
+
+.footer .retangulo .textos {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.footer .retangulo .textos .titulo {
+    color: var(--branco);
+    padding: 2%;
+    font-size: clamp(0.4rem, 0.8rem + 1vw, 1rem);
+}
+
+.footer .retangulo .textos .texto {
+    color: var(--alternativo);
+}
+
+.footer .botao {
+    background-color: #222;
+    color: var(--branco);
+    padding: 0.6rem;
+    height: 100%;
+    font-size: clamp(0.4rem, 0.4rem + 1vw, 1rem);
+    text-align: center;
+}
+
+.footer li {
+    font-size: 80%;
+    opacity: 50%;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.footer .itens {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.8rem;
+    padding-top: 3.1rem;
+    margin-left: 5%;
+}
+
+.footer .itens h6 {
+    display: flex;
+}
+
+.footer .itens h5 {
+    padding: 0.4rem;
+}
+
+.footer .itens .item1 {
+    width: 35%;
+}
+
+.footer .itens .item2 {
+    width: 100%;
+}
+
+.footer .itens .item3 {
+    width: 100%;
+}
+
+.footer .itens .item4 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    transition: 400ms;
+}
+
+.footer .itens .item4 .imgs {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.item4 .github,
+.item4 .facebook,
+.item4 .instagram,
+.item4 .linkedin {
+    width: 1.5rem;
+    height: 1.5rem;
+    transition: 300ms;
+}
+
+.item4 .github {
+    background-image: url('../imgs/gitBlack.png');
+    background-size: 100%;
+}
+
+.item4 .facebook {
+    background-image: url('../imgs/facebookBlack.png');
+    background-size: 100%;
+}
+
+.item4 .instagram {
+    background-image: url('../imgs/instagramBlack.png');
+    background-size: 100%;
+}
+
+.item4 .linkedin {
+    background-image: url('../imgs/linkedinBlack.png');
+    background-size: 100%;
+}
+
+.item4 .github:hover {
+    background-image: url('../imgs/gitColor.png');
+}
+
+.item4 .facebook:hover {
+    background-image: url('../imgs/facebookColor.png');
+}
+
+.item4 .instagram:hover {
+    background-image: url('../imgs/instagramColor.png');
+}
+
+.item4 .linkedin:hover {
+    background-image: url('../imgs/linkedinColor.png');
+}
+
+.footer .itens .item4 img {
+    width: 30%;
+}
+
+.footer .logo {
+    width: 100%;
+}
+
+@media (min-width: 540px) {
+
+    .FundoNavbar .container {
+        width: 88%;
+    }
+    
+    .logoLink {
+        width: clamp(1rem, 20% + 10vw, 12rem);
+    }
+    
+    .home {
+        align-items: center;
+        display: flex;
+        width: 100%;
+    }
+
+    .navLinks {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+        align-items: center;
+        padding: 5px;
+    }
+
+    .navlinks ul img {
+        width: 100%;
+    }
+
+    .navbar {
+        display: flex;
+        flex-direction: row;
+        max-width: 25vw;
+        padding: 0;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .navbar img {
+        width: 20%;
+    }
+
+    .navbar span {
+        display: block;
+        font-size: 80%;
+    }
+
+    .navbar li {
+        width: clamp(15vw, 2rem + 2vw, 2vw);
+        padding-left: 10px;
+        padding-right: 10px;
+        transition: 400ms;
+    }
+
+    .navbar li:hover {
+        box-shadow: var(--shadow);
+    }
+
+    .login {
+        display: flex;
+        width: 15%;
+        justify-content: center;
+        background-color: var(--azulClaro);
+        padding: 8px;
+    }
+
+    .login a {
+        width: 100%;
+    }
+
+    .login span {
+        display: block;
+    }
+
+    .login img {
+        width: 20%;
+    }
+
+    .login:hover {
+        box-shadow: var(--shadow);
+    }
+
+    .footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--alternativo);
+        color: var(--branco);
+        padding: 50px;
+    }
+
+    .footer .retanguloFantasma {
+        background-color: #d2d1d4be;
+        width: 68%;
+        height: 80px;
+        margin-right: 40px;
+        margin-top: -100px;
+    }
+
+    .footer .retangulo {
+        display: flex;
+        justify-content: space-between;
+        background-color: var(--roxo);
+        width: 65%;
+        height: 40px;
+        padding: 20px;
+        padding-left: 30px;
+        padding-right: 30px;
+        margin-top: -80px;
+        align-items: center;
+        text-align: left;
+    }
+
+    .footer .retangulo .textos {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer .retangulo .textos .titulo {
+        color: var(--branco);
+        width: 100%;
+        font-size: clamp(0.4rem, 2rem + 1vw,1rem);
+    }
+
+    .footer .retangulo .textos .texto {
+        color: var(--alternativo);
+    }
+
+    .footer .botao {
+        background-color: #222;
+        color: var(--branco);
+        padding: 10px;
+        text-align: center;
+    }
+
+    .footer li {
+        font-size: 80%;
+        opacity: 50%;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+
+    .footer .itens {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        padding: 30px;
+        padding-top: 50px;
+        margin-left: 5%;
+    }
+
+    .footer .itens h6 {
+        display: flex;
+    }
+
+    .footer .itens h5 {
+        padding: 5px;
+    }
+
+    .footer .itens .item1 {
+        width: 35%;
+    }
+
+    .footer .itens .item2 {
+        width: 100%;
+    }
+
+    .footer .itens .item3 {
+        width: 100%;
+    }
+
+    .footer .itens .item4 {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        transition: 400ms;
+    }
+
+    .footer .itens .item4 .imgs {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .item4 .github,
+    .item4 .facebook,
+    .item4 .instagram,
+    .item4 .linkedin {
+        width: 30px;
+        height: 30px;
+        transition: 300ms;
+    }
+
+    .item4 .github {
+        background-image: url('../imgs/gitBlack.png');
+        background-size: 100%;
+    }
+
+    .item4 .facebook {
+        background-image: url('../imgs/facebookBlack.png');
+        background-size: 100%;
+    }
+
+    .item4 .instagram {
+        background-image: url('../imgs/instagramBlack.png');
+        background-size: 100%;
+    }
+
+    .item4 .linkedin {
+        background-image: url('../imgs/linkedinBlack.png');
+        background-size: 100%;
+    }
+
+    .item4 .github:hover {
+        background-image: url('../imgs/gitColor.png');
+    }
+
+    .item4 .facebook:hover {
+        background-image: url('../imgs/facebookColor.png');
+    }
+
+    .item4 .instagram:hover {
+        background-image: url('../imgs/instagramColor.png');
+    }
+
+    .item4 .linkedin:hover {
+        background-image: url('../imgs/linkedinColor.png');
+    }
+
+    .footer .itens .item4 img {
+        width: 30%;
+    }
+
+    .footer .logo {
+        width: 100%;
+    }
+}
