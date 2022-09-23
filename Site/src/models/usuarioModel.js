@@ -12,27 +12,42 @@ function listar() {
 function entrar(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucao = `
-        SELECT * FROM usuario WHERE email = '${email}' AND senha = '${senha}';
+        SELECT idUsuario, nome, email, cargo, fkbanco FROM usuario WHERE email = '${email}' AND senha = MD5('${senha}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
 
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucao
-function cadastrar(email, senha) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():",email, senha);
+function cadastrarBanco(nomeBanco, emailBanco, cnpj) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():",nomeBanco, emailBanco, cnpj);
     
     // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
     //  e na ordem de inserção dos dados.
     var instrucao = `
-        INSERT INTO usuario (email, senha) VALUES ('${email}', '${senha}');
+        INSERT INTO banco(cnpj, nomeEmpresarial, emailEmpresa) VALUES ('${cnpj}','${nomeBanco}', '${emailBanco}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
 
+function cadastrarUsuario(nome, email, senha, cargo, cnpj) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, email, senha, cargo, cnpj);
+    
+    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
+    //  e na ordem de inserção dos dados.
+    var instrucao = `
+        INSERT INTO usuario(nome, email, senha, cargo, fkBanco) VALUES ('${nome}', '${email}', MD5('${senha}'), '${cargo}', '${cnpj}');
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+
+
 module.exports = {
     entrar,
-    cadastrar,
+    cadastrarBanco,
+    cadastrarUsuario,
     listar,
 };

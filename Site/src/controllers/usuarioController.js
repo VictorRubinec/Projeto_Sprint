@@ -62,18 +62,47 @@ function entrar(req, res) {
 
 function cadastrar(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
-    var email = req.body.emailServer;
-    var senha = req.body.senhaServer;
+    var nomeBanco = req.body.nomeBancoServer;
+    var emailBanco = req.body.emailBancoServer;
+    var cnpj = req.body.cnpjServer;
+    var userAdm = req.body.userAdmServer;
+    var emailAdm = req.body.emailAdmServer;
+    var senhaAdm = req.body.senhaAdmServer;
+    var cargo = req.body.cargoServer;
 
     // Faça as validações dos valores
-    if (email == undefined) {
+    if (nomeBanco == undefined) {
         res.status(400).send("Seu email está undefined!");
-    } else if (senha == undefined) {
+    } else if (emailBanco == undefined) {
+        res.status(400).send("Sua senha está undefined!");
+    } else if (cnpj == undefined) {
+        res.status(400).send("Sua senha está undefined!");
+    } else if (userAdm == undefined) {
+        res.status(400).send("Sua senha está undefined!");
+    } else if (emailAdm == undefined) {
+        res.status(400).send("Sua senha está undefined!");
+    } else if (senhaAdm == undefined) {
         res.status(400).send("Sua senha está undefined!");
     } else {
         
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(email, senha)
+        usuarioModel.cadastrarBanco(nomeBanco, emailBanco, cnpj)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+
+            usuarioModel.cadastrarUsuario(userAdm, emailAdm, senhaAdm, cargo, cnpj)
             .then(
                 function (resultado) {
                     res.json(resultado);

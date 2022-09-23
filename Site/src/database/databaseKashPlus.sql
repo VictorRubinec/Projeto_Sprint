@@ -1,22 +1,24 @@
+CREATE USER 'kashUser'@'localhost' IDENTIFIED BY 'kash';
+GRANT ALL PRIVILEGES ON databaseKashPlus.* TO 'kashUser'@'localhost';
+
 create database databaseKashPlus;
 use databaseKashPlus;
 
 
 CREATE TABLE Banco(
-idBanco INT PRIMARY KEY AUTO_INCREMENT
+cnpj CHAR(18) PRIMARY KEY 
 ,nomeEmpresarial VARCHAR(100)
-,cnpj VARCHAR(20)
+,emailEmpresa VARCHAR(100)
 );
 
 CREATE TABLE Usuario(
 idUsuario INT PRIMARY KEY AUTO_INCREMENT
 ,nome VARCHAR(100)
-,cpf VARCHAR(20)
-,email VARCHAR(100)
+,email VARCHAR(100) UNIQUE
 ,senha VARCHAR(100)
 ,cargo CHAR(3)
-,fkBanco INT, FOREIGN KEY(fkBanco) REFERENCES banco(idBanco)
-);
+,fkBanco CHAR(18), FOREIGN KEY(fkBanco) REFERENCES Banco(cnpj)
+)auto_increment = 100;
 
 CREATE TABLE Regiao(
 idRegiao INT PRIMARY KEY AUTO_INCREMENT
@@ -24,10 +26,11 @@ idRegiao INT PRIMARY KEY AUTO_INCREMENT
 );
 
 CREATE TABLE CaixaEletronico(
-idCaixasEletronico INT PRIMARY KEY AUTO_INCREMENT
+idCaixaEletronico INT PRIMARY KEY AUTO_INCREMENT
+,serialNumber CHAR(12)
 ,localizacao VARCHAR(300)
-,fkBanco INT, FOREIGN KEY(fkBanco) REFERENCES banco(idBanco)
-,fkRegiao INT, FOREIGN KEY(fkRegiao) REFERENCES Regiao(fkReiao)
+,fkBanco CHAR(18), FOREIGN KEY(fkBanco) REFERENCES banco(cnpj)
+,fkRegiao INT, FOREIGN KEY(fkRegiao) REFERENCES Regiao(idRegiao)
 );
 
 CREATE TABLE Registro(
@@ -37,7 +40,5 @@ idRegistro INT PRIMARY KEY AUTO_INCREMENT
 ,consumoCPU DECIMAL(5,2)
 ,temperaturaCPU DECIMAL(5,2)
 ,consumoRAM DECIMAL(5,2)
-,consumoREDE DECIMAL(5,2)
+,usoDisco DECIMAL(5,2)
 );
-
-/* insert into usuario values (null, 'vinicius@gmail.com', '1234'); */

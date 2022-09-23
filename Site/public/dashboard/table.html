@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Table - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
+            style="background: rgb(0, 132, 156);">
+            <div class="container-fluid d-flex flex-column p-0"><a
+                    class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                    <div class="sidebar-brand-icon"><img src="assets/img/logo/logoWhite.png" width="60%"
+                            style="margin-top: 10%;"></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i
+                                class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="table.html"><i
+                                class="fas fa-user"></i><span>Lista de usuários</span></a><a class="nav-link"
+                            href="addUser.html"><i class="fas fa-user-plus"></i><span>Adicionar Usuário</span></a></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0"
+                        id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid">
+                        <h5 style="color: var(--bs-navbar-brand-color);">Administrador</h5>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown no-arrow mx-1"></li>
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                <div class="shadow dropdown-list dropdown-menu dropdown-menu-end"
+                                    aria-labelledby="alertsDropdown"></div>
+                            </li>
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link"
+                                        aria-expanded="false" data-bs-toggle="dropdown" href="#"><span
+                                            class="d-none d-lg-inline me-2 text-gray-600 small">Kash User</span><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                            viewBox="0 0 24 24" fill="none" style="font-size: 33px;">
+                                            <path
+                                                d="M5.12104 17.8037C7.15267 16.6554 9.4998 16 12 16C14.5002 16 16.8473 16.6554 18.879 17.8037M15 10C15 11.6569 13.6569 13 12 13C10.3431 13 9 11.6569 9 10C9 8.34315 10.3431 7 12 7C13.6569 7 15 8.34315 15 10ZM21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                        </svg></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a
+                                            class="dropdown-item" href="#"><i
+                                                class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Sair</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4">Usuários Cadastrados</h3>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">Informações</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table mt-2" id="dataTable" role="grid"
+                                aria-describedby="dataTable_info">
+                                <table class="table my-0" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Email</th>
+                                            <th>Cargo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Vinicius</td>
+                                            <td>vini@email.com</td>
+                                            <td>Técnico</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr></tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © KASH+&nbsp;2022</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/script.min.js"></script>
+</body>
+
+</html>
