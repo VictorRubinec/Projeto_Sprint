@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Profile - Brand</title>
+    <title>Adicionar usuario</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="assets/css/styles.min.css">
 </head>
 
-<body id="page-top">
+<body id="page-top" onload="validarSessao()">
+    <span id="mensagem_erro" class="ms"></span>
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
             style="background: rgb(0, 132, 156);">
@@ -25,7 +26,7 @@
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item"><a class="nav-link" href="index.html"><i
                                 class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="table.html"><i class="fas fa-user"></i><span>Lista de
+                    <li class="nav-item"><a class="nav-link" href="listarUser.html"><i class="fas fa-user"></i><span>Lista de
                                 usuários</span></a><a class="nav-link active" href="addUser.html"><i
                                 class="fas fa-user-plus"></i><span>Adicionar Usuário</span></a></li>
                     <li class="nav-item"></li>
@@ -52,7 +53,7 @@
                             <li class="nav-item dropdown no-arrow">
                                 <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link"
                                         aria-expanded="false" data-bs-toggle="dropdown" href="#"><span
-                                            class="d-none d-lg-inline me-2 text-gray-600 small">Kash User</span><svg
+                                            class="d-none d-lg-inline me-2 text-gray-600 small" id="span_user">Kash User</span><svg
                                             xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                             viewBox="0 0 24 24" fill="none" style="font-size: 33px;">
                                             <path
@@ -61,7 +62,7 @@
                                                 stroke-linejoin="round"></path>
                                         </svg></a>
                                     <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a
-                                            class="dropdown-item" href="#"><i
+                                            class="dropdown-item" onclick="limparSessao()"><i
                                                 class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Sair</a>
                                     </div>
                                 </div>
@@ -112,41 +113,36 @@
                                             <p class="text-primary m-0 fw-bold">Informações do usuário</p>
                                         </div>
                                         <div class="card-body">
-                                            <form>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="mb-3"><label class="form-label"
-                                                                for="username"><strong>Nome</strong></label><input
-                                                                class="form-control" type="text" id="nome_usuario"
-                                                                placeholder="" name="nome_usuario"></div>
-                                                    </div>
-                                                    <div class="col">
-                                                        <div class="mb-3"><label class="form-label"
-                                                                for="email"><strong>Email</strong></label><input
-                                                                class="form-control" type="email" id="user_email"
-                                                                placeholder="" name="email" inputmode="email"></div>
-                                                    </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="mb-3"><label class="form-label"><strong>Nome</strong></label><input
+                                                            class="form-control" type="text" id="ipt_nome_usuario"
+                                                            placeholder="" name="nome_usuario"></div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-xl-6">
-                                                        <div class="mb-3"><label class="form-label"
-                                                                for="first_name"><strong>Função</strong></label><select
-                                                                class="form-select">
-                                                                <option value="G">Gerente</option>
-                                                                <option value="T">Técnico</option>
-                                                            </select></div>
-                                                    </div>
-                                                    <div class="col-lg-5 col-xl-6">
-                                                        <div class="mb-3"><label class="form-label"
-                                                                for="last_name"><strong>Senha</strong><br></label><input
-                                                                class="form-control" type="password" id="last_name"
-                                                                placeholder="" name="last_name"></div>
-                                                    </div>
+                                                <div class="col">
+                                                    <div class="mb-3"><label class="form-label"><strong>Email</strong></label><input
+                                                            class="form-control" type="email" id="ipt_email_usuario"
+                                                            placeholder="" name="email" inputmode="email"></div>
                                                 </div>
-                                                <div class="text-center mb-3"><button class="btn btn-primary btn-sm"
-                                                        type="submit" style="margin-top: 2%;">Cadastrar Usuário</button>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    <div class="mb-3"><label class="form-label"><strong>Função</strong></label><select
+                                                            class="form-select" id="select_cargo">
+                                                            <option value="ger">Gerente</option>
+                                                            <option value="tec">Técnico</option>
+                                                        </select></div>
                                                 </div>
-                                            </form>
+                                                <div class="col-lg-5 col-xl-6">
+                                                    <div class="mb-3"><label class="form-label"
+                                                            for="last_name"><strong>Senha</strong><br></label><input
+                                                            class="form-control" type="password" id="ipt_senha_usuario"
+                                                            placeholder="" name="last_name"></div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center mb-3"><button class="btn btn-primary btn-sm"
+                                                    style="margin-top: 2%;" onclick="cadastrar()">Cadastrar Usuário</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -164,6 +160,87 @@
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/script.min.js"></script>
+	<script src="../js/funcoes.js"></script>
 </body>
 
 </html>
+<script>
+    function cadastrar() {
+        //Recupere o valor da nova input pelo nome do id
+        // Agora vá para o método fetch logo abaixo
+        var nomeUserVar = ipt_nome_usuario.value;
+        var emailUserVar = ipt_email_usuario.value;
+        var senhaUserVar = ipt_senha_usuario.value;
+        var cargoVar = select_cargo.value; 
+        var cnpjVar = sessionStorage.BANCO_ID;
+        var cadastroBanco = false;
+
+        if(nomeUserVar == "" || emailUserVar == "" || senhaUserVar == "" ) {
+            mensagem_erro.classList.add("alerta")
+            mensagem_erro.style.display = "flex";
+            mensagem_erro.innerHTML = "Por favor não deixe nenhum campo em branco";
+            setTimeout(() => {
+                mensagem_erro.style.display = "none";
+                mensagem_erro.classList.remove("alerta");
+                mensagem_erro.innerHTML = "";
+            }, 5000)
+
+            return false;
+        }
+
+        // Enviando o valor da nova input
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                nomeServer: nomeUserVar,
+                emailServer: emailUserVar,
+                senhaServer: senhaUserVar,
+                cargoServer: cargoVar,
+                cnpjServer: cnpjVar,
+                cadastroBanco: cadastroBanco
+            })
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                mensagem_erro.classList.add("ok");
+                mensagem_erro.style.display = "flex";
+
+                mensagem_erro.innerHTML = "Cadastro realizado com sucesso!";
+
+                ipt_nome_usuario.value = "";
+                ipt_email_usuario.value = "";
+
+                setTimeout(() => {
+                    mensagem_erro.style.display = "none";
+                    mensagem_erro.classList.remove("ok");
+                    mensagem_erro.innerHTML = "";
+                    window.location.href = "./addUser.html";
+                }, 5000)
+
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+                mensagem_erro.classList.add("erro");
+                mensagem_erro.style.display = "flex";
+
+                mensagem_erro.innerHTML = "Houve um erro ao tentar realizr o cadastro!";
+
+                setTimeout(() => {
+                    mensagem_erro.style.display = "none";
+                    mensagem_erro.classList.remove("erro");
+                    mensagem_erro.innerHTML = "";
+                }, 5000)
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+        return false;
+    }
+</script>

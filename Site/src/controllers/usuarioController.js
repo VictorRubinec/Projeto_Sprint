@@ -8,20 +8,30 @@ function testar(req, res) {
 }
 
 function listar(req, res) {
-    usuarioModel.listar()
-        .then(function (resultado) {
-            if (resultado.length > 0) {
-                res.status(200).json(resultado);
-            } else {
-                res.status(204).send("Nenhum resultado encontrado!")
-            }
-        }).catch(
-            function (erro) {
-                console.log(erro);
-                console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
+    
+    var cnpj = req.body.cnpjServer;
+    if(cnpj == undefined){
+        res.status(400).send("Seu cnpj está undefined!");
+    }
+    else{
+        usuarioModel.listar(cnpj)
+            .then(function (resultado) {
+                if (resultado.length > 0) {
+                    res.status(200).json(resultado);
+                } else {
+                    res.status(204).send("Nenhum resultado encontrado!")
+                }
+            }).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+
+
+
 }
 
 function entrar(req, res) {
@@ -33,7 +43,7 @@ function entrar(req, res) {
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está indefinida!");
     } else {
-        
+
         usuarioModel.entrar(email, senha)
             .then(
                 function (resultado) {
@@ -62,47 +72,45 @@ function entrar(req, res) {
 
 function cadastrar(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
-    var nomeBanco = req.body.nomeBancoServer;
-    var emailBanco = req.body.emailBancoServer;
     var cnpj = req.body.cnpjServer;
-    var userAdm = req.body.userAdmServer;
-    var emailAdm = req.body.emailAdmServer;
-    var senhaAdm = req.body.senhaAdmServer;
     var cargo = req.body.cargoServer;
-
+    var nome = req.body.nomeServer;
+    var email = req.body.emailServer;
+    var senha = req.body.senhaServer;
+    var cadastroBanco = req.body.cadastroBanco;
     // Faça as validações dos valores
-    if (nomeBanco == undefined) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (emailBanco == undefined) {
+    if (cnpj == undefined) {
         res.status(400).send("Sua senha está undefined!");
-    } else if (cnpj == undefined) {
+    } else if (nome == undefined) {
         res.status(400).send("Sua senha está undefined!");
-    } else if (userAdm == undefined) {
+    } else if (email == undefined) {
         res.status(400).send("Sua senha está undefined!");
-    } else if (emailAdm == undefined) {
-        res.status(400).send("Sua senha está undefined!");
-    } else if (senhaAdm == undefined) {
+    } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
     } else {
-        
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrarBanco(nomeBanco, emailBanco, cnpj)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
+        if (cadastroBanco) {
+            var nomeBanco = req.body.nomeBancoServer;
+            var emailBanco = req.body.emailBancoServer;
 
-            usuarioModel.cadastrarUsuario(userAdm, emailAdm, senhaAdm, cargo, cnpj)
+            usuarioModel.cadastrarBanco(nomeBanco, emailBanco, cnpj)
+                .then(
+                    function (resultado) {
+                        res.json(resultado);
+                    }
+                ).catch(
+                    function (erro) {
+                        console.log(erro);
+                        console.log(
+                            "\nHouve um erro ao realizar o cadastro! Erro: ",
+                            erro.sqlMessage
+                        );
+                        res.status(500).json(erro.sqlMessage);
+                    }
+                );
+        }
+
+        usuarioModel.cadastrarUsuario(nome, email, senha, cargo, cnpj)
             .then(
                 function (resultado) {
                     res.json(resultado);
