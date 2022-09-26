@@ -74,6 +74,13 @@
                     <div class="card shadow">
                         <div class="card-header py-3">
                             <p class="text-primary m-0 fw-bold">Informações</p>
+                            <select class="form-select" id="select_list_cargo" onchange="selectUser()">
+                                <option value="0">Todos</option>
+                                <option value="1">Gerente</option>
+                                <option value="2">Técnico</option>
+                            </select>
+                            <div class="text-center mb-3">
+                        </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive table mt-2" id="dataTable" role="grid"
@@ -190,4 +197,99 @@
 
         return false;
     }
+
+    function selectUser() {
+
+        table_body.innerHTML = "";
+
+        var cnpjVar = sessionStorage.BANCO_ID;
+
+        if (select_list_cargo.value == "0") {
+            var queryVar = `SELECT idUsuario, nome, email, cargo FROM Usuario WHERE fkBanco = '${cnpjVar}' AND cargo != 'adm';`
+        }
+
+        if (select_list_cargo.value == "1") {
+            var queryVar = `SELECT idUsuario, nome, email, cargo FROM Usuario WHERE fkBanco = '${cnpjVar}' AND cargo = 'ger';`
+        }
+        
+        if (select_list_cargo.value == "2") {
+            var queryVar = `SELECT idUsuario, nome, email, cargo FROM Usuario WHERE fkBanco = '${cnpjVar}' AND cargo = 'tec';`
+        }
+
+        fetch("/usuarios/selectCargo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                queryServer: queryVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO listar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+                
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+                    
+                    var tabela = document.getElementById("table_body");
+                    for(var i = 0; i < json.length; i++){
+                        nome = json[i].nome;
+                        email = json[i].email;
+                        cargo = json[i].cargo;
+
+                        if(cargo == "tec"){
+                            cargo = "Técnico";
+                        }
+                        else{
+                            cargo = "Gerente";
+                        }
+
+                        var linha = document.createElement('tr');
+                        tabela.appendChild(linha);
+
+                        
+                        var colunaNome = document.createElement('td');
+                        linha.appendChild(colunaNome);
+                        colunaNome.innerHTML = nome;
+
+                        var colunaEmail = document.createElement('td');
+                        linha.appendChild(colunaEmail);
+                        colunaEmail.innerHTML = email;
+
+                        var colunaCargo = document.createElement('td');
+                        linha.appendChild(colunaCargo);
+                        colunaCargo.innerHTML = cargo;
+                    }
+
+                
+                });
+
+                
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    mensagem_erro.classList.add("erro")
+                    mensagem_erro.style.display = "flex";
+                    mensagem_erro.innerHTML = texto;
+                    setTimeout(() => {
+                        mensagem_erro.style.display = "none";
+                        mensagem_erro.classList.remove("alerta");
+                        mensagem_erro.innerHTML = "";
+                    }, "5000")
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
 </script>
