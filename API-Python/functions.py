@@ -9,7 +9,7 @@ from uuid import getnode as get_mac
 from random import randint
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt # Definindo um "apelido" para a biblioteca
-import os
+import openpyxl
 
 if os.name == "nt":
     sistema = "Windows"
@@ -328,5 +328,46 @@ def plotar():
     # exibe a tela principal com os gráficos
     plt.show()
 
+    return "0"
+
+def arquivoCSV():
+    os.system(codeCleaner)
+
+    hora = datetime.datetime.now()
+    memoriaTotal = float(conversao_bytes(virtual_memory().total, 3))
+    memoriaDisponivel = float(conversao_bytes(virtual_memory().available, 3))
+    usoAtualMemoria = float(conversao_bytes(virtual_memory().used, 3))
+    usoCpuPorc = float(cpu_percent())
+    freqCpu = float(round(cpu_freq().current, 0))
+
+    particoes = []
+    if sistema == "Windows":
+        for part in disk_partitions(all=False): 
+            if part[0] == "F:\\" or part[0] == "E:\\":
+                break
+            else:
+                particoes.append(part[0])
+    elif sistema == "Linux":
+        particoes.append("/")
+
+    porcentagemOcupados = [] 
+    for j in particoes:
+        porcentagemOcupados.append(disk_usage(j).percent) 
+
+    book = openpyxl.Workbook()
+    book.create_sheet('Simulação')
+    page = book['Simulação']
+    page.append(['Momento:', hora])
+    page.append(['Máquina', 'Memória total (GB)', 'Memória disponível (GB)', 'Uso atual da memória (GB)', 'Uso total da CPU (%)', 'Frequência da CPU','Partições', 'Porcentagem ocupada de cada partição'])
+    page.append(['Máquina 1:', memoriaTotal, memoriaDisponivel, usoAtualMemoria, usoCpuPorc, freqCpu, str(particoes), str(porcentagemOcupados)])
+    page.append(['Máquina 2:', memoriaTotal * 0.9, memoriaDisponivel * 0.9, usoAtualMemoria * 0.9, usoCpuPorc * 1.2, freqCpu * 0.9, str(particoes), str(porcentagemOcupados)])
+    page.append(['Máquina 3:', memoriaTotal * 1.4, memoriaDisponivel * 1.4, usoAtualMemoria * 1.4, usoCpuPorc * 0.9, freqCpu * 1.5, str(particoes), str(porcentagemOcupados)])
+    page.append(['Máquina 4:', memoriaTotal * 0.7, memoriaDisponivel * 0.7, usoAtualMemoria * 0.7, usoCpuPorc * 2, freqCpu * 1.4, str(particoes), str(porcentagemOcupados)])
+    page.append(['Máquina 5:', memoriaTotal * 1.8, memoriaDisponivel * 1.8, usoAtualMemoria * 1.8, usoCpuPorc * 1.8, freqCpu * 2, str(particoes), str(porcentagemOcupados)])
+
+    book.save('SimulacaoCaixas.csv')
+
+    print('Sucesso!!\n\nSeus dados foram salvos em um relatório chamado SimulacaoCaixas.csv\n')
+    input("\nPressione Enter para voltar ao menu...\n")
     return "0"
 

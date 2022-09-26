@@ -1,11 +1,11 @@
 import mysql.connector
 
-cnx = mysql.connector.connect(user="sampUser",
-                              password="samp", 
+cnx = mysql.connector.connect(user="KashUser",
+                              password="kash", 
                               host="localhost", 
                               database="dadosMaquina", 
                               autocommit=True)
-
+                              
 def insert(query): 
     try:
         cnx.reconnect()

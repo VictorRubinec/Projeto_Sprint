@@ -1,10 +1,10 @@
-CREATE USER 'sampUser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'samp';
-GRANT ALL PRIVILEGES ON dadosMaquina.* TO 'sampUser'@'localhost';
+CREATE USER 'KashUser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'kash';
+GRANT ALL PRIVILEGES ON dadosMaquina.* TO 'KashUser'@'localhost';
 
 create database dadosMaquina;
 use dadosMaquina;
 
-drop database dadosMaquina;
+-- drop database dadosMaquina;
 
 create table Usuario(
 	idUsuario int primary key auto_increment,
