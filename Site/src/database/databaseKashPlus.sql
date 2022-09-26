@@ -29,7 +29,7 @@ CREATE TABLE CaixaEletronico(
 idCaixaEletronico INT PRIMARY KEY AUTO_INCREMENT
 ,serialNumber CHAR(12)
 ,localizacao VARCHAR(300)
-,fkBanco CHAR(18), FOREIGN KEY(fkBanco) REFERENCES banco(cnpj)
+,fkBanco CHAR(18), FOREIGN KEY(fkBanco) REFERENCES Banco(cnpj)
 ,fkRegiao INT, FOREIGN KEY(fkRegiao) REFERENCES Regiao(idRegiao)
 );
 

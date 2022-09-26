@@ -1,4 +1,5 @@
 var usuarioModel = require("../models/usuarioModel");
+var nodemailer = require("nodemailer")
 
 var sessoes = [];
 
@@ -96,6 +97,7 @@ function cadastrar(req, res) {
             usuarioModel.cadastrarBanco(nomeBanco, emailBanco, cnpj)
                 .then(
                     function (resultado) {
+                        enviarEmail(email, senha, emailBanco);
                         res.json(resultado);
                     }
                 ).catch(
@@ -126,6 +128,34 @@ function cadastrar(req, res) {
                 }
             );
     }
+}
+
+function enviarEmail(email, senha, emailBanco){
+    var transporter = nodemailer.createTransport({
+        service: 'outlook',
+        auth: {
+            user: 'vinicius.cardoso@sptech.school',
+            pass: '#Gf46045149840'
+        }
+    });
+
+    var mailOptions = {
+        from: 'vinicius.cardoso@sptech.school',
+        to: emailBanco,
+        subject: 'Acesso aos serviços da KASH+!',
+        html: '<h1>Bem vindo a família Kash+!!!</h1><br>' +
+        "<p>Aqui estão as credenciais do seu usuário administrador para acessar a nossa dashboard, através dele você poderá cadastrar novos usuários: </p><br>" +
+        `Email: ${email} <br>` +
+        `Senha: ${senha}`,
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        if(error) {
+            console.log(error);
+        } else {
+            console.log('Email enviado: ' + info.response);
+        }
+    })
 }
 
 module.exports = {
