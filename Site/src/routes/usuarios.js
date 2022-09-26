@@ -11,6 +11,10 @@ router.post("/listar", function (req, res) {
     usuarioController.listar(req, res);
 });
 
+router.post("/selectCargo", function (req, res) {
+    usuarioController.selectCargo(req, res);
+});
+
 //Recebendo os dados do html e direcionando para a função cadastrar de usuarioController.js
 router.post("/cadastrar", function (req, res) {
     usuarioController.cadastrar(req, res);
