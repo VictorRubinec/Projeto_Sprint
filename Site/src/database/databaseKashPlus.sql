@@ -1,43 +1,43 @@
-create database databaseKashPlus;
-use databaseKashPlus;
+create database dbKashPlus;
+use dbKashPlus;
 
-
-CREATE TABLE Banco(
-idBanco INT PRIMARY KEY AUTO_INCREMENT
-,nomeEmpresarial VARCHAR(100)
-,cnpj VARCHAR(20)
+CREATE TABLE tbEmpresa(
+cnpj CHAR(14) PRIMARY KEY
+,nome VARCHAR(100)
+,email VARCHAR(100)
+,telefoneFixo CHAR(10)
+,telefoneCelular CHAR(11)
 );
 
-CREATE TABLE Usuario(
+CREATE TABLE tbUsuario(
 idUsuario INT PRIMARY KEY AUTO_INCREMENT
+,fkEmpresa CHAR(14), FOREIGN KEY(fkEmpresa) REFERENCES tbEmpresa(cnpj)
 ,nome VARCHAR(100)
-,cpf VARCHAR(20)
-,email VARCHAR(100)
+,login VARCHAR(100)
 ,senha VARCHAR(100)
 ,cargo CHAR(3)
-,fkBanco INT, FOREIGN KEY(fkBanco) REFERENCES banco(idBanco)
 );
 
-CREATE TABLE Regiao(
-idRegiao INT PRIMARY KEY AUTO_INCREMENT
-,nomeRegiao VARCHAR(200)
+CREATE TABLE tbMaquina(
+serialNumber INT PRIMARY KEY
+,fkEmpresa CHAR(14), FOREIGN KEY(fkEmpresa) REFERENCES tbEmpresa(cnpj)
+,cep CHAR(8)
+,modeloCpu VARCHAR(100)
+,nuclesFisicos INT
+,nuclesLogicos INT
+,frequenciaMaxCpu DECIMAL(5,2)
+,tempMaxCpu DECIMAL(5,2)
+,ramMax DECIMAL(5,2)
+,discoMax DECIMAL(7,2)
 );
 
-CREATE TABLE CaixaEletronico(
-idCaixasEletronico INT PRIMARY KEY AUTO_INCREMENT
-,localizacao VARCHAR(300)
-,fkBanco INT, FOREIGN KEY(fkBanco) REFERENCES banco(idBanco)
-,fkRegiao INT, FOREIGN KEY(fkRegiao) REFERENCES Regiao(fkReiao)
-);
-
-CREATE TABLE Registro(
+CREATE TABLE tbRegistro(
 idRegistro INT PRIMARY KEY AUTO_INCREMENT
-,fkCaixaEletronico INT, FOREIGN KEY(fkCaixaEletronico) REFERENCES CaixaEletronico(idCaixaEletronico)
+,fkMaquina INT, FOREIGN KEY(fkMaquina) REFERENCES tbMaquina(serialNumber)
+,usoCpu DECIMAL(5,2)
+,tempCpu DECIMAL(5,2)
+,freqCpu DECIMAL(5,2)
+,usoRam DECIMAL(5,2)
+,usoDisco DECIMAL(5,2)
 ,dataHorario DATETIME
-,consumoCPU DECIMAL(5,2)
-,temperaturaCPU DECIMAL(5,2)
-,consumoRAM DECIMAL(5,2)
-,consumoREDE DECIMAL(5,2)
 );
-
-/* insert into usuario values (null, 'vinicius@gmail.com', '1234'); */
