@@ -143,7 +143,7 @@
                     var tabela = document.getElementById("table_body");
                     for(var i = 0; i < json.length; i++){
                         nome = json[i].nome;
-                        email = json[i].email;
+                        email = json[i].login;
                         cargo = json[i].cargo;
 
                         if(cargo == "tec"){
@@ -205,15 +205,15 @@
         var cnpjVar = sessionStorage.BANCO_ID;
 
         if (select_list_cargo.value == "0") {
-            var queryVar = `SELECT idUsuario, nome, email, cargo FROM Usuario WHERE fkBanco = '${cnpjVar}' AND cargo != 'adm';`
+            var queryVar = `SELECT idUsuario, nome, login, cargo FROM tbUsuario WHERE fkEmpresa = '${cnpjVar}' AND cargo != 'adm';`
         }
 
         if (select_list_cargo.value == "1") {
-            var queryVar = `SELECT idUsuario, nome, email, cargo FROM Usuario WHERE fkBanco = '${cnpjVar}' AND cargo = 'ger';`
+            var queryVar = `SELECT idUsuario, nome, login, cargo FROM tbUsuario WHERE fkEmpresa = '${cnpjVar}' AND cargo = 'ger';`
         }
         
         if (select_list_cargo.value == "2") {
-            var queryVar = `SELECT idUsuario, nome, email, cargo FROM Usuario WHERE fkBanco = '${cnpjVar}' AND cargo = 'tec';`
+            var queryVar = `SELECT idUsuario, nome, login, cargo FROM tbUsuario WHERE fkEmpresa = '${cnpjVar}' AND cargo = 'tec';`
         }
 
         fetch("/usuarios/selectCargo", {
@@ -237,7 +237,7 @@
                     var tabela = document.getElementById("table_body");
                     for(var i = 0; i < json.length; i++){
                         nome = json[i].nome;
-                        email = json[i].email;
+                        email = json[i].login;
                         cargo = json[i].cargo;
 
                         if(cargo == "tec"){
