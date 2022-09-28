@@ -5,3 +5,75 @@ body {
 img {
     width: 10%;
 }
+
+.fundoContato {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.8rem;
+    
+}
+
+.endereco {
+    display: flex;
+    width: 265px;
+    align-items: center;
+}
+
+.mapa{
+    padding: 0.4rem;
+}
+
+.mapa_endereco{
+    text-align: center;
+    width: 100%;
+    padding: 0.2rem;
+    font-size: small;
+}
+
+.containerContato {
+    width: 100vw;
+    height: fit-content;
+    display: flex;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.212);
+    justify-content: space-between;
+}
+
+.sobre{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.sobre img{
+    padding: 1rem;
+    height: 270px;
+    width: 270px;
+}
+
+
+.sobre .sobre_texto p{
+    padding: 1rem;
+    text-align: justify;
+    font-size: 18px;
+    text-indent: 0.6rem;
+}
+
+.sobre .sobre_texto h1{
+    text-align: left;
+}
+
+
+.sobre .sobre_texto h1::after {
+    content: '';
+    display: block;
+    width: 10rem;
+    height: 0.3rem;
+    background-color: #3080b0;
+    margin: 0 auto;
+    position: absolute;
+    border-radius: 10px;
+}
