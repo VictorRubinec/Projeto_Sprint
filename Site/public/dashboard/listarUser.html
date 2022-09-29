@@ -22,17 +22,10 @@
                             style="margin-top: 10%;"></div>
                 </a>
                 <hr class="sidebar-divider my-0">
-                <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link" href="index.html"><i
-                                class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                    <li class="nav-item"><a class="nav-link active" href="addUser.html"><i
-                                class="fas fa-user"></i><span>Lista de usuários</span></a><a class="nav-link"
-                            href="addUser.html"><i class="fas fa-user-plus"></i><span>Adicionar Usuário</span></a></li>
-                    <li class="nav-item"></li>
-                    <li class="nav-item"></li>
-                    <li class="nav-item"></li>
-                    <li class="nav-item"></li>
-                </ul>
+                <ul id="accordionSidebar" class="navbar-nav text-light">
+					<li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+					<li class="nav-item"><a class="nav-link active" href="listarUser.html"><i class="fas fa-user"></i><span>Lista de usuários</span></a><a class="nav-link" href="addUser.html"><i class="fas fa-user-plus"></i><span>Adicionar Usuário</span></a><a class="nav-link" href="addCaixa.html"><i class="fas fa-server"></i><span>Cadastrar Caixa</span></a></li>
+				</ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0"
                         id="sidebarToggle" type="button"></button></div>
             </div>
@@ -73,14 +66,14 @@
                     <h3 class="text-dark mb-4">Usuários Cadastrados</h3>
                     <div class="card shadow">
                         <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">Informações</p>
+                            <p class="text-primary m-0 fw-bold">Filtrar por cargo</p>
                             <select class="form-select" id="select_list_cargo" onchange="selectUser()">
                                 <option value="0">Todos</option>
                                 <option value="1">Gerente</option>
                                 <option value="2">Técnico</option>
                             </select>
                             <div class="text-center mb-3">
-                        </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive table mt-2" id="dataTable" role="grid"
@@ -135,28 +128,28 @@
 
             if (resposta.ok) {
                 console.log(resposta);
-                
+
                 resposta.json().then(json => {
                     console.log(json);
                     console.log(JSON.stringify(json));
-                    
+
                     var tabela = document.getElementById("table_body");
-                    for(var i = 0; i < json.length; i++){
+                    for (var i = 0; i < json.length; i++) {
                         nome = json[i].nome;
                         email = json[i].login;
                         cargo = json[i].cargo;
 
-                        if(cargo == "tec"){
+                        if (cargo == "tec") {
                             cargo = "Técnico";
                         }
-                        else{
+                        else {
                             cargo = "Gerente";
                         }
 
                         var linha = document.createElement('tr');
                         tabela.appendChild(linha);
 
-                        
+
                         var colunaNome = document.createElement('td');
                         linha.appendChild(colunaNome);
                         colunaNome.innerHTML = nome;
@@ -170,10 +163,10 @@
                         colunaCargo.innerHTML = cargo;
                     }
 
-                
+
                 });
 
-                
+
 
             } else {
 
@@ -211,7 +204,7 @@
         if (select_list_cargo.value == "1") {
             var queryVar = `SELECT idUsuario, nome, login, cargo FROM tbUsuario WHERE fkEmpresa = '${cnpjVar}' AND cargo = 'ger';`
         }
-        
+
         if (select_list_cargo.value == "2") {
             var queryVar = `SELECT idUsuario, nome, login, cargo FROM tbUsuario WHERE fkEmpresa = '${cnpjVar}' AND cargo = 'tec';`
         }
@@ -229,28 +222,28 @@
 
             if (resposta.ok) {
                 console.log(resposta);
-                
+
                 resposta.json().then(json => {
                     console.log(json);
                     console.log(JSON.stringify(json));
-                    
+
                     var tabela = document.getElementById("table_body");
-                    for(var i = 0; i < json.length; i++){
+                    for (var i = 0; i < json.length; i++) {
                         nome = json[i].nome;
                         email = json[i].login;
                         cargo = json[i].cargo;
 
-                        if(cargo == "tec"){
+                        if (cargo == "tec") {
                             cargo = "Técnico";
                         }
-                        else{
+                        else {
                             cargo = "Gerente";
                         }
 
                         var linha = document.createElement('tr');
                         tabela.appendChild(linha);
 
-                        
+
                         var colunaNome = document.createElement('td');
                         linha.appendChild(colunaNome);
                         colunaNome.innerHTML = nome;
@@ -264,10 +257,10 @@
                         colunaCargo.innerHTML = cargo;
                     }
 
-                
+
                 });
 
-                
+
 
             } else {
 
