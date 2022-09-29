@@ -153,13 +153,13 @@ function enviarEmail(email, senha, emailBanco){
     var transporter = nodemailer.createTransport({
         service: 'outlook',
         auth: {
-            user: 'vinicius.cardoso@sptech.school',
-            pass: '#Gf46045149840'
+            user: '221-1cco-grupo10@bandtec.com.br',
+            pass: '1cco*grupo10'
         }
     });
 
     var mailOptions = {
-        from: 'vinicius.cardoso@sptech.school',
+        from: '221-1cco-grupo10@bandtec.com.br',
         to: emailBanco,
         subject: 'Acesso aos serviços da KASH+!',
         html: '<h1>Bem vindo a família Kash+!!!</h1><br>' +
