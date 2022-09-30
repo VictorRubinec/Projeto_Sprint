@@ -19,7 +19,7 @@ idUsuario INT PRIMARY KEY AUTO_INCREMENT
 );
 
 CREATE TABLE tbMaquina(
-serialNumber INT PRIMARY KEY
+serialNumber VARCHAR(30) PRIMARY KEY
 ,fkEmpresa CHAR(14), FOREIGN KEY(fkEmpresa) REFERENCES tbEmpresa(cnpj)
 ,nome VARCHAR(100)
 ,cep CHAR(8)
@@ -27,7 +27,7 @@ serialNumber INT PRIMARY KEY
 
 CREATE TABLE tbComponente(
 idComponente INT PRIMARY KEY AUTO_INCREMENT
-,fkMaquina INT, FOREIGN KEY(fkMaquina) REFERENCES tbMaquina(serialNumber)
+,fkMaquina VARCHAR(30), FOREIGN KEY(fkMaquina) REFERENCES tbMaquina(serialNumber)
 ,tipo VARCHAR(100)
 ,metrica VARCHAR(100)
 )
