@@ -3,7 +3,7 @@ import mysql.connector
 cnx = mysql.connector.connect(user="KashUser",
                               password="kash", 
                               host="localhost", 
-                              database="dadosMaquina", 
+                              database="dbKashPlus", 
                               autocommit=True)
                               
 def insert(query): 

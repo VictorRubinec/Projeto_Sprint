@@ -1,16 +1,16 @@
-from functions import monitorar, info, plotar, relatorio, arquivoCSV
+from functions import monitorar, info, plotar, relatorio, arquivoCSV, verificarComponentes
 from psutil import * 
 import time
 import os
-from functions import codeCleaner, insertPeriodico, plotar;
-from cadastroLogin import cadastro, login
+from functions import verificarComponentes, codeCleaner, insertPeriodico, plotar;
+from login import login
 from dash import dashboard
 import threading
-from gerarGraficos import gerarGraficoCpu, gerarGraficoDisco, gerarGraficoCpu2, gerarGraficoMemoria
+from gerarGraficos import gerarGraficoCpu, gerarGraficoDisco, gerarGraficoMemoria
 
 
-def menu(userId, nome, serialNumber):
-    threading.Thread(target=insertPeriodico, kwargs={'serialNumber':serialNumber} ).start()
+def menu(serialNumber, nome, idCpu, idDisco, idRam):
+    threading.Thread(target=insertPeriodico, kwargs={'idCpu':idCpu, 'idDisco':idDisco, 'idRam':idRam} ).start()
 
     os.system(codeCleaner)
 
@@ -41,26 +41,15 @@ def menu(userId, nome, serialNumber):
 
         if res == "1":
             os.system(codeCleaner)
-            res_cpu = input("\033[1mCPU\033[0m \n\n[1] - Porcentagem de uso \n[2] - Frequência \n[3] - Sair\n\n\033[1mUsuário:\033[0m ")
-            if res_cpu == "1":
-                os.system(codeCleaner)
-                print("Atenção! Preparando seus dados para análise...")
-                time.sleep(2)
-
-                gerarGraficoCpu(userId)
-
-            if res_cpu == "2":
-                os.system(codeCleaner)
-                print("Atenção! Preparando seus dados para análise...")
-                time.sleep(2)
-
-                gerarGraficoCpu2(userId)
+            print("Atenção! Preparando seus dados para análise...")
+            time.sleep(2)
+            gerarGraficoCpu(idCpu)
 
         if res == "2":
             os.system(codeCleaner)
             print("Atenção! Preparando seus dados para análise...")
             time.sleep(2)
-            gerarGraficoMemoria(userId)
+            gerarGraficoMemoria(idRam)
 
         if res == "3":
             os.system(codeCleaner)
@@ -79,24 +68,27 @@ def menu(userId, nome, serialNumber):
     while opcaoUser == "6":
         main()
         exit()
-    while opcaoUser != 1 and opcaoUser != 2 and opcaoUser != 3 and opcaoUser != 4:
-        menu(userId, nome, serialNumber)
+    while opcaoUser != 1 and opcaoUser != 2 and opcaoUser != 3 and opcaoUser != 4 and opcaoUser != 5 and opcaoUser != 6:
+        menu(serialNumber, nome, idCpu, idDisco, idRam)
 
 def main():
     os.system(codeCleaner)
 
-    opcao1tela = input("\033[1mHardware Monitor - BEM VINDO \033[0m\n\n[1] - Entrar \n[2] - Cadastar \n[3] - Sair\n\n\033[1mUsuário:\033[0m ")
+    opcao1tela = input("\033[1mHardware Monitor - BEM VINDO \033[0m\n\n[1] - Entrar \n[2] - Sair\n\n\033[1mUsuário:\033[0m ")
 
     if opcao1tela == "1":
         dados = login()
-        userId = dados[0]
-        nomeUser = dados[1]
-        serialNumber = dados[2]
-        menu(userId, nomeUser, serialNumber)
+        serialNumber = dados[0]
+        nome = dados[1]
+        idComp = verificarComponentes(serialNumber)
+        idCpu = idComp[0]
+        idCpu = idCpu[0]
+        idDisco = idComp[1]
+        idDisco = idDisco[0]
+        idRam = idComp[2]
+        idRam = idRam[0]
+        menu(serialNumber, nome, idCpu, idDisco, idRam)
     elif opcao1tela == "2":
-        cadastro()
-        main()
-    elif opcao1tela == "3":
         print("Obrigado por utilizar nosso serviços")
         time.sleep(1)
         exit()

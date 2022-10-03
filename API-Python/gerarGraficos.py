@@ -38,19 +38,17 @@ def gerarGraficoDisco():
     plt.title ('Diagnostico do disco')
     plt.show()
 
-def gerarGraficoCpu(userId):
-    query = f'select usoCpu, frequenciaCpu, dataHoraRegistro from dados, Usuario where idUsuario = {userId} order by idDados desc limit 8;'
+def gerarGraficoCpu(idCpu):
+    query = f'SELECT registro, dataHora FROM tbRegistro, tbComponente WHERE idComponente = {idCpu} AND fkComponente = idComponente ORDER BY idRegistro DESC LIMIT 8;'
     dados = []
     dados.append(select(query, True))
 
     usoCpuPorc = []
-    freqCpu = []
     dataHoraRegis = []
 
-    for linha in select(query,True):
+    for linha in select(query, True):
         usoCpuPorc.append(linha[0])
-        freqCpu.append(linha[1])
-        data_format = linha[2].strftime('%d/%m \n %H:%M:%S')
+        data_format = linha[1].strftime('%d/%m \n %H:%M:%S')
         dataHoraRegis.append(data_format)
     
     dataHoraFormatado = dataHoraRegis[::-1]
@@ -61,32 +59,8 @@ def gerarGraficoCpu(userId):
     plt.title ('Uso da CPU (%)')
     plt.show()
 
-def gerarGraficoCpu2(userId):
-    query = f'select usoCpu, frequenciaCpu, dataHoraRegistro from dados, Usuario where idUsuario = {userId} order by idDados desc limit 8;'
-    dados = []
-    dados.append(select(query, True))
-
-    usoCpuPorc = []
-    freqCpu = []
-    dataHoraRegis = []
-
-    for linha in select(query,True):
-        usoCpuPorc.append(linha[0])
-        freqCpu.append(linha[1])
-        data_format = linha[2].strftime('%d/%m \n %H:%M:%S')
-        dataHoraRegis.append(data_format)
-
-    dataHoraFormatado = dataHoraRegis[::-1]
-
-    figura = plt.figure(figsize=(15,7))
-    facecolor='blue'
-    plt.plot(dataHoraFormatado, freqCpu)
-    plt.title ('Frequência da CPU (Mhz)')
-    plt.show()
-    time.sleep(3)
-
-def gerarGraficoMemoria(userId):
-    query = f'select usoMemoria, dataHoraRegistro from dados, Usuario where idUsuario = {userId} order by idDados desc limit 8;'
+def gerarGraficoMemoria(idRam):
+    query = f'SELECT registro, dataHora FROM tbRegistro, tbComponente WHERE idComponente = {idRam} AND fkComponente = idComponente ORDER BY idRegistro DESC LIMIT 8;'
     dados = []
     dados.append(select(query, True))
 

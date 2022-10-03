@@ -32,6 +32,11 @@ def conversao_bytes(valor, tipo):
     elif tipo == 3:  # GB
         return f'{valor / 1024 / 1024 / 1024: .2f}'
 
+def verificarComponentes(serialNumber): 
+    query = f"SELECT idComponente from tbComponente, tbMaquina where serialNumber = '{serialNumber}' and fkMaquina = tbMaquina.serialNumber;"
+    componentes = select(query, True)
+    idComp = componentes
+    return idComp
 
 def monitorar():
     while (True):
@@ -142,12 +147,10 @@ def info():
     return 0 
 
 
-        
-def insertPeriodico(serialNumber):
+def insertPeriodico(idCpu, idDisco, idRam):
     while True:
-            usoAtualMemoria = virtual_memory().percent
+            usoAtualMemoria = conversao_bytes(virtual_memory().used, 3)
             usoCpuPorc = cpu_percent()
-            freqCpu = round(cpu_freq().current,0)
 
             particoes = []
             if sistema == "Windows":
@@ -162,17 +165,22 @@ def insertPeriodico(serialNumber):
                 particoes.append("/")
 
 
-            porcentagemOcupados = [] 
+            discoOcupado = [] 
             for j in particoes:
-                porcentagemOcupados.append(disk_usage(j).percent) 
+                discoOcupado.append(conversao_bytes(disk_usage().used, 3))
 
-            usoDisco = porcentagemOcupados[0]
+            usoDisco = discoOcupado[0]
 
             dataHora = datetime.datetime.now()
             
-            query = f"INSERT INTO dados VALUES(NULL, '{serialNumber}', {usoAtualMemoria}, {usoCpuPorc}, NULL, {freqCpu}, {usoDisco}, '{dataHora}');"
+            queryCpu = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ({idCpu}, '{usoCpuPorc}', '{dataHora}');"
+            insert(queryCpu)
 
-            insert(query)
+            queryDisco = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ({idDisco}, '{usoDisco}', '{dataHora}');"
+            insert(queryDisco)
+
+            queryRam = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ({idRam}, '{usoAtualMemoria}', '{dataHora}');"
+            insert(queryRam)
 
             time.sleep(20)
 

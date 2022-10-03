@@ -7,15 +7,12 @@ import cpuinfo
 from psutil import *
 import platform
 
-
-
 def login():
     os.system(codeCleaner)
     print('\033[1mLogin\033[0m \n\n')
-    user = input("User: ")
-    senha = getpass.getpass("Senha: ")
+    serialNumber = input("Serial Number: ")
 
-    query = f"SELECT idUsuario, nome, serialNumber FROM Usuario JOIN maquina ON fkUsuario = idUsuario where usuario = '{user}' and senha = MD5('{senha}');"
+    query = f"SELECT serialNumber, nome FROM tbMaquina where serialNumber = '{serialNumber}';"
     
     dados = select(query)
 
@@ -27,52 +24,10 @@ def login():
     else: 
         os.system(codeCleaner)
         print("\033[1mSucesso no Login\033[0m\n\nLogin feito com sucesso\nAbrindo menu inicial...\n")
-        userId = dados[0]
-        nomeUser = dados[1]
-        serialNumber = dados[2]
+        serialNumber = dados[0]
+        nome = dados[1]
         time.sleep(2)
-        return userId, nomeUser, serialNumber
-
-
-
-def cadastro():
-    os.system(codeCleaner)
-    print('\033[1mCadastro\033[0m \n\n')
-    nome = input("Nome: ")
-    user = input("User: ")
-    senha = getpass.getpass("Senha: ")
-    confSenha = getpass.getpass("Confirme a senha: ")
-
-    if senha == confSenha:
-        query = f"INSERT INTO Usuario VALUES (NULL, '{nome}', '{user}', MD5('{senha}'));"
-
-        retorno = insert(query)
-        if retorno == 1:
-            os.system(codeCleaner)
-            print('\033[1mCadastro\033[0m\n\nCadastro realizado com sucesso!')
-            time.sleep(2)
-            os.system(codeCleaner)
-            print("Para prosseguir é necessário que recolhamos algumas informações sobre sua máquina... \n\n Aguarde alguns instantes enquanto esse processo é realizado\n\n")
-            queryId = f"SELECT idUsuario FROM Usuario where nome = '{nome}' and senha = MD5('{senha}');"
-            dados = select(queryId)
-            idUsuario = dados[0]
-            dados = cadastroComponentes(idUsuario)
-
-            if dados:
-                return 0
-            else:
-                cadastro()
-
-        else:
-            print('Username já é utlizado!')
-            time.sleep(2)
-            cadastro()
-
-    else:
-        print("As senhas não coincidem")
-        time.sleep(1)
-        cadastro()
-
+        return serialNumber, nome
 
 def cadastroComponentes(idUsuario):
     
