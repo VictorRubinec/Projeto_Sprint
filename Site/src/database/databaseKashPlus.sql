@@ -22,7 +22,7 @@ idUsuario INT PRIMARY KEY AUTO_INCREMENT
 );
 
 CREATE TABLE tbMaquina(
-serialNumber INT PRIMARY KEY
+serialNumber varchar(30) PRIMARY KEY
 ,fkEmpresa CHAR(14), FOREIGN KEY(fkEmpresa) REFERENCES tbEmpresa(cnpj)
 ,nome VARCHAR(100)
 ,cep CHAR(8)

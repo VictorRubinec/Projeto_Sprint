@@ -1,5 +1,6 @@
 var usuarioModel = require("../models/usuarioModel");
-var nodemailer = require("nodemailer")
+var nodemailer = require("nodemailer");
+const { query } = require("mssql");
 
 var sessoes = [];
 
@@ -9,12 +10,12 @@ function testar(req, res) {
 }
 
 function listar(req, res) {
-    
+
     var cnpj = req.body.cnpjServer;
-    if(cnpj == undefined){
+    if (cnpj == undefined) {
         res.status(400).send("Seu cnpj está undefined!");
     }
-    else{
+    else {
         usuarioModel.listar(cnpj)
             .then(function (resultado) {
                 if (resultado.length > 0) {
@@ -30,28 +31,28 @@ function listar(req, res) {
                 }
             );
     }
-    
+
 }
 
 function selectCargo(req, res) {
-    
+
     var query = req.body.queryServer;
 
-        usuarioModel.selectCargo(query)
-            .then(function (resultado) {
-                if (resultado.length > 0) {
-                    res.status(200).json(resultado);
-                } else {
-                    res.status(204).send("Nenhum resultado encontrado!")
-                }
-            }).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
-    
+    usuarioModel.selectCargo(query)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!")
+            }
+        }).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+
 }
 
 function entrar(req, res) {
@@ -149,7 +150,83 @@ function cadastrar(req, res) {
     }
 }
 
-function enviarEmail(email, senha, emailBanco){
+function cadastrarMaquina(req, res) {
+    // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
+    var serialnumber = req.body.serialnumberServer;
+    var nome = req.body.nomeServer;
+    var cep = req.body.cepServer;
+    var componente = req.body.componenteServer;
+    var cnpj = req.body.cnpjServer;
+
+    if (serialnumber == undefined) {
+        res.status(400).send("Seu serial number está undefined!");
+    } else if (nome == undefined) {
+        res.status(400).send("O nome da máquina está undefined!");
+    } else if (cep == undefined) {
+        res.status(400).send("O cep está undefined!");
+    } else if (componente == undefined) {
+        res.status(400).send("O componente está undefined!");
+    } else {
+        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
+        usuarioModel.cadastrarMaquina(serialnumber, nome, cep, cnpj)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                    usuarioModel.cadastrarComponente(serialNumber, componente)
+                        .then(
+                            function (resultado) {
+                                res.json(resultado);
+                            }
+                        ).catch(
+                            function (erro) {
+                                console.log(erro);
+                                console.log(
+                                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                                    erro.sqlMessage
+                                );
+                                res.status(500).json(erro.sqlMessage);
+                            }
+                        );
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+
+}
+
+function cadastrarComponente(req, res) {
+
+    serialNumber = req.body.serialNumberServer;
+    componente = req.body.componenteServer;
+
+    usuarioModel.cadastrarComponente(serialNumber, componente)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+
+}
+
+
+function enviarEmail(email, senha, emailBanco) {
     var transporter = nodemailer.createTransport({
         service: 'outlook',
         auth: {
@@ -163,13 +240,13 @@ function enviarEmail(email, senha, emailBanco){
         to: emailBanco,
         subject: 'Acesso aos serviços da KASH+!',
         html: '<h1>Bem vindo a família Kash+!!!</h1><br>' +
-        "<p>Aqui estão as credenciais do seu usuário administrador para acessar a nossa dashboard, através dele você poderá cadastrar novos usuários: </p><br>" +
-        `Email: ${email} <br>` +
-        `Senha: ${senha}`,
+            "<p>Aqui estão as credenciais do seu usuário administrador para acessar a nossa dashboard, através dele você poderá cadastrar novos usuários: </p><br>" +
+            `Email: ${email} <br>` +
+            `Senha: ${senha}`,
     };
 
-    transporter.sendMail(mailOptions, function(error, info) {
-        if(error) {
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
             console.log(error);
         } else {
             console.log('Email enviado: ' + info.response);
@@ -182,5 +259,7 @@ module.exports = {
     cadastrar,
     listar,
     selectCargo,
-    testar
+    testar,
+    cadastrarMaquina,
+    cadastrarComponente,
 }
