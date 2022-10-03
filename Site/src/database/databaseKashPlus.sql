@@ -1,8 +1,8 @@
 CREATE USER 'kashUser'@'localhost' IDENTIFIED BY 'kash';
 GRANT ALL PRIVILEGES ON dbKashPlus.* TO 'kashUser'@'localhost';
 
-create database dbKashPlus;
-use dbKashPlus;
+create database dbkashplus;
+use dbkashplus;
 
 CREATE TABLE tbEmpresa(
 cnpj CHAR(14) PRIMARY KEY
@@ -30,7 +30,7 @@ serialNumber varchar(30) PRIMARY KEY
 
 CREATE TABLE tbComponente(
 idComponente INT PRIMARY KEY AUTO_INCREMENT
-,fkMaquina INT, FOREIGN KEY(fkMaquina) REFERENCES tbMaquina(serialNumber)
+,fkMaquina varchar(30), FOREIGN KEY(fkMaquina) REFERENCES tbMaquina(serialNumber)
 ,tipo VARCHAR(100)
 ,metrica VARCHAR(100)
 )

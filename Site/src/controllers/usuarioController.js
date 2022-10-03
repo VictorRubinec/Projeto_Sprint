@@ -151,14 +151,16 @@ function cadastrar(req, res) {
 }
 
 function cadastrarMaquina(req, res) {
+    console.log("Cheguei na controller")
+
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
-    var serialnumber = req.body.serialnumberServer;
+    var serialNumber = req.body.serialNumberServer;
     var nome = req.body.nomeServer;
     var cep = req.body.cepServer;
     var componente = req.body.componenteServer;
     var cnpj = req.body.cnpjServer;
 
-    if (serialnumber == undefined) {
+    if (serialNumber == undefined) {
         res.status(400).send("Seu serial number está undefined!");
     } else if (nome == undefined) {
         res.status(400).send("O nome da máquina está undefined!");
@@ -168,7 +170,7 @@ function cadastrarMaquina(req, res) {
         res.status(400).send("O componente está undefined!");
     } else {
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrarMaquina(serialnumber, nome, cep, cnpj)
+        usuarioModel.cadastrarMaquina(serialNumber, nome, cep, cnpj)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -230,13 +232,13 @@ function enviarEmail(email, senha, emailBanco) {
     var transporter = nodemailer.createTransport({
         service: 'outlook',
         auth: {
-            user: '221-1cco-grupo10@bandtec.com.br',
+            user: '222-1cco-grupo10@bandtec.com.br',
             pass: '1cco*grupo10'
         }
     });
 
     var mailOptions = {
-        from: '221-1cco-grupo10@bandtec.com.br',
+        from: '222-1cco-grupo10@bandtec.com.br',
         to: emailBanco,
         subject: 'Acesso aos serviços da KASH+!',
         html: '<h1>Bem vindo a família Kash+!!!</h1><br>' +

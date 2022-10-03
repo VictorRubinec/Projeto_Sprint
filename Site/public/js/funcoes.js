@@ -18,4 +18,11 @@ function limparSessao() {
 }
 
 
+function verificarCargo(){
+    cargo = sessionStorage.CARGO_USUARIO;
+    itemListar = document.getElementById("")
 
+    if(cargo == "tec"){
+
+    }
+}
