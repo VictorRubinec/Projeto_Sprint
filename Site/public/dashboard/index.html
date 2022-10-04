@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="assets/css/styles.min.css">
 </head>
 
-<body id="page-top" onload="validarSessao(), listarCaixas(), obterDadosGraficoCpu('BR365')">
+<body id="page-top" onload="validarSessao(), listarCaixas(), obterDadosGraficoCpu('BR1234')">
 	<div id="wrapper">
 		<nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
 			style="background: rgb(0, 132, 156);">
@@ -205,12 +205,13 @@
 		<script src="assets/js/script.min.js"></script>
 		<script src="../js/funcoes.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-		<!-- <script type="text/javascript" src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script> -->
 </body>
 
 </html>
 <script>
 	let proximaAtualizacao;
+
+	var teste = sessionStorage.INFO_CAIXA;
 
 
 	function obterDadosGraficoCpu(serialNumber) {

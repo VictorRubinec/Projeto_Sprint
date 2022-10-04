@@ -55,14 +55,20 @@ function listarCaixas(){
                 item.className = "nav-item";
                 divCaixas.appendChild(item);
 
+                var caixas = {
+                    "nome":[],
+                    "serialNumber":[],
+                    "cep":[]
+                }   
+
                 for (var i = 0; i < json.length; i++) {
                     maquina = json[i].Maquina;
                     serialNumber = json[i].NumeroSerial;
-                    Cep = json[i].Cep;
+                    cep = json[i].Cep;
                     
                     var link = document.createElement('a');
                     link.className = "nav-link";
-                    link.href = "index.html";
+                    link.href = "index.html"
                     item.appendChild(link);
 
                     var icon = document.createElement('i');
@@ -72,9 +78,13 @@ function listarCaixas(){
                     var span = document.createElement('span');
                     span.innerHTML = maquina;
                     link.appendChild(span);
+
+                    caixas.nome.push(maquina);
+                    caixas.serialNumber.push(serialNumber);
+                    caixas.cep.push(cep);
                 }
 
-
+                sessionStorage.INFO_CAIXA = JSON.stringify(caixas);
             });
 
 
