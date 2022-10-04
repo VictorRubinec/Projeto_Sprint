@@ -1,5 +1,8 @@
-create database dbKashPlus;
-use dbKashPlus;
+CREATE USER 'kashUser'@'localhost' IDENTIFIED BY 'kash';
+GRANT ALL PRIVILEGES ON dbkashplus.* TO 'kashUser'@'localhost';
+
+create database dbkashplus;
+use dbkashplus;
 
 CREATE TABLE tbEmpresa(
 cnpj CHAR(14) PRIMARY KEY
