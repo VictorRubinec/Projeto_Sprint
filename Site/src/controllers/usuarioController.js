@@ -9,14 +9,39 @@ function testar(req, res) {
     res.json("ESTAMOS FUNCIONANDO!");
 }
 
-function listar(req, res) {
+function listarUsuarios(req, res) {
 
     var cnpj = req.body.cnpjServer;
     if (cnpj == undefined) {
         res.status(400).send("Seu cnpj está undefined!");
     }
     else {
-        usuarioModel.listar(cnpj)
+        usuarioModel.listarUsuarios(cnpj)
+            .then(function (resultado) {
+                if (resultado.length > 0) {
+                    res.status(200).json(resultado);
+                } else {
+                    res.status(204).send("Nenhum resultado encontrado!")
+                }
+            }).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+
+}
+
+function listarCaixas(req, res) {
+    var cnpj = req.body.cnpjServer;
+
+    if (cnpj == undefined) {
+        res.status(400).send("Seu cnpj está undefined!");
+    }
+    else {
+        usuarioModel.listarCaixas(cnpj)
             .then(function (resultado) {
                 if (resultado.length > 0) {
                     res.status(200).json(resultado);
@@ -259,7 +284,8 @@ function enviarEmail(email, senha, emailBanco) {
 module.exports = {
     entrar,
     cadastrar,
-    listar,
+    listarUsuarios,
+    listarCaixas,
     selectCargo,
     testar,
     cadastrarMaquina,

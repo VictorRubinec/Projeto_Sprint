@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-	<title>Dashboard - KASH+s</title>
+	<title>Dashboard - KASH+</title>
 	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="assets/css/styles.min.css">
 </head>
 
-<body id="page-top" onload="validarSessao()">
+<body id="page-top" onload="validarSessao(), listarCaixas()">
 	<div id="wrapper">
 		<nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
 			style="background: rgb(0, 132, 156);">
@@ -23,12 +23,21 @@
 				</a>
 				<hr class="sidebar-divider my-0">
 				<ul id="accordionSidebar" class="navbar-nav text-light">
-					<li class="nav-item"><a class="nav-link" href="listarUser.html"><i class="fas fa-user"></i><span>Lista de usuários</span></a>
-						
-						<a class="nav-link" href="addUser.html"><i class="fas fa-user-plus"></i><span>Adicionar Usuário</span></a>
-						
-						<a class="nav-link" href="addCaixa.html"><i class="fas fa-server"></i><span>Cadastrar Caixa</span></a></li>
-					<li class="nav-item"><a class="nav-link active" href="index.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+					<li class="nav-item"><a class="nav-link" href="listarUser.html"><i
+								class="fas fa-user"></i><span>Lista de usuários</span></a>
+
+						<a class="nav-link" href="addUser.html"><i class="fas fa-user-plus"></i><span>Adicionar
+								Usuário</span></a>
+
+						<a class="nav-link" href="addCaixa.html"><i class="fas fa-server"></i><span>Cadastrar
+								Caixa</span></a>
+					</li>
+					<li class="nav-item"><a class="nav-link active" data-bs-toggle="collapse" href="#div_caixas"
+							role="button" aria-expanded="false" aria-controls="div_caixas"><i
+								class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+						<div class="collapse show" id="div_caixas">
+						</div>
+					</li>
 				</ul>
 				<div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0"
 						id="sidebarToggle" type="button"></button></div>
@@ -194,3 +203,30 @@
 </body>
 
 </html>
+<script>
+	function obterDadosGrafico(idSensor) {
+		// alterarTitulo(idSensor)
+
+		if (proximaAtualizacao != undefined) {
+			clearTimeout(proximaAtualizacao);
+		}
+
+		fetch(`/medidas/ultimas/${idSensor}`, { cache: 'no-store' }).then(function (response) {
+			if (response.ok) {
+				response.json().then(function (resposta) {
+					console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+					resposta.reverse();
+
+					plotarGrafico(resposta, idSensor);
+				});
+			} else {
+				console.error('Nenhum dado encontrado ou erro na API');
+			}
+		})
+			.catch(function (error) {
+				console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+			});
+	}
+
+
+</script>

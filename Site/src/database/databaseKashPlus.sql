@@ -1,6 +1,5 @@
 CREATE USER 'kashUser'@'localhost' IDENTIFIED BY 'kash';
-GRANT ALL PRIVILEGES ON dbKashPlus.* TO 'kashUser'@'localhost';
-
+GRANT ALL PRIVILEGES ON dbkashplus.* TO 'kashUser'@'localhost';
 create database dbkashplus;
 use dbkashplus;
 
@@ -22,7 +21,7 @@ idUsuario INT PRIMARY KEY AUTO_INCREMENT
 );
 
 CREATE TABLE tbMaquina(
-serialNumber varchar(30) PRIMARY KEY
+serialNumber VARCHAR(30) PRIMARY KEY
 ,fkEmpresa CHAR(14), FOREIGN KEY(fkEmpresa) REFERENCES tbEmpresa(cnpj)
 ,nome VARCHAR(100)
 ,cep CHAR(8)
@@ -30,7 +29,7 @@ serialNumber varchar(30) PRIMARY KEY
 
 CREATE TABLE tbComponente(
 idComponente INT PRIMARY KEY AUTO_INCREMENT
-,fkMaquina varchar(30), FOREIGN KEY(fkMaquina) REFERENCES tbMaquina(serialNumber)
+,fkMaquina VARCHAR(30), FOREIGN KEY(fkMaquina) REFERENCES tbMaquina(serialNumber)
 ,tipo VARCHAR(100)
 ,metrica VARCHAR(100)
 )
@@ -48,10 +47,11 @@ idRegistro INT PRIMARY KEY AUTO_INCREMENT
 CREATE VIEW vwMaquina AS
     SELECT 
         tbEmpresa.nome AS 'Empresa'
-        ,tbMaquina.nome AS 'Máquina'
-        ,serialNumber AS 'Número Serial'
-        ,cep AS 'Local (CEP)'
-        ,tipo AS 'Componente'
+        ,cnpj AS 'Cnpj'
+        ,tbMaquina.nome AS Maquina
+        ,serialNumber AS NumeroSerial
+        ,cep AS Cep
+        ,tipo AS Componente
     FROM
         tbEmpresa
             JOIN
@@ -63,11 +63,11 @@ CREATE VIEW vwMaquina AS
 CREATE VIEW vwConsumo AS
     SELECT 
 		idRegistro AS 'ID'
-        ,tbMaquina.nome AS 'Máquina'
-        ,serialNumber AS 'Número Serial'
+        ,tbMaquina.nome AS 'Maquina'
+        ,serialNumber AS 'NumeroSerial'
         ,tipo AS 'Componente'
         ,registro AS 'Registro'
-        ,dataHora AS 'Horário'
+        ,dataHora AS 'Horario'
     FROM
         tbMaquina
             JOIN

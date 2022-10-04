@@ -1,9 +1,18 @@
 var database = require("../database/config")
 
-function listar(cnpj) {
+function listarUsuarios(cnpj) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucao = `
         SELECT idUsuario, nome, login, cargo FROM tbUsuario WHERE fkEmpresa = '${cnpj}' AND cargo != 'adm';
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao)
+}
+
+function listarCaixas(cnpj) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
+    var instrucao = `
+        SELECT Maquina, NumeroSerial, Cep FROM vwMaquina where Cnpj = '${cnpj}' GROUP BY NumeroSerial;
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao)
@@ -95,6 +104,7 @@ module.exports = {
     cadastrarUsuario,
     cadastrarMaquina,
     cadastrarComponente,
-    listar,
+    listarUsuarios,
+    listarCaixas,
     selectCargo,
 };

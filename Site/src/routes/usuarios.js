@@ -7,8 +7,8 @@ router.get("/", function (req, res) {
     usuarioController.testar(req, res);
 });
 
-router.post("/listar", function (req, res) {
-    usuarioController.listar(req, res);
+router.post("/listarUsuarios", function (req, res) {
+    usuarioController.listarUsuarios(req, res);
 });
 
 router.post("/selectCargo", function (req, res) {
@@ -31,5 +31,9 @@ router.post("/cadastrarMaquina", function (req, res) {
 router.post("/cadastrarComponente", function (req, res) {
     usuarioController.cadastrarComponente(req, res);
 });
+
+router.post("/listarCaixas", function (req, res) {
+    usuarioController.listarCaixas(req, res);
+})
 
 module.exports = router;
