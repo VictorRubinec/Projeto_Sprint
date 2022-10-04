@@ -1,9 +1,9 @@
 import mysql.connector
 
-cnx = mysql.connector.connect(user="KashUser",
+cnx = mysql.connector.connect(user="kashUser",
                               password="kash", 
                               host="localhost", 
-                              database="dbKashPlus", 
+                              database="dbkashplus", 
                               autocommit=True)
                               
 def insert(query): 

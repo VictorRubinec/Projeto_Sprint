@@ -149,7 +149,7 @@ def info():
 
 def insertPeriodico(idCpu, idDisco, idRam):
     while True:
-            usoAtualMemoria = conversao_bytes(virtual_memory().used, 3)
+            usoAtualMemoria = conversao_bytes(virtual_memory().used, 2)
             usoCpuPorc = cpu_percent()
 
             particoes = []
@@ -167,7 +167,7 @@ def insertPeriodico(idCpu, idDisco, idRam):
 
             discoOcupado = [] 
             for j in particoes:
-                discoOcupado.append(conversao_bytes(disk_usage().used, 3))
+                discoOcupado.append(conversao_bytes(disk_usage(j).used, 2))
 
             usoDisco = discoOcupado[0]
 
