@@ -81,7 +81,7 @@ function listarCaixas(){
 
         } else {
 
-            console.log("Houve um erro ao tentar realizar o login!");
+            console.log("Houve um erro ao tentar listar os caixas!");
 
             resposta.text().then(texto => {
                 mensagem_erro.classList.add("erro")

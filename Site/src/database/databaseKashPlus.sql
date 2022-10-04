@@ -48,9 +48,9 @@ CREATE VIEW vwMaquina AS
     SELECT 
         tbEmpresa.nome AS 'Empresa'
         ,cnpj AS 'Cnpj'
-        ,tbMaquina.nome AS Maquina
-        ,serialNumber AS NumeroSerial
-        ,cep AS Cep
+        ,tbMaquina.nome AS 'Maquina'
+        ,serialNumber AS 'NumeroSerial'
+        ,cep AS 'Cep'
         ,tipo AS Componente
     FROM
         tbEmpresa
@@ -66,6 +66,7 @@ CREATE VIEW vwConsumo AS
         ,tbMaquina.nome AS 'Maquina'
         ,serialNumber AS 'NumeroSerial'
         ,tipo AS 'Componente'
+        ,metrica AS 'Metrica'
         ,registro AS 'Registro'
         ,dataHora AS 'Horario'
     FROM

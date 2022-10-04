@@ -3,12 +3,12 @@ var router = express.Router();
 
 var medidaController = require("../controllers/medidaController");
 
-router.get("/ultimas/:idSensor", function (req, res) {
-    medidaController.buscarUltimasMedidas(req, res);
+router.get("/ultimasCpu/:serialNumber", function (req, res) {
+    medidaController.buscarUltimasMedidasCpu(req, res);
 });
 
-router.get("/tempo-real/:idSensor", function (req, res) {
-    medidaController.buscarMedidasEmTempoReal(req, res);
+router.get("/tempo-realCpu/:serialNumber", function (req, res) {
+    medidaController.buscarMedidasEmTempoRealCpu(req, res);
 });
 
 

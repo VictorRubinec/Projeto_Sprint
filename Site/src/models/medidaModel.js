@@ -1,23 +1,23 @@
 var database = require("../database/config");
 
-function buscarUltimasMedidas(idSensor, limite_linhas) {
+function buscarUltimasMedidasCpu(serialNumber, limite_linhas) {
     
-    instrucaoSql = ''
+    var instrucaoSql = ''
     
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `select top ${limite_linhas}
-                        medida as luminosidade, 
-                        CONVERT(varchar, dataHoraRgt, 108) as momento_grafico
-                    from registro
-                    where fkSensor = ${idSensor} and fkTipo = 1
-                    order by idRegistro desc`;
+        instrucaoSql = `SELECT top ${limite_linhas}
+                        Registro, 
+                        CONVERT(varchar, Horario, 108) as momento_grafico
+                    FROM vwConsumo
+                    WHERE NumeroSerial = '${serialNumber}' AND Componente = 'cpu'
+                    ORDER BY idRegistro DESC`;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `select 
-                        medida as luminosidade, 
-                        DATE_FORMAT(dataHoraRgt,'%H:%i:%s') as momento_grafico
-                    from registro
-                    where fkSensor = ${idSensor} and fkTipo = 1
-                    order by idRegistro desc limit ${limite_linhas}`;
+        instrucaoSql = `SELECT 
+                        Registro, 
+                        DATE_FORMAT(Horario,'%H:%i:%s') as momento_grafico
+                    FROM vwConsumo
+                    WHERE NumeroSerial = '${serialNumber}' AND Componente = 'cpu'
+                    ORDER BY ID DESC LIMIT ${limite_linhas}`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -28,25 +28,24 @@ function buscarUltimasMedidas(idSensor, limite_linhas) {
 }
 
 
-function buscarMedidasEmTempoReal(idSensor) {
+function buscarMedidasEmTempoRealCpu(serialNumber) {
     
     instrucaoSql = ''
     
     if (process.env.AMBIENTE_PROCESSO == "producao") {       
-        instrucaoSql = `select top 1
-                        medida as luminosidade, 
+        instrucaoSql = `SELECT top 1
+                        Registro, 
                         CONVERT(varchar, dataHoraRgt, 108) as momento_grafico, 
                         fkSensor 
-                        from registro where fkSensor = ${idSensor} and fkTipo = 1
+                        from registro where fkSensor = '${serialNumber}' and fkTipo = 1
                     order by idRegistro desc`;
         
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `select 
-                        medida as luminosidade, 
-                        DATE_FORMAT(dataHoraRgt,'%H:%i:%s') as momento_grafico, 
-                        fkSensor 
-                        from registro where fkSensor = ${idSensor} and fkTipo = 1
-                    order by idRegistro desc limit 1`;
+        instrucaoSql = `SELECT 
+                        Registro, 
+                        DATE_FORMAT(Horario,'%H:%i:%s') as momento_grafico 
+                        from vwConsumo where NumeroSerial = '${serialNumber}' and Componente = 'cpu'
+                    ORDER BY ID DESC LIMIT 1`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -58,6 +57,6 @@ function buscarMedidasEmTempoReal(idSensor) {
 
 
 module.exports = {
-    buscarUltimasMedidas,
-    buscarMedidasEmTempoReal
+    buscarUltimasMedidasCpu,
+    buscarMedidasEmTempoRealCpu
 }

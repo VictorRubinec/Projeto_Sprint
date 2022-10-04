@@ -3,15 +3,15 @@ var medidaModel = require("../models/medidaModel");
 
 //  INICIO BUSCAR ULTIMAS MEDIDAS
 
-function buscarUltimasMedidas(req, res) {
+function buscarUltimasMedidasCpu(req, res) {
 
-    const limite_linhas = 7;
+    const limite_linhas = 8;
 
-    var idSensor = req.params.idSensor;
+    var serialNumber = req.params.serialNumber;
 
     console.log(`Recuperando as ultimas ${limite_linhas} medidas`);
 
-    medidaModel.buscarUltimasMedidas(idSensor, limite_linhas).then(function (resultado) {
+    medidaModel.buscarUltimasMedidasCpu(serialNumber, limite_linhas).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -29,13 +29,13 @@ function buscarUltimasMedidas(req, res) {
 
 // INICIO BUCAR MEDIDAS EM TEMPO REAL
 
-function buscarMedidasEmTempoReal(req, res) {
+function buscarMedidasEmTempoRealCpu(req, res) {
 
-    var idSensor = req.params.idSensor;
+    var serialNumber = req.params.serialNumber;
 
     console.log(`Recuperando medidas em tempo real`);
 
-    medidaModel.buscarMedidasEmTempoReal(idSensor).then(function (resultado) {
+    medidaModel.buscarMedidasEmTempoRealCpu(serialNumber).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -49,6 +49,6 @@ function buscarMedidasEmTempoReal(req, res) {
 }
 
 module.exports = {
-    buscarUltimasMedidas,
-    buscarMedidasEmTempoReal
+    buscarUltimasMedidasCpu,
+    buscarMedidasEmTempoRealCpu
 }
