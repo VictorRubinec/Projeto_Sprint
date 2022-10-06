@@ -241,9 +241,19 @@ a {
 .footer .itens .item2 {
     width: 100%;
 }
+.footer .itens .item2 li a{
+    width: 100%;
+    color: #ffffff;
+    list-style: none;
+    text-decoration: none;
+}
 
 .footer .itens .item3 {
     width: 100%;
+}
+
+.footer .linkFake {
+    cursor: pointer;
 }
 
 .footer .itens .item4 {
