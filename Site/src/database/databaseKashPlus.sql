@@ -48,10 +48,11 @@ idRegistro INT PRIMARY KEY AUTO_INCREMENT
 CREATE VIEW vwMaquina AS
     SELECT 
         tbEmpresa.nome AS 'Empresa'
-        ,tbMaquina.nome AS 'Máquina'
-        ,serialNumber AS 'Número Serial'
-        ,cep AS 'Local (CEP)'
-        ,tipo AS 'Componente'
+        ,cnpj AS 'Cnpj'
+        ,tbMaquina.nome AS 'Maquina'
+        ,serialNumber AS 'NumeroSerial'
+        ,cep AS 'Cep'
+        ,tipo AS Componente
     FROM
         tbEmpresa
             JOIN
@@ -63,11 +64,12 @@ CREATE VIEW vwMaquina AS
 CREATE VIEW vwConsumo AS
     SELECT 
 		idRegistro AS 'ID'
-        ,tbMaquina.nome AS 'Máquina'
-        ,serialNumber AS 'Número Serial'
+        ,tbMaquina.nome AS 'Maquina'
+        ,serialNumber AS 'NumeroSerial'
         ,tipo AS 'Componente'
+        ,metrica AS 'Metrica'
         ,registro AS 'Registro'
-        ,dataHora AS 'Horário'
+        ,dataHora AS 'Horario'
     FROM
         tbMaquina
             JOIN
@@ -78,7 +80,7 @@ CREATE VIEW vwConsumo AS
 
 CREATE VIEW vwFuncionario AS
     SELECT 
-		tbEmpresa.nome AS 'Máquina'
+		tbEmpresa.nome AS 'Maquina'
 		,tbUsuario.nome AS 'Funcionario'
         ,cargo AS 'Cargo'
         ,login AS 'Login'
