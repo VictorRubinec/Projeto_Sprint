@@ -161,7 +161,7 @@
 								<div class="card-body">
 									<div class="chart-area"
 										style="display: flex; align-items: center; justify-content: center;">
-										<div class="chart-container" style="position: relative; width: 45vw;">
+										<div class="chart-container" id="grafico_cpu" style="position: relative; width: 45vw;">
 											<canvas id="myChartCpu">
 											</canvas>
 										</div>
@@ -210,10 +210,18 @@
 
 </html>
 <script>
+	setTimeout(addListeners, 500);
+
 	let proximaAtualizacao;
 
 	function obterDadosGraficoCpu(serialNumber) {
-		// document.getElementById('myChartCpu').context.clearRect(0, 0, myChartCpu.width, myChartCpu.height);
+		document.getElementById("myChartCpu").remove();
+
+		var divGrafico = document.getElementById("grafico_cpu");
+		var canvas = document.createElement("canvas");
+		canvas.id = "myChartCpu";
+
+		divGrafico.appendChild(canvas);
 
 		if (proximaAtualizacao != undefined) {
 			clearTimeout(proximaAtualizacao);
