@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="assets/css/styles.min.css">
 </head>
 
-<body id="page-top" onload="validarSessao(), listarCaixas(), obterDadosGraficoCpu('BR1234')">
+<body id="page-top" onload="validarSessao(), listarCaixas()">
 	<div id="wrapper">
 		<nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
 			style="background: rgb(0, 132, 156);">
@@ -159,7 +159,8 @@
 									<h6 class="text-primary fw-bold m-0">Uso da CPU</h6>
 								</div>
 								<div class="card-body">
-									<div class="chart-area" style="display: flex; align-items: center; justify-content: center;">
+									<div class="chart-area"
+										style="display: flex; align-items: center; justify-content: center;">
 										<div class="chart-container" style="position: relative; width: 45vw;">
 											<canvas id="myChartCpu">
 											</canvas>
@@ -211,10 +212,9 @@
 <script>
 	let proximaAtualizacao;
 
-	var teste = sessionStorage.INFO_CAIXA;
-
-
 	function obterDadosGraficoCpu(serialNumber) {
+		// document.getElementById('myChartCpu').context.clearRect(0, 0, myChartCpu.width, myChartCpu.height);
+
 		if (proximaAtualizacao != undefined) {
 			clearTimeout(proximaAtualizacao);
 		}
@@ -249,7 +249,8 @@
 				{
 					yAxisID: 'y-usoCpu',
 					label: 'Uso da cpu',
-					borderColor: '#ffff80',
+					borderColor: '#00BFFF',
+					backgroundColor: '#00BFFF',
 					fill: true,
 					data: [],
 				},
@@ -265,15 +266,16 @@
 		console.log(JSON.stringify(dados));
 
 		const config = {
-            type: 'line',
-            data: dados,
+			type: 'line',
+			data: dados,
 			responsive: true,
-        };
+		};
 
 		let myChartCpu = new Chart(
-            document.getElementById('myChartCpu'),
-            config
-        );
+			document.getElementById('myChartCpu'),
+			config
+		);
+
 
 		setTimeout(() => atualizarGraficoCpu(serialNumber, dados, myChartCpu), 2000);
 	}

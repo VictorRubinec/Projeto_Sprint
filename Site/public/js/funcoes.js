@@ -68,7 +68,7 @@ function listarCaixas(){
                     
                     var link = document.createElement('a');
                     link.className = "nav-link";
-                    link.href = "index.html"
+                    link.id = serialNumber;
                     item.appendChild(link);
 
                     var icon = document.createElement('i');
@@ -82,9 +82,11 @@ function listarCaixas(){
                     caixas.nome.push(maquina);
                     caixas.serialNumber.push(serialNumber);
                     caixas.cep.push(cep);
+
                 }
 
                 sessionStorage.INFO_CAIXA = JSON.stringify(caixas);
+                addListeners();
             });
 
 
@@ -110,4 +112,20 @@ function listarCaixas(){
     })
 
     return false;
+}
+
+
+function addListeners(){
+    var caixas = JSON.parse(sessionStorage.INFO_CAIXA);
+
+    var numberReference = caixas.nome;
+
+    for (var i = 0; i < numberReference.length; i++) {
+        var serialNumber = caixas.serialNumber[i];
+        String(serialNumber)
+        document.getElementById(serialNumber).addEventListener("click", function(){
+            key = this.id;
+            obterDadosGraficoCpu(key); 
+        })
+    }
 }
