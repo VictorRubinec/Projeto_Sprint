@@ -24,10 +24,27 @@ function buscarUltimasMedidasCpu(req, res) {
     });
 }
 
+function buscarUltimasMedidasRam(req, res) {
 
-// FIM BUSCAR ULTIMAS MEDIDAS
+    const limite_linhas = 8;
 
-// INICIO BUCAR MEDIDAS EM TEMPO REAL
+    var serialNumber = req.params.serialNumber;
+
+    console.log(`Recuperando as ultimas ${limite_linhas} medidas`);
+
+    medidaModel.buscarUltimasMedidasRam(serialNumber, limite_linhas).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 
 function buscarMedidasEmTempoRealCpu(req, res) {
 
@@ -48,7 +65,28 @@ function buscarMedidasEmTempoRealCpu(req, res) {
     });
 }
 
+function buscarMedidasEmTempoRealRam(req, res) {
+
+    var serialNumber = req.params.serialNumber;
+
+    console.log(`Recuperando medidas em tempo real`);
+
+    medidaModel.buscarMedidasEmTempoRealRam(serialNumber).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 module.exports = {
     buscarUltimasMedidasCpu,
-    buscarMedidasEmTempoRealCpu
+    buscarUltimasMedidasRam,
+    buscarMedidasEmTempoRealCpu,
+    buscarMedidasEmTempoRealRam
 }

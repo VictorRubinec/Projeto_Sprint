@@ -22,10 +22,14 @@ function limparSessao() {
 
 function verificarCargo() {
     cargo = sessionStorage.CARGO_USUARIO;
-    itemListar = document.getElementById("")
 
     if (cargo == "tec") {
-
+        document.getElementById("link_add_user").style.display = "none";
+        document.getElementById("link_list_user").style.display = "none";
+    }
+    else if(cargo == "ger"){
+        document.getElementById("link_add_user").style.display = "none";
+        document.getElementById("link_add_caixa").style.display = "none";
     }
 }
 
@@ -95,6 +99,7 @@ function listarCaixas() {
                         caixas.cep.push(cep);
 
                     }
+
                     sessionStorage.INFO_CAIXA = JSON.stringify(caixas);
                     obterDadosGraficoCpu(caixas.serialNumber[0])
                 }
@@ -148,6 +153,7 @@ function addListeners() {
         document.getElementById(serialNumber).addEventListener("click", function () {
             key = this.id;
             obterDadosGraficoCpu(key);
+            obterDadosGraficoRam(key);
         })
     }
 }

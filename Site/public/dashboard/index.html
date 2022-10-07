@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="assets/css/styles.min.css">
 </head>
 
-<body id="page-top" onload="validarSessao(), listarCaixas()">
+<body id="page-top" onload="validarSessao(), listarCaixas(), verificarCargo()">
 	<div id="wrapper">
 		<nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
 			style="background: rgb(0, 132, 156);">
@@ -23,17 +23,21 @@
 				</a>
 				<hr class="sidebar-divider my-0">
 				<ul id="accordionSidebar" class="navbar-nav text-light">
-					<li class="nav-item"><a class="nav-link" href="listarUser.html"><i
-								class="fas fa-user"></i><span>Lista de usuários</span></a>
+					<li class="nav-item">
+						<a class="nav-link" href="listarUser.html" id="link_list_user"><i
+								class="fas fa-user"></i><span>Lista de
+								usuários</span></a>
 
-						<a class="nav-link" href="addUser.html"><i class="fas fa-user-plus"></i><span>Adicionar
+						<a class="nav-link" href="addUser.html" id="link_add_user"><i
+								class="fas fa-user-plus"></i><span>Adicionar
 								Usuário</span></a>
 
-						<a class="nav-link" href="addCaixa.html"><i class="fas fa-server"></i><span>Cadastrar
+						<a class="nav-link" href="addCaixa.html" id="link_add_caixa"><i
+								class="fas fa-server"></i><span>Cadastrar
 								Caixa</span></a>
 					</li>
 					<li class="nav-item"><a class="nav-link active" data-bs-toggle="collapse" href="#div_caixas"
-							role="button" aria-expanded="false" aria-controls="div_caixas"><i
+							role="button" aria-expanded="false" aria-controls="div_caixas" id="link_dash"><i
 								class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
 						<div class="collapse show" id="div_caixas">
 						</div>
@@ -77,7 +81,7 @@
 				</nav>
 				<div class="container-fluid">
 					<div class="d-sm-flex justify-content-between align-items-center mb-4">
-						<h3 class="text-dark mb-0">Dashboard</h3>
+						<h3 class="text-dark mb-0" id="h3_titulo">Dashboard</h3>
 					</div>
 					<div class="row">
 						<div class="col-md-6 col-xl-3 mb-4">
@@ -161,7 +165,8 @@
 								<div class="card-body">
 									<div class="chart-area"
 										style="display: flex; align-items: center; justify-content: center;">
-										<div class="chart-container" id="grafico_cpu" style="position: relative; width: 45vw;">
+										<div class="chart-container" id="grafico_cpu"
+											style="position: relative; width: 45vw;">
 											<canvas id="myChartCpu">
 											</canvas>
 										</div>
@@ -187,7 +192,11 @@
 										<h6 class="text-primary fw-bold m-0">Uso de memória RAM</h6>
 									</div>
 									<div class="card-body">
-										<div class="chart-area"><canvas></canvas>
+										<div class="chart-area">
+											<div class="chart-container" id="grafico_ram">
+												<canvas id="myChartRam">
+												</canvas>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -233,7 +242,7 @@
 					console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 					resposta.reverse();
 
-					plotarGrafico(resposta, serialNumber);
+					plotarGraficoCpu(resposta, serialNumber);
 				});
 			} else {
 				console.error('Nenhum dado encontrado ou erro na API');
@@ -244,8 +253,7 @@
 			});
 	}
 
-
-	function plotarGrafico(resposta, serialNumber) {
+	function plotarGraficoCpu(resposta, serialNumber) {
 		console.log('iniciando plotagem do gráfico...');
 		console.log(serialNumber);
 
@@ -323,4 +331,120 @@
 			});
 
 	}
+
+
+	function obterDadosGraficoRam(serialNumber) {
+		document.getElementById("myChartRam").remove();
+
+		var divGrafico = document.getElementById("grafico_ram");
+		var canvas = document.createElement("canvas");
+		canvas.id = "myChartRam";
+
+		divGrafico.appendChild(canvas);
+
+		if (proximaAtualizacao != undefined) {
+			clearTimeout(proximaAtualizacao);
+		}
+
+		fetch(`/medidas/ultimasRam/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
+			if (response.ok) {
+				response.json().then(function (resposta) {
+					console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+					resposta.reverse();
+
+					plotarGraficoRam(resposta, serialNumber);
+				});
+			} else {
+				console.error('Nenhum dado encontrado ou erro na API');
+			}
+		})
+			.catch(function (error) {
+				console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+			});
+	}
+
+	function plotarGraficoRam(resposta, serialNumber) {
+		console.log('iniciando plotagem do gráfico...');
+		console.log(serialNumber);
+
+		let labels = [];
+
+		var dados = {
+			labels: labels,
+			datasets: [
+				{
+					yAxisID: 'y-usoRam',
+					label: 'Uso da ram',
+					borderColor: '#00BFFF',
+					backgroundColor: '#00BFFF',
+					fill: true,
+					data: [],
+				},
+			]
+		};
+
+		for (i = 0; i < resposta.length; i++) {
+			var registro = resposta[i];
+			labels.push(registro.momento_grafico);
+			dados.datasets[0].data.push(registro.Registro);
+		}
+
+		console.log(JSON.stringify(dados));
+
+		const configRam = {
+			type: 'line',
+			data: dados,
+			// responsive: true,
+			options:{
+				maintainAspectRatio: false,
+			}
+
+		};
+
+		let myChartRam = new Chart(
+			document.getElementById('myChartRam'),
+			configRam
+		);
+
+
+		setTimeout(() => atualizarGraficoRam(serialNumber, dados, myChartRam), 2000);
+	}
+
+	function atualizarGraficoRam(serialNumber, dados, myChartRam) {
+
+		fetch(`/medidas/tempo-realRam/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
+			if (response.ok) {
+				response.json().then(function (novoRegistro) {
+
+					console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+					console.log(`Dados atuais do gráfico: ${dados}`);
+
+					// tirando e colocando valores no gráfico
+					dados.labels.shift(); // apagar o primeiro
+					dados.labels.push(novoRegistro[0].momento_grafico); // incluir um novo momento
+
+					dados.datasets[0].data.shift();  // apagar o primeiro de umidade
+					dados.datasets[0].data.push((novoRegistro[0].Registro)); // incluir uma nova medida de umidade
+
+					// dados.datasets[1].data.shift();  // apagar o primeiro de temperatura
+					// dados.datasets[1].data.push(novoRegistro[0].temperatura); // incluir uma nova medida de temperatura
+
+					myChartRam.update();
+
+					// Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
+					proximaAtualizacao = setTimeout(() => atualizarGraficoRam(serialNumber, dados, myChartRam), 2000);
+				});
+			} else {
+				console.error('Nenhum dado encontrado ou erro na API');
+				// Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
+				proximaAtualizacao = setTimeout(() => atualizarGraficoRam(serialNumber, dados, myChartRam), 2000);
+			}
+		})
+			.catch(function (error) {
+				console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+			});
+
+	}
+
+
 </script>

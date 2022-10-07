@@ -11,5 +11,14 @@ router.get("/tempo-realCpu/:serialNumber", function (req, res) {
     medidaController.buscarMedidasEmTempoRealCpu(req, res);
 });
 
+router.get("/ultimasRam/:serialNumber", function (req, res) {
+    medidaController.buscarUltimasMedidasRam(req, res);
+});
+
+router.get("/tempo-realRam/:serialNumber", function (req, res) {
+    medidaController.buscarMedidasEmTempoRealRam(req, res);
+});
+
+
 
 module.exports = router;

@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="assets/css/styles.min.css">
 </head>
 
-<body id="page-top" onload="validarSessao(), listarUsuarios(), listarCaixas()">
+<body id="page-top" onload="validarSessao(), listarUsuarios(), listarCaixas(), verificarCargo()">
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
             style="background: rgb(0, 132, 156);">
@@ -23,18 +23,24 @@
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul id="accordionSidebar" class="navbar-nav text-light">
-					<li class="nav-item"><a class="nav-link active" href="listarUser.html"><i class="fas fa-user"></i><span>Lista de usuários</span></a><a class="nav-link" href="addUser.html"><i class="fas fa-user-plus"></i><span>Adicionar Usuário</span></a><a class="nav-link" href="addCaixa.html"><i class="fas fa-server"></i><span>Cadastrar Caixa</span></a></li>
-                    <li class="nav-item"><a class="nav-link" data-bs-toggle="collapse" href="#div_caixas" role="button" aria-expanded="false" aria-controls="div_caixas"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
-						<div class="collapse show" id="div_caixas">	
-						</div>
-					</li>
-				</ul>
+                    <li class="nav-item"><a class="nav-link active" href="listarUser.html" id="link_list_user"><i
+                                class="fas fa-user"></i><span>Lista de usuários</span></a><a class="nav-link"
+                            href="addUser.html" id="link_add_user"><i class="fas fa-user-plus"></i><span>Adicionar Usuário</span></a><a
+                            class="nav-link" href="addCaixa.html" id="link_add_caixa"><i class="fas fa-server"></i><span>Cadastrar
+                                Caixa</span></a></li>
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="collapse" href="#div_caixas" role="button"
+                            aria-expanded="false" aria-controls="div_caixas"><i
+                                class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+                        <div class="collapse show" id="div_caixas">
+                        </div>
+                    </li>
+                </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0"
                         id="sidebarToggle" type="button"></button></div>
             </div>
         </nav>
         <div class="d-flex flex-column" id="content-wrapper">
-            <div id="content"> 
+            <div id="content">
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="container-fluid">
                         <h5 style="color: var(--bs-navbar-brand-color);">Administrador</h5>
