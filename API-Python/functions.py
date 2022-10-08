@@ -27,8 +27,8 @@ def randomSerial():
 def conversao_bytes(valor, tipo):
     if tipo == 1:  # KB
         return f'{valor / 1024: .2f}'
-    elif tipo == 2:  # MB
-        return f'{valor / 1024 / 1024: .2f}
+    elif tipo == 2:  # MB'
+        return f'{valor / 1024 / 1024: .2f}'
     elif tipo == 3:  # GB
         return f'{valor / 1024 / 1024 / 1024: .2f}'
 
