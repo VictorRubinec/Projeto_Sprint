@@ -26,11 +26,12 @@
                 <ul id="accordionSidebar" class="navbar-nav text-light">
                     <li class="nav-item"><a class="nav-link" href="listarUser.html" id="link_list_user"><i
                                 class="fas fa-user"></i><span>Lista de usuários</span></a><a class="nav-link"
-                            href="addUser.html" id="link_add_user"><i class="fas fa-user-plus"></i><span>Adicionar Usuário</span></a><a
-                            class="nav-link active" href="addCaixa.html" id="link_add_caixa"><i class="fas fa-server"></i><span>Cadastrar
+                            href="addUser.html" id="link_add_user"><i class="fas fa-user-plus"></i><span>Adicionar
+                                Usuário</span></a><a class="nav-link active" href="addCaixa.html" id="link_add_caixa"><i
+                                class="fas fa-server"></i><span>Cadastrar
                                 Caixa</span></a></li>
-                    <li class="nav-item"><a class="nav-link" data-bs-toggle="collapse" href="#div_caixas"
-                            role="button" aria-expanded="false" aria-controls="div_caixas"><i
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="collapse" href="#div_caixas" role="button"
+                            aria-expanded="false" aria-controls="div_caixas"><i
                                 class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
                         <div class="collapse show" id="div_caixas">
                         </div>
@@ -110,7 +111,7 @@
                                                     </div>
 
                                                     <div class="text-center mb-3"><button class="btn btn-primary btn-sm"
-                                                            onclick="cadastrarCaixa()" id="btn_cadastro"
+                                                            onclick="recuperarDados()" id="btn_cadastro"
                                                             style="margin-top: 2%;">Cadastrar
                                                             Máquina</button>
                                                     </div>
@@ -139,6 +140,8 @@
 <script>
     var componente = "";
     var usarOutro = false;
+    var cep = '';
+    var regiao = '';
 
     function verificarOutro() {
         var valor = document.getElementById("slct_componente").value;
@@ -165,13 +168,82 @@
         }
     }
 
-    function cadastrarCaixa() {
+    function recuperarDados() {
+
+        cep = ipt_cep.value;
+
+        if (cep != "") {
+            var script = document.createElement('script');
+            script.src = 'https://viacep.com.br/ws/' + cep + '/json/?callback=cadastrarCaixa';
+            document.body.appendChild(script);
+        } else {
+            alert("Insira um CEP")
+        }
+    }
+
+    function cadastrarCaixa(conteudo) {
+
+        var cidades = ["São Paulo", "Cajamar", "Caieiras", "Franco da Rocha", "Francisco Morato", "Mairiporã", "Pirapora do Bom Jesus", "Santana de Parnaíba", "Barueri", "Osasco", "Carapicuíba", "Jandira", "Itapevi", "Vargem Grande Paulista", "Cotia", "Taboão da Serra", "Embu das Artes", "Itapecirica da Serra", "Embu-Guaçu", "São Lourenço da Serra", "Juquitiba", "São Caetano do Sul", "Diadema", "São Bernardo do Campo", "Santo André", "Mauá", "Ribeirão Pires", "Rio Grande da Serra", "Guarulhos", "Arujá", "Santa Isabel", "Itaquaquecetuba", "Poá", "Ferraz de Vasconcelos", "Suzano", "Guararema", "Mogi das Cruzes", "Biritiba Mirim", "Salesópolis"]
+        var saoPaulo = ["São Paulo"]
+        var regiaoNorte = ["Cajamar", "Caieiras", "Franco da Rocha", "Francisco Morato", "Mairiporã"]
+        var regiaoOeste = ["Pirapora do Bom Jesus", "Santana de Parnaíba", "Barueri", "Osasco", "Carapicuíba", "Jandira", "Itapevi"]
+        var regiaoSudoeste = ["Vargem Grande Paulista", "Cotia", "Taboão da Serra", "Embu das Artes", "Itapecirica da Serra", "Embu-Guaçu", "São Lourenço da Serra", "Juquitiba"]
+        var regiaoSudeste = ["São Caetano do Sul", "Diadema", "São Bernardo do Campo", "Santo André", "Mauá", "Ribeirão Pires", "Rio Grande da Serra"]
+        var regiaoLeste = ["Guarulhos", "Arujá", "Santa Isabel", "Itaquaquecetuba", "Poá", "Ferraz de Vasconcelos", "Suzano", "Guararema", "Mogi das Cruzes", "Biritiba Mirim", "Salesópolis"]
+
+        var cobreRegiao = 0;
+
+        var cidade = conteudo.localidade;
+
+        for (var index = 0; index < saoPaulo.length; index++) {
+            if (cidade == saoPaulo[index]) {
+                cobreRegiao = 1;
+                regiao = 'São Paulo';
+            }
+        }
+        for (var index = 0; index < regiaoNorte.length; index++) {
+            if (cidade == regiaoNorte[index]) {
+                cobreRegiao = 1;
+                regiao = 'Norte';
+            }
+        }
+        for (var index = 0; index < regiaoOeste.length; index++) {
+            if (cidade == regiaoOeste[index]) {
+                cobreRegiao = 1;
+                regiao = 'Oeste';
+            }
+        }
+        for (var index = 0; index < regiaoSudoeste.length; index++) {
+            if (cidade == regiaoSudoeste[index]) {
+                cobreRegiao = 1;
+                regiao = 'Sudoeste';
+            }
+        }
+        for (var index = 0; index < regiaoSudeste.length; index++) {
+            if (cidade == regiaoSudeste[index]) {
+                cobreRegiao = 1;
+                regiao = 'Sudeste';
+            }
+        }
+        for (var index = 0; index < regiaoLeste.length; index++) {
+            if (cidade == regiaoLeste[index]) {
+                cobreRegiao = 1;
+                regiao = 'Leste';
+            }
+        }
+
+        if (cobreRegiao == 0) {
+            alert("Desculpe, não cobrimos sua região")
+        }
+
         //Recupere o valor da nova input pelo nome do id
         // Agora vá para o método fetch logo abaixo
         var nomeVar = ipt_nome_maquina.value;
-        var cepVar = ipt_cep.value;
+        var cepVar = cep;
         var serialNumberVar = ipt_serial_number.value;
         var cnpjVar = sessionStorage.BANCO_ID;
+        var cidadeVar = cidade;
+        var regiaoVar = regiao;
 
         if (!usarOutro) {
             componente = document.getElementById("slct_componente").value;
@@ -203,7 +275,9 @@
                 cepServer: cepVar,
                 serialNumberServer: serialNumberVar,
                 componenteServer: componente,
-                cnpjServer: cnpjVar
+                cnpjServer: cnpjVar,
+                cidadeServer: cidadeVar,
+                regiaoServer: regiaoVar
             })
         }).then(function (resposta) {
 
@@ -256,8 +330,8 @@
         });
 
         return false;
+    
     }
-
 
     function cadastrarComponente() {
         serialNumberVar = ipt_serial_number.value;

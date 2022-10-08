@@ -25,6 +25,8 @@ serialNumber VARCHAR(30) PRIMARY KEY
 ,fkEmpresa CHAR(14), FOREIGN KEY(fkEmpresa) REFERENCES tbEmpresa(cnpj)
 ,nome VARCHAR(100)
 ,cep CHAR(8)
+,cidade VARCHAR(100)
+,regiao VARCHAR(15)
 );
 
 CREATE TABLE tbComponente(

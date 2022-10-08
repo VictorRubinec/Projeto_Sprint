@@ -184,6 +184,8 @@ function cadastrarMaquina(req, res) {
     var cep = req.body.cepServer;
     var componente = req.body.componenteServer;
     var cnpj = req.body.cnpjServer;
+    var cidade = req.body.cidadeServer;
+    var regiao = req.body.regiaoServer;
 
     if (serialNumber == undefined) {
         res.status(400).send("Seu serial number está undefined!");
@@ -195,7 +197,7 @@ function cadastrarMaquina(req, res) {
         res.status(400).send("O componente está undefined!");
     } else {
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrarMaquina(serialNumber, nome, cep, cnpj)
+        usuarioModel.cadastrarMaquina(serialNumber, nome, cep, cnpj, cidade, regiao)
             .then(
                 function (resultado) {
                     res.json(resultado);
