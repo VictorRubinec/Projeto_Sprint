@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Listar Usuários</title>
+    <title>Dash Mapa</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="assets/css/styles.min.css">
 </head>
 
-<body id="page-top" onload="validarSessao(), listarUsuarios(), listarCaixas(), verificarCargo()">
+<body id="page-top" onload="validarSessao(), listarQuantidade()">
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
             style="background: rgb(0, 132, 156);">
@@ -66,27 +66,52 @@
                     </div>
                 </nav>
                 <div class="container-fluid">
-                    <h3 class="text-dark mb-4">Usuários Cadastrados</h3>
+                    <h3 class="text-dark mb-4">Dash por região</h3>
                     <div class="card shadow">
-                        <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">Filtrar por cargo</p>
-                            <select class="form-select" id="select_list_cargo" onchange="selectUser()">
-                                <option value="0">Todos</option>
-                                <option value="1">Gerente</option>
-                                <option value="2">Técnico</option>
-                            </select>
+                        <div class="card-body py-3">
+                            <p class="text-primary m-0 fw-bold">Filtrar por região</p>
+                            <div class="row">
+                                <select class="form-select" id="select_list_cargo" onchange="selectRegiao()">
+                                    <option value="0">Todas</option>
+                                    <option value="1">São Paulo</option>
+                                    <option value="3">Região Norte</option>
+                                    <option value="4">Região Oeste</option>
+                                    <option value="5">Região Sudoeste</option>
+                                    <option value="6">Região Sudeste</option>
+                                    <option value="7">Região Leste</option>
+                                </select>
+                            <div class="col">
+                                <div class="card-body">
+                                    <img src="./assets/img/mapa.png">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-4"><label class="form-label"><strong></strong></label></div>
+                                <div class="mb-3"><label class="form-label" style="color: #e9eaf4;" id="sp"><strong>São Paulo</strong></label></div>
+                                <div class="mb-3"><label class="form-label" style="color: #0079bf;" id="norte"><strong>Região Norte</strong></label></div>
+                                <div class="mb-3"><label class="form-label" style="color: #008e1d;" id="oeste"><strong>Região Oeste</strong></label></div>
+                                <div class="mb-3"><label class="form-label" style="color: #00becd;" id="sudoeste"><strong>Região Sudoeste</strong></label></div>
+                                <div class="mb-3"><label class="form-label" style="color: #00fffe;" id="sudeste"><strong>Região Sudeste</strong></label></div>
+                                <div class="mb-3"><label class="form-label" style="color: #00ff88;" id="leste"><strong>Região Leste</strong></label></div>
+                            </div>
+                        </div>
                             <div class="text-center mb-3">
                             </div>
                         </div>
+                        <div class="row">
+
+                        </div>
+                        
                         <div class="card-body">
                             <div class="table-responsive table mt-2" id="dataTable" role="grid"
                                 aria-describedby="dataTable_info">
                                 <table class="table my-0" id="dataTable">
                                     <thead>
                                         <tr>
-                                            <th>Nome</th>
-                                            <th>Email</th>
-                                            <th>Cargo</th>
+                                            <th>Serial Number</th>
+                                            <th>CEP</th>
+                                            <th>Cidade</th>
+                                            <th>Região</th>
                                         </tr>
                                     </thead>
                                     <tbody id="table_body">
@@ -114,178 +139,64 @@
 
 </html>
 <script>
-    function listarUsuarios() {
 
-        var cnpjVar = sessionStorage.BANCO_ID;
+    function listarQuantidade() {
 
-        fetch("/usuarios/listarUsuarios", {
+        var qtdSP = 0
+        var qtdNorte = 0
+        var qtdOeste = 0
+        var qtdSudoeste = 0
+        var qtdSudeste = 0
+        var qtdLeste = 0
+
+        fetch("/usuarios/listarQuantidade", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                cnpjServer: cnpjVar
             })
         }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO listar()!")
-
+            console.log("resposta: ", resposta);
             if (resposta.ok) {
-                console.log(resposta);
-
                 resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
-
-                    var tabela = document.getElementById("table_body");
+                    quantidade = json[0].qtd;
+                    regiao = json[0].regiao;
+                    console.log(json)
                     for (var i = 0; i < json.length; i++) {
-                        nome = json[i].nome;
-                        email = json[i].login;
-                        cargo = json[i].cargo;
-
-                        if (cargo == "tec") {
-                            cargo = "Técnico";
+                        if (json[i].regiao == 'São Paulo') {
+                            qtdSP ++;
                         }
-                        else {
-                            cargo = "Gerente";
+                        if (json[i].regiao == 'Norte') {
+                            qtdNorte ++;
                         }
-
-                        var linha = document.createElement('tr');
-                        tabela.appendChild(linha);
-
-
-                        var colunaNome = document.createElement('td');
-                        linha.appendChild(colunaNome);
-                        colunaNome.innerHTML = nome;
-
-                        var colunaEmail = document.createElement('td');
-                        linha.appendChild(colunaEmail);
-                        colunaEmail.innerHTML = email;
-
-                        var colunaCargo = document.createElement('td');
-                        linha.appendChild(colunaCargo);
-                        colunaCargo.innerHTML = cargo;
+                        if (json[i].regiao == 'Oeste') {
+                            qtdOeste ++;
+                        }
+                        if (json[i].regiao == 'Sudoeste') {                                
+                            qtdSudoeste ++;
+                        }
+                        if (json[i].regiao == 'Sudeste') {
+                            qtdSudeste ++;
+                        }
+                        if (json[i].regiao == 'Leste') {
+                            qtdLeste ++;
+                        }
                     }
-
-
-                });
-
-
-
+                    sp.innerHTML = `São Paulo: ${qtdSP}`;
+                    norte.innerHTML = `Norte: ${qtdNorte}`;
+                    oeste.innerHTML = `Oeste: ${qtdOeste}`;
+                    sudoeste.innerHTML = `Sudoeste: ${qtdSudoeste}`; 
+                    sudeste.innerHTML = `Sudeste: ${qtdSudeste}`;
+                    leste.innerHTML = `Leste: ${qtdLeste}`;
+                })                
+                    console.log("Sucesso ao listar máquinas");
             } else {
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    mensagem_erro.classList.add("erro")
-                    mensagem_erro.style.display = "flex";
-                    mensagem_erro.innerHTML = texto;
-                    setTimeout(() => {
-                        mensagem_erro.style.display = "none";
-                        mensagem_erro.classList.remove("alerta");
-                        mensagem_erro.innerHTML = "";
-                    }, "5000")
-                });
+                throw ("Houve um erro ao lsitar máquinas");
             }
-
-        }).catch(function (erro) {
-            console.log(erro);
-        })
-
-        return false;
-    }
-
-    function selectUser() {
-
-        table_body.innerHTML = "";
-
-        var cnpjVar = sessionStorage.BANCO_ID;
-
-        if (select_list_cargo.value == "0") {
-            var queryVar = `SELECT idUsuario, nome, login, cargo FROM tbUsuario WHERE fkEmpresa = '${cnpjVar}' AND cargo != 'adm';`
-        }
-
-        if (select_list_cargo.value == "1") {
-            var queryVar = `SELECT idUsuario, nome, login, cargo FROM tbUsuario WHERE fkEmpresa = '${cnpjVar}' AND cargo = 'ger';`
-        }
-
-        if (select_list_cargo.value == "2") {
-            var queryVar = `SELECT idUsuario, nome, login, cargo FROM tbUsuario WHERE fkEmpresa = '${cnpjVar}' AND cargo = 'tec';`
-        }
-
-        fetch("/usuarios/selectCargo", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                queryServer: queryVar
-            })
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO listar()!")
-
-            if (resposta.ok) {
-                console.log(resposta);
-
-                resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
-
-                    var tabela = document.getElementById("table_body");
-                    for (var i = 0; i < json.length; i++) {
-                        nome = json[i].nome;
-                        email = json[i].login;
-                        cargo = json[i].cargo;
-
-                        if (cargo == "tec") {
-                            cargo = "Técnico";
-                        }
-                        else {
-                            cargo = "Gerente";
-                        }
-
-                        var linha = document.createElement('tr');
-                        tabela.appendChild(linha);
-
-
-                        var colunaNome = document.createElement('td');
-                        linha.appendChild(colunaNome);
-                        colunaNome.innerHTML = nome;
-
-                        var colunaEmail = document.createElement('td');
-                        linha.appendChild(colunaEmail);
-                        colunaEmail.innerHTML = email;
-
-                        var colunaCargo = document.createElement('td');
-                        linha.appendChild(colunaCargo);
-                        colunaCargo.innerHTML = cargo;
-                    }
-
-
-                });
-
-
-
-            } else {
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    mensagem_erro.classList.add("erro")
-                    mensagem_erro.style.display = "flex";
-                    mensagem_erro.innerHTML = texto;
-                    setTimeout(() => {
-                        mensagem_erro.style.display = "none";
-                        mensagem_erro.classList.remove("alerta");
-                        mensagem_erro.innerHTML = "";
-                    }, "5000")
-                });
-            }
-
-        }).catch(function (erro) {
-            console.log(erro);
-        })
-
-        return false;
+        }).catch(function (resposta) {
+            console.log(`${resposta}`);            
+        });
     }
 
 </script>

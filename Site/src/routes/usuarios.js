@@ -36,4 +36,8 @@ router.post("/listarCaixas", function (req, res) {
     usuarioController.listarCaixas(req, res);
 })
 
+router.post("/listarQuantidade", function (req, res) {
+    usuarioController.listarQuantidade(req, res);
+})
+
 module.exports = router;

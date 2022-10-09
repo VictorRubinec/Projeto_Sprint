@@ -283,6 +283,26 @@ function enviarEmail(email, senha, emailBanco) {
     })
 }
 
+function listarQuantidade(req, res) {
+    var sp = req.body.spServer;
+
+        usuarioModel.listarQuantidade(sp)
+           .then(
+               function (resultado) {
+                   res.json(resultado);
+               }
+           ).catch(
+               function (erro) {
+                   console.log(erro);
+                   console.log(
+                       erro.sqlMessage
+                   );
+                   res.status(500).json(erro.sqlMessage);
+              }
+            );
+
+}
+
 module.exports = {
     entrar,
     cadastrar,
@@ -292,4 +312,5 @@ module.exports = {
     testar,
     cadastrarMaquina,
     cadastrarComponente,
+    listarQuantidade
 }
