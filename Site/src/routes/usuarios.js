@@ -40,4 +40,8 @@ router.post("/listarMaquinasRegiao", function (req, res) {
     usuarioController.listarMaquinasRegiao(req, res);
 })
 
+router.post("/verificarComponentes", function (req, res) {
+    usuarioController.verificarComponentes(req, res);
+})
+
 module.exports = router;

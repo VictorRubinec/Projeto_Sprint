@@ -297,11 +297,13 @@
                         botao.setAttribute('onclick', 'cadastrarComponente()')
                     }
                     else {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Cadastro de máquina e componentes finalizados',
+                        setTimeout(() =>{
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Cadastro de máquina e componentes finalizados',
+                            })
+                            window.location.href = "./addCaixa.html";
                         })
-                        window.location.href = "./addCaixa.html";
                     }
                 })
 
@@ -369,11 +371,13 @@
                         botao.setAttribute('onclick', 'cadastrarComponente()')
                     }
                     else {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Cadastro de máquina e componentes finalizados',
-                        })
-                        window.location.href = "./addCaixa.html";
+                        setTimeout(() => {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Cadastro de máquina e componentes finalizados',
+                            })
+                            window.location.href = "./addCaixa.html";
+                        }, 3000)
                     }
                 })
 

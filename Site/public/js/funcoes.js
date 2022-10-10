@@ -37,7 +37,7 @@ function verificarCargo() {
 
 function listarCaixas() {
 
-    cnpjVar = sessionStorage.BANCO_ID;
+    var cnpjVar = sessionStorage.BANCO_ID;
 
     fetch("/usuarios/listarCaixas", {
         method: "POST",
@@ -155,6 +155,7 @@ function addListeners() {
         String(serialNumber)
         document.getElementById(serialNumber).addEventListener("click", function () {
             key = this.id;
+            verificarComponentes(key);
             obterDadosGraficoCpu(key);
             obterDadosGraficoRam(key);
         })

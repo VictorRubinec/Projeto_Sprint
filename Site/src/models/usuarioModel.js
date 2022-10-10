@@ -103,6 +103,16 @@ function listarMaquinasRegiao(query) {
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao)
+
+}
+
+function listarComponentes(serialNumber){
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarQuantidade():" , serialNumber)
+    var instrucao = `
+        SELECT Componente FROM vwMaquina WHERE NumeroSerial = '${serialNumber}';  
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
 }
 
 module.exports = {
@@ -114,5 +124,6 @@ module.exports = {
     listarCaixas,
     selectCargo,
     listarQuantidade,
-    listarMaquinasRegiao
+    listarMaquinasRegiao,
+    listarComponentes,
 };

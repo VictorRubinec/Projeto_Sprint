@@ -23,9 +23,17 @@
 				</a>
 				<hr class="sidebar-divider my-0">
 				<ul id="accordionSidebar" class="navbar-nav text-light">
-					<li class="nav-item"><a class="nav-link" href="listarUser.html" id="link_list_user"><i class="fas fa-user"></i><span>Lista de usuários</span></a><a class="nav-link" href="addUser.html" id="link_add_user"><i class="fas fa-user-plus"></i><span>Adicionar Usuário</span></a><a class="nav-link" href="addCaixa.html" id="link_add_caixa"><i class="fas fa-server"></i><span>Cadastrar Caixa</span></a><a class="nav-link" href="dashMapa.html" id="link_dash_mapa"><i class="fas fa-map"></i><span>Dash - Região</span></a></li>
-                    <li class="nav-item"><a id="link_dash" class="nav-link" data-bs-toggle="collapse" href="#div_caixas" role="button" aria-expanded="false" aria-controls="div_caixas"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
-						<div class="collapse show" id="div_caixas">	
+					<li class="nav-item"><a class="nav-link" href="listarUser.html" id="link_list_user"><i
+								class="fas fa-user"></i><span>Lista de usuários</span></a><a class="nav-link"
+							href="addUser.html" id="link_add_user"><i class="fas fa-user-plus"></i><span>Adicionar
+								Usuário</span></a><a class="nav-link" href="addCaixa.html" id="link_add_caixa"><i
+								class="fas fa-server"></i><span>Cadastrar Caixa</span></a><a class="nav-link"
+							href="dashMapa.html" id="link_dash_mapa"><i class="fas fa-map"></i><span>Dash -
+								Região</span></a></li>
+					<li class="nav-item"><a id="link_dash" class="nav-link" data-bs-toggle="collapse" href="#div_caixas"
+							role="button" aria-expanded="false" aria-controls="div_caixas"><i
+								class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+						<div class="collapse show" id="div_caixas">
 						</div>
 					</li>
 				</ul>
@@ -367,7 +375,7 @@
 					data: [],
 				},
 			],
-			options:{
+			options: {
 				maintainAspectRatio: false,
 				responsive: true
 			}
@@ -385,7 +393,7 @@
 			type: 'line',
 			data: dados,
 			// responsive: true,
-			options:{
+			options: {
 				maintainAspectRatio: false,
 			}
 
@@ -436,5 +444,48 @@
 
 	}
 
+	function verificarComponentes(serialNumber) {
+
+		fetch("/usuarios/verificarComponentes", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				serialNumberServer: serialNumber
+			})
+		}).then(function (resposta) {
+			console.log("ESTOU NO THEN DO listar()!")
+
+			if (resposta.ok) {
+				console.log(resposta);
+
+				resposta.json().then(json => {
+					console.log(json);
+					console.log(JSON.stringify(json));
+
+				});
+
+			} else {
+
+				console.log("Houve um erro ao tentar realizar o login!");
+
+				resposta.text().then(texto => {
+					mensagem_erro.classList.add("erro")
+					mensagem_erro.style.display = "flex";
+					mensagem_erro.innerHTML = texto;
+					setTimeout(() => {
+						mensagem_erro.style.display = "none";
+						mensagem_erro.classList.remove("alerta");
+						mensagem_erro.innerHTML = "";
+					}, "5000")
+				});
+			}
+
+		}).catch(function (erro) {
+			console.log(erro);
+		})
+
+	}
 
 </script>
