@@ -33,10 +33,30 @@ def conversao_bytes(valor, tipo):
         return f'{valor / 1024 / 1024 / 1024: .2f}'
 
 def verificarComponentes(serialNumber): 
-    query = f"SELECT idComponente from tbComponente, tbMaquina where serialNumber = '{serialNumber}' and fkMaquina = tbMaquina.serialNumber;"
+    query = f"SELECT idComponente, tipo from tbComponente, tbMaquina where serialNumber = '{serialNumber}' and fkMaquina = tbMaquina.serialNumber order by tipo;"
     componentes = select(query, True)
     idComp = componentes
     return idComp
+
+def divisaoComponentes(serialNumber):
+    idComp = verificarComponentes(serialNumber)
+    idCpu = []
+    idDisco = []
+    idRam = []
+    for i in idComp:
+        if(i[1] == 'CPU'):
+            idCpu.append(i[0])
+        if(i[1] == 'DISCO'):
+            idDisco.append(i[0])
+        if(i[1] == 'RAM'):
+            idRam.append(i[0])
+    return idCpu, idDisco, idRam
+        
+
+    
+    
+
+
 
 def monitorar():
     while (True):
@@ -149,7 +169,7 @@ def info():
 
 def insertPeriodico(idCpu, idDisco, idRam):
     while True:
-            usoAtualMemoria = conversao_bytes(virtual_memory().used, 2)
+            usoAtualMemoria = conversao_bytes(virtual_memory().used, 3)
             usoCpuPorc = cpu_percent()
 
             particoes = []
@@ -167,20 +187,23 @@ def insertPeriodico(idCpu, idDisco, idRam):
 
             discoOcupado = [] 
             for j in particoes:
-                discoOcupado.append(conversao_bytes(disk_usage(j).used, 2))
+                discoOcupado.append(conversao_bytes(disk_usage(j).used, 3))
 
             usoDisco = discoOcupado[0]
 
             dataHora = datetime.datetime.now()
-            
-            queryCpu = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ({idCpu}, '{usoCpuPorc}', '{dataHora}');"
-            insert(queryCpu)
 
-            queryDisco = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ({idDisco}, '{usoDisco}', '{dataHora}');"
-            insert(queryDisco)
+            for i in idCpu:
+                queryCpu = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoCpuPorc}', '{dataHora}');"
+                insert(queryCpu)
 
-            queryRam = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ({idRam}, '{usoAtualMemoria}', '{dataHora}');"
-            insert(queryRam)
+            for i in idDisco:
+                queryDisco = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoDisco}', '{dataHora}');"
+                insert(queryDisco)
+
+            for i in idRam:
+                queryRam = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoAtualMemoria}', '{dataHora}');"
+                insert(queryRam)
 
             time.sleep(20)
 

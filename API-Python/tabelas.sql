@@ -41,3 +41,14 @@ idRegistro INT PRIMARY KEY AUTO_INCREMENT
 ,registro VARCHAR(50)
 ,dataHora DATETIME
 );
+
+insert into tbMaquina values (123, null, 'maquina1', '12343212');
+
+insert into tbComponente values (1, 123, 'RAM', 'GB');
+insert into tbComponente values (2, 123, 'RAM', 'GB');
+insert into tbComponente values (3, 123, 'DISCO', 'GB');
+insert into tbComponente values (4, 123, 'CPU', '%');
+
+select * from tbMaquina;
+select * from tbComponente;
+select * from tbRegistro;

@@ -1,4 +1,4 @@
-from functions import monitorar, info, plotar, relatorio, arquivoCSV, verificarComponentes
+from functions import divisaoComponentes, monitorar, info, plotar, relatorio, arquivoCSV, verificarComponentes
 from psutil import * 
 import time
 import os
@@ -80,13 +80,10 @@ def main():
         dados = login()
         serialNumber = dados[0]
         nome = dados[1]
-        idComp = verificarComponentes(serialNumber)
-        idCpu = idComp[0]
-        idCpu = idCpu[0]
-        idDisco = idComp[1]
-        idDisco = idDisco[0]
-        idRam = idComp[2]
-        idRam = idRam[0]
+        componentes = divisaoComponentes(serialNumber)
+        idCpu = componentes[0]
+        idDisco = componentes[1]
+        idRam = componentes[2]
         menu(serialNumber, nome, idCpu, idDisco, idRam)
     elif opcao1tela == "2":
         print("Obrigado por utilizar nosso serviços")
