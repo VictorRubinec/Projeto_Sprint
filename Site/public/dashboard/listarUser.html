@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="assets/css/styles.min.css">
 </head>
 
-<body id="page-top" onload="validarSessao(), listarUsuarios(), listarCaixas(), verificarCargo()">
+<body id="page-top" onload="validarSessao(), selectUser(), listarCaixas(), verificarCargo()">
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
             style="background: rgb(0, 132, 156);">
@@ -37,7 +37,7 @@
             <div id="content">
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="container-fluid">
-                        <h5 style="color: var(--bs-navbar-brand-color);">Administrador</h5>
+                        <h5 style="color: var(--bs-navbar-brand-color)" id="titulo_cargo">Administrador</h5>
                         <ul class="navbar-nav flex-nowrap ms-auto">
                             <li class="nav-item dropdown no-arrow mx-1"></li>
                             <li class="nav-item dropdown no-arrow mx-1">
@@ -114,85 +114,6 @@
 
 </html>
 <script>
-    function listarUsuarios() {
-
-        var cnpjVar = sessionStorage.BANCO_ID;
-
-        fetch("/usuarios/listarUsuarios", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                cnpjServer: cnpjVar
-            })
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO listar()!")
-
-            if (resposta.ok) {
-                console.log(resposta);
-
-                resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
-
-                    var tabela = document.getElementById("table_body");
-                    for (var i = 0; i < json.length; i++) {
-                        nome = json[i].nome;
-                        email = json[i].login;
-                        cargo = json[i].cargo;
-
-                        if (cargo == "tec") {
-                            cargo = "Técnico";
-                        }
-                        else {
-                            cargo = "Gerente";
-                        }
-
-                        var linha = document.createElement('tr');
-                        tabela.appendChild(linha);
-
-
-                        var colunaNome = document.createElement('td');
-                        linha.appendChild(colunaNome);
-                        colunaNome.innerHTML = nome;
-
-                        var colunaEmail = document.createElement('td');
-                        linha.appendChild(colunaEmail);
-                        colunaEmail.innerHTML = email;
-
-                        var colunaCargo = document.createElement('td');
-                        linha.appendChild(colunaCargo);
-                        colunaCargo.innerHTML = cargo;
-                    }
-
-
-                });
-
-
-
-            } else {
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    mensagem_erro.classList.add("erro")
-                    mensagem_erro.style.display = "flex";
-                    mensagem_erro.innerHTML = texto;
-                    setTimeout(() => {
-                        mensagem_erro.style.display = "none";
-                        mensagem_erro.classList.remove("alerta");
-                        mensagem_erro.innerHTML = "";
-                    }, "5000")
-                });
-            }
-
-        }).catch(function (erro) {
-            console.log(erro);
-        })
-
-        return false;
-    }
 
     function selectUser() {
 
@@ -245,7 +166,6 @@
 
                         var linha = document.createElement('tr');
                         tabela.appendChild(linha);
-
 
                         var colunaNome = document.createElement('td');
                         linha.appendChild(colunaNome);

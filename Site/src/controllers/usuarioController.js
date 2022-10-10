@@ -9,31 +9,6 @@ function testar(req, res) {
     res.json("ESTAMOS FUNCIONANDO!");
 }
 
-function listarUsuarios(req, res) {
-
-    var cnpj = req.body.cnpjServer;
-    if (cnpj == undefined) {
-        res.status(400).send("Seu cnpj está undefined!");
-    }
-    else {
-        usuarioModel.listarUsuarios(cnpj)
-            .then(function (resultado) {
-                if (resultado.length > 0) {
-                    res.status(200).json(resultado);
-                } else {
-                    res.status(204).send("Nenhum resultado encontrado!")
-                }
-            }).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
-    }
-
-}
-
 function listarCaixas(req, res) {
     var cnpj = req.body.cnpjServer;
 
@@ -284,9 +259,8 @@ function enviarEmail(email, senha, emailBanco) {
 }
 
 function listarQuantidade(req, res) {
-    var sp = req.body.spServer;
 
-        usuarioModel.listarQuantidade(sp)
+        usuarioModel.listarQuantidade()
            .then(
                function (resultado) {
                    res.json(resultado);
@@ -303,14 +277,34 @@ function listarQuantidade(req, res) {
 
 }
 
+function listarMaquinasRegiao(req, res) {
+
+    var query = req.body.queryServer;
+
+    usuarioModel.listarMaquinasRegiao(query)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!")
+            }
+        }).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+    }
+
 module.exports = {
     entrar,
     cadastrar,
-    listarUsuarios,
     listarCaixas,
     selectCargo,
     testar,
     cadastrarMaquina,
     cadastrarComponente,
-    listarQuantidade
+    listarQuantidade,
+    listarMaquinasRegiao
 }

@@ -7,10 +7,6 @@ router.get("/", function (req, res) {
     usuarioController.testar(req, res);
 });
 
-router.post("/listarUsuarios", function (req, res) {
-    usuarioController.listarUsuarios(req, res);
-});
-
 router.post("/selectCargo", function (req, res) {
     usuarioController.selectCargo(req, res);
 });
@@ -38,6 +34,10 @@ router.post("/listarCaixas", function (req, res) {
 
 router.post("/listarQuantidade", function (req, res) {
     usuarioController.listarQuantidade(req, res);
+})
+
+router.post("/listarMaquinasRegiao", function (req, res) {
+    usuarioController.listarMaquinasRegiao(req, res);
 })
 
 module.exports = router;

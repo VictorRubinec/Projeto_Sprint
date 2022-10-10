@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="assets/css/styles.min.css">
 </head>
 
-<body id="page-top" onload="validarSessao(), listarQuantidade(), listarCaixas(), verificarCargo()">
+<body id="page-top" onload="validarSessao(), listarQuantidade(), verificarCargo(), selectRegiao(), listarCaixas()">
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
             style="background: rgb(0, 132, 156);">
@@ -37,7 +37,7 @@
             <div id="content">
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="container-fluid">
-                        <h5 style="color: var(--bs-navbar-brand-color);">Administrador</h5>
+                        <h5 style="color: var(--bs-navbar-brand-color);" id="titulo_cargo">Administrador</h5>
                         <ul class="navbar-nav flex-nowrap ms-auto">
                             <li class="nav-item dropdown no-arrow mx-1"></li>
                             <li class="nav-item dropdown no-arrow mx-1">
@@ -71,14 +71,14 @@
                         <div class="card-body py-3">
                             <p class="text-primary m-0 fw-bold">Filtrar por região</p>
                             <div class="row">
-                                <select class="form-select" id="select_list_cargo" onchange="selectRegiao()">
+                                <select class="form-select" id="select_list_regiao" onchange="selectRegiao()">
                                     <option value="0">Todas</option>
                                     <option value="1">São Paulo</option>
-                                    <option value="3">Região Norte</option>
-                                    <option value="4">Região Oeste</option>
-                                    <option value="5">Região Sudoeste</option>
-                                    <option value="6">Região Sudeste</option>
-                                    <option value="7">Região Leste</option>
+                                    <option value="2">Região Norte</option>
+                                    <option value="3">Região Oeste</option>
+                                    <option value="4">Região Sudoeste</option>
+                                    <option value="5">Região Sudeste</option>
+                                    <option value="6">Região Leste</option>
                                 </select>
                             <div class="col">
                                 <div class="card-body">
@@ -197,6 +197,111 @@
         }).catch(function (resposta) {
             console.log(`${resposta}`);            
         });
+    }
+
+    function selectRegiao() {
+
+        table_body.innerHTML = "";
+
+        if (select_list_regiao.value == "0") {
+            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina;`
+        }
+
+        if (select_list_regiao.value == "1") {
+            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina WHERE regiao = 'São Paulo';`
+        }
+
+        if (select_list_regiao.value == "2") {
+            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina WHERE regiao = 'Norte';`
+        }
+        
+        if (select_list_regiao.value == "3") {
+            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina WHERE regiao = 'Oeste';`
+        }
+
+        if (select_list_regiao.value == "4") {
+            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina WHERE regiao = 'Sudoeste';`
+        }
+
+        if (select_list_regiao.value == "5") {
+            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina WHERE regiao = 'Sudeste';`
+        }
+
+        if (select_list_regiao.value == "6") {
+            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina WHERE regiao = 'Leste';`
+        }
+
+        fetch("/usuarios/listarMaquinasRegiao", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                queryServer: queryVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO listar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+
+                    console.log(json)
+
+                    var tabela = document.getElementById("table_body");
+                    for (var i = 0; i < json.length; i++) {
+                        serialNumber = json[i].serialNumber;
+                        cep = json[i].cep;
+                        cidade = json[i].cidade;
+                        regiao = json[i].regiao;
+
+                        var linha = document.createElement('tr');
+                        tabela.appendChild(linha);
+
+                        var colunaSerialNumber = document.createElement('td');
+                        linha.appendChild(colunaSerialNumber);
+                        colunaSerialNumber.innerHTML = serialNumber;
+
+                        var colunaCep = document.createElement('td');
+                        linha.appendChild(colunaCep);
+                        colunaCep.innerHTML = cep;
+
+                        var colunaCidade = document.createElement('td');
+                        linha.appendChild(colunaCidade);
+                        colunaCidade.innerHTML = cidade;
+
+                        var colunaRegiao = document.createElement('td');
+                        linha.appendChild(colunaRegiao);
+                        colunaRegiao.innerHTML = regiao;
+                    }
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    mensagem_erro.classList.add("erro")
+                    mensagem_erro.style.display = "flex";
+                    mensagem_erro.innerHTML = texto;
+                    setTimeout(() => {
+                        mensagem_erro.style.display = "none";
+                        mensagem_erro.classList.remove("alerta");
+                        mensagem_erro.innerHTML = "";
+                    }, "5000")
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    
     }
 
 </script>
