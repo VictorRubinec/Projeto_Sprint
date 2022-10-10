@@ -26,10 +26,12 @@ function verificarCargo() {
     if (cargo == "tec") {
         document.getElementById("link_add_user").style.display = "none";
         document.getElementById("link_list_user").style.display = "none";
+        document.getElementById("titulo_cargo").innerHTML = "Técnico";
     }
     else if(cargo == "ger"){
         document.getElementById("link_add_user").style.display = "none";
         document.getElementById("link_add_caixa").style.display = "none";
+        document.getElementById("titulo_cargo").innerHTML = "Gerente";
     }
 }
 
@@ -102,6 +104,7 @@ function listarCaixas() {
 
                     sessionStorage.INFO_CAIXA = JSON.stringify(caixas);
                     obterDadosGraficoCpu(caixas.serialNumber[0])
+                    obterDadosGraficoRam(caixas.serialNumber[0])
                 }
                 else {
                     var item = document.createElement('li');
