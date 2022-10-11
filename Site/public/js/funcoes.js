@@ -58,7 +58,6 @@ function listarCaixas() {
                 console.log(JSON.stringify(json));
 
                 if (json.length > 0) {
-
                     var divCaixas = document.getElementById("div_caixas");
 
                     var item = document.createElement('li');
@@ -103,6 +102,7 @@ function listarCaixas() {
                     }
 
                     sessionStorage.INFO_CAIXA = JSON.stringify(caixas);
+                    verificarComponentes(caixas.serialNumber[0]);
                     obterDadosGraficoCpu(caixas.serialNumber[0])
                     obterDadosGraficoRam(caixas.serialNumber[0])
                 }

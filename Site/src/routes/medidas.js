@@ -19,6 +19,10 @@ router.get("/tempo-realRam/:serialNumber", function (req, res) {
     medidaController.buscarMedidasEmTempoRealRam(req, res);
 });
 
+router.get("/ultimasDisco/:serialNumber", function (req, res) {
+    medidaController.buscarUltimasMedidasDisco(req, res);
+});
+
 
 
 module.exports = router;

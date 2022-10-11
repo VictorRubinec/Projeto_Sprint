@@ -54,6 +54,33 @@ function buscarUltimasMedidasRam(serialNumber, limite_linhas) {
     return database.executar(instrucaoSql);
 }
 
+function buscarUltimasMedidasDisco(serialNumber) {
+    
+    var instrucaoSql = ''
+    
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = `SELECT top ${limite_linhas}
+                        Registro, 
+                        CONVERT(varchar, Horario, 108) as momento_grafico
+                    FROM vwConsumo
+                    WHERE NumeroSerial = '${serialNumber}' AND Componente = 'cpu'
+                    ORDER BY idRegistro DESC`;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `SELECT 
+                        Registro, 
+                        DATE_FORMAT(Horario,'%H:%i:%s') as momento_grafico
+                    FROM vwConsumo
+                    WHERE NumeroSerial = '${serialNumber}' AND Componente = 'disco'
+                    ORDER BY ID DESC`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+    
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 
 function buscarMedidasEmTempoRealCpu(serialNumber) {
     
@@ -114,5 +141,6 @@ module.exports = {
     buscarUltimasMedidasCpu,
     buscarUltimasMedidasRam,
     buscarMedidasEmTempoRealCpu,
-    buscarMedidasEmTempoRealRam
+    buscarMedidasEmTempoRealRam,
+    buscarUltimasMedidasDisco
 }

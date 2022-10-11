@@ -152,36 +152,39 @@
 					</div>
 					<div class="row">
 						<div class="col-lg-7 col-xl-8">
-							<div class="card shadow mb-4">
-								<div class="card-header d-flex justify-content-between align-items-center">
-									<h6 class="text-primary fw-bold m-0">Uso da CPU</h6>
-								</div>
-								<div class="card-body">
-									<div class="chart-area"
-										style="display: flex; align-items: center; justify-content: center;">
-										<div class="chart-container" id="grafico_cpu"
-											style="position: relative; width: 45vw;">
-											<canvas id="myChartCpu">
-											</canvas>
+							<h3 id="aviso_componente">Nenhum componente cadastrado para essa máquina</h3>
+								<div class="card shadow mb-4" id="card_cpu" style="display: none;">
+									<div class="card-header d-flex justify-content-between align-items-center">
+										<h6 class="text-primary fw-bold m-0">Uso da CPU</h6>
+									</div>
+									<div class="card-body">
+										<div class="chart-area"
+											style="display: flex; align-items: center; justify-content: center;">
+											<div class="chart-container" id="grafico_cpu"
+												style="position: relative; width: 45vw;">
+												<canvas id="myChartCpu">
+												</canvas>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
 						</div>
 						<div class="col-lg-5 col-xl-4">
-							<div class="card shadow mb-4">
+							<div class="card shadow mb-4" id="card_disco" style="display: none;">
 								<div class="card-header d-flex justify-content-between align-items-center">
 									<h6 class="text-primary fw-bold m-0">Uso de disco</h6>
 								</div>
 								<div class="card-body">
-									<div class="chart-area"><canvas></canvas>
+									<div class="chart-area" id="grafico_disco">
+										<canvas id="myChartDisco">
+										</canvas>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-lg-12 col-xl-12">
-								<div class="card shadow mb-4">
+								<div class="card shadow mb-4" id="card_ram" style="display: none;">
 									<div class="card-header d-flex justify-content-between align-items-center">
 										<h6 class="text-primary fw-bold m-0">Uso de memória RAM</h6>
 									</div>
@@ -444,6 +447,79 @@
 
 	}
 
+	function obterDadosGraficoDisco(serialNumber) {
+		document.getElementById("myChartDisco").remove();
+
+		var divGrafico = document.getElementById("grafico_disco");
+		divGrafico.className = "chart-area";
+		var canvas = document.createElement("canvas");
+		canvas.id = "myChartDisco";
+
+		divGrafico.appendChild(canvas);
+
+		if (proximaAtualizacao != undefined) {
+			clearTimeout(proximaAtualizacao);
+		}
+
+		fetch(`/medidas/ultimasDisco/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
+			if (response.ok) {
+				response.json().then(function (resposta) {
+					console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+					resposta.reverse();
+
+					plotarGraficoDisco(resposta, serialNumber);
+				});
+			} else {
+				console.error('Nenhum dado encontrado ou erro na API');
+			}
+		})
+			.catch(function (error) {
+				console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+			});
+	}
+
+	function plotarGraficoDisco(resposta, serialNumber) {
+		console.log('iniciando plotagem do gráfico...');
+		console.log(serialNumber);
+
+		let labels = [];
+
+		var dados = {
+			labels: labels,
+			datasets: [
+				{
+					yAxisID: 'y-usoCpu',
+					label: 'Uso da cpu',
+					borderColor: '#00BFFF',
+					backgroundColor: '#00BFFF',
+					fill: true,
+					data: [],
+				},
+			]
+		};
+
+		for (i = 0; i < resposta.length; i++) {
+			var registro = resposta[i];
+			labels.push(registro.momento_grafico);
+			dados.datasets[0].data.push(registro.Registro);
+		}
+
+		console.log(JSON.stringify(dados));
+
+		const config = {
+			type: 'line',
+			data: dados,
+			responsive: true,
+		};
+
+		let myChartDisco = new Chart(
+			document.getElementById('myChartCpu'),
+			config
+		);
+
+	}
+
+
 	function verificarComponentes(serialNumber) {
 
 		fetch("/usuarios/verificarComponentes", {
@@ -463,6 +539,23 @@
 				resposta.json().then(json => {
 					console.log(json);
 					console.log(JSON.stringify(json));
+
+					for (let i = 0; i < json.length; i++) {
+						var componente = json[i].Componente;
+
+						if (componente == "cpu") {
+							document.getElementById("card_cpu").style.display = "block";
+							document.getElementById("aviso_componente").style.display = "none";
+						}
+						else if (componente == "ram") {
+							document.getElementById("card_ram").style.display = "block";
+							document.getElementById("aviso_componente").style.display= "none";
+						}
+						else if (componente == "disco") {
+							document.getElementById("card_disco").style.display = "block";
+							document.getElementById("aviso_componente").style.display= "none";
+						}
+					}
 
 				});
 
