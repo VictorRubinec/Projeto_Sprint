@@ -69,7 +69,7 @@ function cadastrarComponente(serialNumber, tipo) {
 
     if(tipo == "ram"){
         var instrucao = `
-        INSERT INTO tbComponente(fkMaquina, tipo, metrica) VALUES ('${serialNumber}', '${tipo}', 'MB');
+        INSERT INTO tbComponente(fkMaquina, tipo, metrica) VALUES ('${serialNumber}', '${tipo}', 'GB');
         `;
     }
     else if(tipo == "disco"){

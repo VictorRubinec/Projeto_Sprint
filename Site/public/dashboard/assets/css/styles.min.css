@@ -33,15 +33,23 @@ h6:hover{color:#000}
 .alerta { background-color:#FFFFBF; border:2px #2b2b2b solid; color:#2b2b2b; border-radius:5px; }
 .info   { background-color:#B3E7FF; border:2px #018ace solid; color:#018ace; border-radius:5px; }
 
+
+#myChartCpu{
+  width: 90vw;
+  height: 80vh;
+}
+
 #myChartRam{
-
-  width:75vw ;
+  width: 75vw;
   height: 45vh;
-
 }
 
 @media (max-width: 765px){
+  #myChartCpu{
+    height: 15vh !important;
+  }
+
   #myChartRam{
-    height: 20vh !important;
+    height: 15vh !important;
   }
 }
