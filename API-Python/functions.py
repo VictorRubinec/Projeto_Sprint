@@ -44,11 +44,11 @@ def divisaoComponentes(serialNumber):
     idDisco = []
     idRam = []
     for i in idComp:
-        if(i[1] == 'CPU'):
+        if(i[1] == 'cpu'):
             idCpu.append(i[0])
-        if(i[1] == 'DISCO'):
+        if(i[1] == 'disco'):
             idDisco.append(i[0])
-        if(i[1] == 'RAM'):
+        if(i[1] == 'ram'):
             idRam.append(i[0])
     return idCpu, idDisco, idRam
         
@@ -168,6 +168,7 @@ def info():
 
 
 def insertPeriodico(idCpu, idDisco, idRam):
+    time.sleep(5)
     while True:
             usoAtualMemoria = conversao_bytes(virtual_memory().used, 3)
             usoCpuPorc = cpu_percent()
@@ -201,11 +202,13 @@ def insertPeriodico(idCpu, idDisco, idRam):
                 queryDisco = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoDisco}', '{dataHora}');"
                 insert(queryDisco)
 
+
             for i in idRam:
                 queryRam = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoAtualMemoria}', '{dataHora}');"
                 insert(queryRam)
 
-            time.sleep(20)
+
+            time.sleep(1)
 
 
 
