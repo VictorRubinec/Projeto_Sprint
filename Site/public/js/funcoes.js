@@ -28,7 +28,7 @@ function verificarCargo() {
         document.getElementById("link_list_user").style.display = "none";
         document.getElementById("titulo_cargo").innerHTML = "Técnico";
     }
-    else if(cargo == "ger"){
+    else if (cargo == "ger") {
         document.getElementById("link_add_user").style.display = "none";
         document.getElementById("link_add_caixa").style.display = "none";
         document.getElementById("titulo_cargo").innerHTML = "Gerente";
@@ -49,8 +49,25 @@ function listarCaixas() {
         })
     }).then(function (resposta) {
         console.log("ESTOU NO THEN DO listar()!")
+        console.log(resposta);
 
-        if (resposta.ok) {
+        if (resposta.status == 204) {
+            var divCaixas = document.getElementById("div_caixas");
+
+            var item = document.createElement('li');
+            item.className = "nav-item";
+            divCaixas.appendChild(item);
+
+            var link = document.createElement('a');
+            link.className = "nav-link";
+            item.appendChild(link);
+
+
+            var span = document.createElement('span');
+            span.innerHTML = "Nenhum caixa cadastrado";
+            link.appendChild(span);
+        }
+        else if (resposta.ok) {
             console.log(resposta);
 
             resposta.json().then(json => {
@@ -78,10 +95,10 @@ function listarCaixas() {
                         var link = document.createElement('a');
                         link.className = "nav-link";
 
-                        if(window.location == "http://localhost:3333/dashboard/index.html"){ // verificando se está na index ou não
+                        if (window.location == "http://localhost:3333/dashboard/index.html") { // verificando se está na index ou não
                             link.id = serialNumber;
                         }
-                        else{
+                        else {
                             link.href = "index.html"
                         }
 
@@ -106,24 +123,7 @@ function listarCaixas() {
                     obterDadosGraficoCpu(caixas.serialNumber[0])
                     obterDadosGraficoRam(caixas.serialNumber[0])
                 }
-                else {
-                    var item = document.createElement('li');
-                    item.className = "nav-item";
-                    divCaixas.appendChild(item);
 
-                    var link = document.createElement('a');
-                    link.className = "nav-link";
-                    item.appendChild(link);
-
-
-                    var icon = document.createElement('i');
-                    icon.className = "fas fa-donate";
-                    link.appendChild(icon);
-
-                    var span = document.createElement('span');
-                    span.innerHTML = "Nenhum caixa cadastrado";
-                    link.appendChild(span);
-                }
             });
 
 

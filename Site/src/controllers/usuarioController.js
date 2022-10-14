@@ -151,7 +151,6 @@ function cadastrar(req, res) {
 }
 
 function cadastrarMaquina(req, res) {
-    console.log("Cheguei na controller")
 
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
     var serialNumber = req.body.serialNumberServer;
