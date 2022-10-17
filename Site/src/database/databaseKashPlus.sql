@@ -34,6 +34,7 @@ idComponente INT PRIMARY KEY AUTO_INCREMENT
 ,fkMaquina VARCHAR(30), FOREIGN KEY(fkMaquina) REFERENCES tbMaquina(serialNumber)
 ,tipo VARCHAR(100)
 ,metrica VARCHAR(100)
+,metricaMaxima INT
 )
 ;
 
@@ -54,6 +55,7 @@ CREATE VIEW vwMaquina AS
         ,serialNumber AS 'NumeroSerial'
         ,cep AS 'Cep'
         ,tipo AS Componente
+        ,metricaMaxima as valorMaximo
     FROM
         tbEmpresa
             JOIN

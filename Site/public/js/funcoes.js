@@ -120,8 +120,9 @@ function listarCaixas() {
 
                     sessionStorage.INFO_CAIXA = JSON.stringify(caixas);
                     verificarComponentes(caixas.serialNumber[0]);
-                    obterDadosGraficoCpu(caixas.serialNumber[0])
-                    obterDadosGraficoRam(caixas.serialNumber[0])
+                    obterDadosGraficoCpu(caixas.serialNumber[0]);
+                    obterDadosGraficoRam(caixas.serialNumber[0]);
+                    obterDadosGraficoDisco(caixas.serialNumber[0]);
                 }
 
             });
@@ -156,6 +157,7 @@ function addListeners() {
         document.getElementById(serialNumber).addEventListener("click", function () {
             key = this.id;
             verificarComponentes(key);
+            obterDadosGraficoDisco(key);
             obterDadosGraficoCpu(key);
             obterDadosGraficoRam(key);
         })

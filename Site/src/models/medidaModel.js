@@ -59,19 +59,26 @@ function buscarUltimasMedidasDisco(serialNumber) {
     var instrucaoSql = ''
     
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT top ${limite_linhas}
-                        Registro, 
-                        CONVERT(varchar, Horario, 108) as momento_grafico
-                    FROM vwConsumo
-                    WHERE NumeroSerial = '${serialNumber}' AND Componente = 'cpu'
-                    ORDER BY idRegistro DESC`;
+        instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT 
-                        Registro, 
-                        DATE_FORMAT(Horario,'%H:%i:%s') as momento_grafico
-                    FROM vwConsumo
-                    WHERE NumeroSerial = '${serialNumber}' AND Componente = 'disco'
-                    ORDER BY ID DESC`;
+        instrucaoSql = `SELECT Registro from vwConsumo WHERE componente = 'disco' and NumeroSerial = '${serialNumber}' ORDER BY ID DESC LIMIT 1`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+    
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarMaxDisco(serialNumber) {
+    
+    var instrucaoSql = ''
+    
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `SELECT valorMaximo from vwMaquina WHERE componente = 'disco' and NumeroSerial = '${serialNumber}'`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -142,5 +149,6 @@ module.exports = {
     buscarUltimasMedidasRam,
     buscarMedidasEmTempoRealCpu,
     buscarMedidasEmTempoRealRam,
-    buscarUltimasMedidasDisco
+    buscarUltimasMedidasDisco,
+    buscarMaxDisco
 }

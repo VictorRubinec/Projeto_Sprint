@@ -35,14 +35,14 @@ h6:hover{color:#000}
 
 
 #myChartCpu{
-  width: 90vw;
-  height: 80vh;
+  height: 45vh;
 }
 
 #myChartRam{
   width: 75vw;
   height: 45vh;
 }
+
 
 @media (max-width: 765px){
   #myChartCpu{
@@ -52,4 +52,6 @@ h6:hover{color:#000}
   #myChartRam{
     height: 15vh !important;
   }
+
+ 
 }

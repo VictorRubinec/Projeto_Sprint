@@ -23,6 +23,10 @@ router.get("/ultimasDisco/:serialNumber", function (req, res) {
     medidaController.buscarUltimasMedidasDisco(req, res);
 });
 
+router.get("/maxDisco/:serialNumber", function (req, res) {
+    medidaController.buscarMaxDisco(req, res);
+});
+
 
 
 module.exports = router;
