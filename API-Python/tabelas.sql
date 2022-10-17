@@ -33,6 +33,7 @@ idComponente INT PRIMARY KEY AUTO_INCREMENT
 ,fkMaquina VARCHAR(30), FOREIGN KEY(fkMaquina) REFERENCES tbMaquina(serialNumber)
 ,tipo VARCHAR(100)
 ,metrica VARCHAR(100)
+,metricaMaxima INT
 );
 
 CREATE TABLE tbRegistro(

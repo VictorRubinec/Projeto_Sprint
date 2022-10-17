@@ -1,8 +1,8 @@
-from functions import divisaoComponentes, monitorar, info, plotar, relatorio, arquivoCSV, verificarComponentes
+from functions import divisaoComponentes, metricasMaximas, monitorar, info, plotar, relatorio, arquivoCSV, verificarComponentes
 from psutil import * 
 import time
 import os
-from functions import verificarComponentes, codeCleaner, insertPeriodico, plotar;
+from functions import verificarComponentes, codeCleaner, insertPeriodico, plotar, metricasMaximas
 from login import login
 from dash import dashboard
 import threading
@@ -84,6 +84,7 @@ def main():
         idCpu = componentes[0]
         idDisco = componentes[1]
         idRam = componentes[2]
+        metricasMaximas(idCpu, idDisco, idRam)
         menu(serialNumber, nome, idCpu, idDisco, idRam)
     elif opcao1tela == "2":
         print("Obrigado por utilizar nosso serviços")
