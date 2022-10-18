@@ -13,6 +13,7 @@ from random import randint
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt # Definindo um "apelido" para a biblioteca
 import openpyxl
+from slack import chamadoSlack
 
 if os.name == "nt":
     sistema = "Windows"
@@ -194,45 +195,56 @@ def info():
 def insertPeriodico(idCpu, idDisco, idRam):
     time.sleep(5)
     while True:
-            usoAtualMemoria = conversao_bytes(virtual_memory().used, 3)
-            usoCpuPorc = cpu_percent()
+        usoAtualMemoria = conversao_bytes(virtual_memory().used, 3)
+        usoCpuPorc = cpu_percent()
 
-            particoes = []
-            if sistema == "Windows":
-                for part in disk_partitions(all=False): # identificando partições
-                    if part[0] == "F:\\":
-                        break
-                    elif part[0] == "E:\\":
-                        break
-                    else:
-                        particoes.append(part[0])
-            elif sistema == "Linux":
-                particoes.append("/")
-
-
-            discoOcupado = [] 
-            for j in particoes:
-                discoOcupado.append(conversao_bytes(disk_usage(j).used, 3))
-
-            usoDisco = discoOcupado[0]
-
-            dataHora = datetime.datetime.now()
-
-            for i in idCpu:
-                queryCpu = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoCpuPorc}', '{dataHora}');"
-                insert(queryCpu)
-
-            for i in idDisco:
-                queryDisco = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoDisco}', '{dataHora}');"
-                insert(queryDisco)
+        particoes = []
+        if sistema == "Windows":
+            for part in disk_partitions(all=False): # identificando partições
+                if part[0] == "F:\\":
+                    break
+                elif part[0] == "E:\\":
+                    break
+                else:
+                    particoes.append(part[0])
+        elif sistema == "Linux":
+            particoes.append("/")
 
 
-            for i in idRam:
-                queryRam = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoAtualMemoria}', '{dataHora}');"
-                insert(queryRam)
+        discoOcupado = [] 
+        for j in particoes:
+            discoOcupado.append(conversao_bytes(disk_usage(j).used, 3))
+
+        usoDisco = discoOcupado[0]
+
+        dataHora = datetime.datetime.now()
+
+        for i in idCpu:
+            queryCpu = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoCpuPorc}', '{dataHora}');"
+            insert(queryCpu)
+
+        for i in idDisco:
+            queryDisco = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoDisco}', '{dataHora}');"
+            insert(queryDisco)
 
 
-            time.sleep(1)
+        for i in idRam:
+            queryRam = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoAtualMemoria}', '{dataHora}');"
+            insert(queryRam)
+
+        if(float(usoDisco) > 68):
+            msg = f"Espaço de disco fora do normal: {usoDisco}"
+            chamadoSlack(msg)
+
+        if(float(usoAtualMemoria) > 2):
+            msg = f"Uso da memoria fora do normal: {usoAtualMemoria}" 
+            chamadoSlack(msg)
+        
+        if(int(usoCpuPorc) > 5):
+            msg = f"Uso da cpu fora do normal: {usoCpuPorc}"
+            chamadoSlack(msg)
+
+        time.sleep(30)
 
 
 

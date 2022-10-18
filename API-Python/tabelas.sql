@@ -1,5 +1,5 @@
-CREATE USER 'KashUser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'kash';
-GRANT ALL PRIVILEGES ON dbKashPlus.* TO 'KashUser'@'localhost';
+CREATE USER 'kashUser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'kash';
+GRANT ALL PRIVILEGES ON dbKashPlus.* TO 'kashUser'@'localhost';
 
 create database dbKashPlus;
 use dbKashPlus;
@@ -45,10 +45,10 @@ idRegistro INT PRIMARY KEY AUTO_INCREMENT
 
 insert into tbMaquina values (123, null, 'maquina1', '12343212');
 
-insert into tbComponente values (1, 123, 'RAM', 'GB');
-insert into tbComponente values (2, 123, 'RAM', 'GB');
-insert into tbComponente values (3, 123, 'DISCO', 'GB');
-insert into tbComponente values (4, 123, 'CPU', '%');
+insert into tbComponente values (1, 123, 'ram', 'GB', 50);
+insert into tbComponente values (2, 123, 'ram', 'GB', 30);
+insert into tbComponente values (3, 123, 'disco', 'GB', 50);
+insert into tbComponente values (4, 123, 'cpu', '%', 30);
 
 select * from tbMaquina;
 select * from tbComponente;
