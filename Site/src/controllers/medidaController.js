@@ -83,6 +83,23 @@ function buscarMaxDisco(req, res) {
     });
 }
 
+function buscarMaxRam(req, res) {
+
+    var serialNumber = req.params.serialNumber;
+
+    medidaModel.buscarMaxRam(serialNumber).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 
 function buscarMedidasEmTempoRealCpu(req, res) {
 
@@ -128,5 +145,6 @@ module.exports = {
     buscarMedidasEmTempoRealCpu,
     buscarMedidasEmTempoRealRam,
     buscarUltimasMedidasDisco,
-    buscarMaxDisco
+    buscarMaxDisco,
+    buscarMaxRam
 }

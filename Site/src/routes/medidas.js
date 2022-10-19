@@ -27,6 +27,9 @@ router.get("/maxDisco/:serialNumber", function (req, res) {
     medidaController.buscarMaxDisco(req, res);
 });
 
+router.get("/maxRam/:serialNumber", function (req, res) {
+    medidaController.buscarMaxRam(req, res);
+});
 
 
 module.exports = router;

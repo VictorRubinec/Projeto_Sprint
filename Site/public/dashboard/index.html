@@ -112,7 +112,7 @@
 											<div class="text-uppercase text-success fw-bold text-l mb-1">
 												<span>RAM</span>
 											</div>
-											<div class="text-dark fw-bold h5 mb-0"><span id="span_usoRam"></span></div>
+											<div class="text-dark fw-bold h5 mb-0"><span id="span_usoRam"></span> / <span id="span_ramMaxima"></span></div>
 										</div>
 										<div class="col-auto"><i class="fas fa-memory fa-2x text-black-300"></i>
 										</div>
@@ -129,13 +129,14 @@
 											</div>
 											<div class="row g-0 align-items-center">
 												<div class="col-auto">
-													<div class="text-dark fw-bold h5 mb-0 me-3"><span>50%</span></div>
+													<div class="text-dark fw-bold h5 mb-0 me-3"><span id="span_usoDisco"></span></div>
 												</div>
 												<div class="col">
 													<div class="progress progress-sm">
-														<div class="progress-bar bg-info" aria-valuenow="50"
+														<div class="progress-bar bg-info" id="barra_usoDisco" aria-valuenow="50"
 															aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
 														</div>
+														<div></div>
 													</div>
 												</div>
 											</div>
@@ -201,7 +202,7 @@
 						<div class="col-lg-5 col-xl-4">
 							<div class="card shadow mb-4" id="card_disco" style="display: none;">
 								<div class="card-header d-flex justify-content-between align-items-center">
-									<h6 class="text-primary fw-bold m-0">Uso de disco</h6>
+									<h6 class="text-primary fw-bold m-0">Uso de disco (GB)</h6>
 								</div>
 								<div class="card-body">
 									<div class="chart-area" id="grafico_disco">
@@ -520,6 +521,7 @@
 					resposta.reverse();
 
 					valorMaximo = resposta[0].valorMaximo;
+					
 				});
 			} else {
 				console.error('Nenhum dado encontrado ou erro na API');
@@ -536,6 +538,11 @@
 					resposta.reverse();
 
 					usoDisco = resposta[0].Registro;
+					
+					porcentagemDisco = Math.round((usoDisco / valorMaximo) * 100);
+					document.getElementById("barra_usoDisco").style.width = porcentagemDisco + "%";
+					document.getElementById("span_usoDisco").innerHTML = porcentagemDisco +  "%";
+
 					plotarGraficoDisco(valorMaximo, usoDisco);
 				});
 			} else {
@@ -654,6 +661,28 @@
 		}).catch(function (erro) {
 			console.log(erro);
 		})
+
+	}
+
+	function setRamMax(serialNumber) {
+
+		fetch(`/medidas/maxRam/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
+			if (response.ok) {
+				response.json().then(function (resposta) {
+					console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+					resposta.reverse();
+
+					valorMaximo = resposta[0].valorMaximo;
+
+					document.getElementById("span_ramMaxima").innerHTML = valorMaximo + " GB";
+					
+				});
+			} else {
+				console.error('Nenhum dado encontrado ou erro na API');
+			}
+		}).catch(function (error) {
+			console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+		});
 
 	}
 

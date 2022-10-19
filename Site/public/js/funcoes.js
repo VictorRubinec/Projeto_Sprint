@@ -123,6 +123,7 @@ function listarCaixas() {
                     obterDadosGraficoCpu(caixas.serialNumber[0]);
                     obterDadosGraficoRam(caixas.serialNumber[0]);
                     obterDadosGraficoDisco(caixas.serialNumber[0]);
+                    setRamMax(caixas.serialNumber[0]);
                 }
 
             });
@@ -160,6 +161,7 @@ function addListeners() {
             obterDadosGraficoDisco(key);
             obterDadosGraficoCpu(key);
             obterDadosGraficoRam(key);
+            setRamMax(key);
         })
     }
 }

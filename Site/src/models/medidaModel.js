@@ -89,6 +89,25 @@ function buscarMaxDisco(serialNumber) {
 }
 
 
+function buscarMaxRam(serialNumber) {
+    
+    var instrucaoSql = ''
+    
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `SELECT valorMaximo from vwMaquina WHERE componente = 'ram' and NumeroSerial = '${serialNumber}'`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+    
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+
+
 function buscarMedidasEmTempoRealCpu(serialNumber) {
     
     instrucaoSql = ''
@@ -150,5 +169,6 @@ module.exports = {
     buscarMedidasEmTempoRealCpu,
     buscarMedidasEmTempoRealRam,
     buscarUltimasMedidasDisco,
-    buscarMaxDisco
+    buscarMaxDisco,
+    buscarMaxRam,
 }
