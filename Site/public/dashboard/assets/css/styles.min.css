@@ -43,6 +43,10 @@ h6:hover{color:#000}
   height: 45vh;
 }
 
+#mapaCaixa{
+  height: 40vh;
+}
+
 
 @media (max-width: 765px){
   #myChartCpu{
@@ -53,5 +57,8 @@ h6:hover{color:#000}
     height: 15vh !important;
   }
 
+ #mapaCaixa{
+    height: 15vh !important;
+  }
  
 }

@@ -157,6 +157,7 @@ function addListeners() {
         String(serialNumber)
         document.getElementById(serialNumber).addEventListener("click", function () {
             key = this.id;
+
             verificarComponentes(key);
             obterDadosGraficoDisco(key);
             obterDadosGraficoCpu(key);
@@ -164,4 +165,16 @@ function addListeners() {
             setRamMax(key);
         })
     }
+}
+
+function gerarMapa(latitude, longitude){
+    var map = L.map('mapaCaixa').setView([-23.704886, -46.564630], 13);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.marker([-23.704886, -46.564630]).addTo(map)
+        .bindPopup('')
+        .openPopup();
 }

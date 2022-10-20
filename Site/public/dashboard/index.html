@@ -10,9 +10,12 @@
 		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
 	<link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
 	<link rel="stylesheet" href="assets/css/styles.min.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+	integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+	crossorigin=""/>
 </head>
 
-<body id="page-top" onload="validarSessao(), listarCaixas(), verificarCargo()">
+<body id="page-top" onload="validarSessao(), listarCaixas(), verificarCargo(), gerarMapa()">
 	<div id="wrapper">
 		<nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
 			style="background: rgb(0, 132, 156);">
@@ -229,6 +232,8 @@
 								</div>
 							</div>
 						</div>
+						<div id="mapaCaixa">
+						</div>
 					</div>
 				</div>
 				<footer class="bg-white sticky-footer">
@@ -242,6 +247,9 @@
 		<script src="assets/js/script.min.js"></script>
 		<script src="../js/funcoes.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+		integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+		crossorigin=""></script>
 </body>
 
 </html>
@@ -341,6 +349,7 @@
 	}
 
 	function atualizarGraficoCpu(serialNumber, dados, myChartCpu) {
+		
 
 		fetch(`/medidas/tempo-realCpu/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
 			if (response.ok) {
@@ -605,6 +614,10 @@
 
 	function verificarComponentes(serialNumber) {
 
+		document.getElementById("card_cpu").style.display = "none";
+		document.getElementById("card_ram").style.display = "none";
+		document.getElementById("card_disco").style.display = "none";
+
 		fetch("/usuarios/verificarComponentes", {
 			method: "POST",
 			headers: {
@@ -630,11 +643,13 @@
 							document.getElementById("card_cpu").style.display = "block";
 							document.getElementById("aviso_componente").style.display = "none";
 						}
-						else if (componente == "ram") {
+						
+						if (componente == "ram") {
 							document.getElementById("card_ram").style.display = "block";
 							document.getElementById("aviso_componente").style.display = "none";
 						}
-						else if (componente == "disco") {
+						
+						if (componente == "disco") {
 							document.getElementById("card_disco").style.display = "block";
 							document.getElementById("aviso_componente").style.display = "none";
 						}
