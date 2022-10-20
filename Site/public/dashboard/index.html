@@ -11,11 +11,10 @@
 	<link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
 	<link rel="stylesheet" href="assets/css/styles.min.css">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
-	integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
-	crossorigin=""/>
+		integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
 </head>
 
-<body id="page-top" onload="validarSessao(), listarCaixas(), verificarCargo(), gerarMapa()">
+<body id="page-top" onload="validarSessao(), listarCaixas(), verificarCargo()">
 	<div id="wrapper">
 		<nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
 			style="background: rgb(0, 132, 156);">
@@ -115,7 +114,8 @@
 											<div class="text-uppercase text-success fw-bold text-l mb-1">
 												<span>RAM</span>
 											</div>
-											<div class="text-dark fw-bold h5 mb-0"><span id="span_usoRam"></span> / <span id="span_ramMaxima"></span></div>
+											<div class="text-dark fw-bold h5 mb-0"><span id="span_usoRam"></span> /
+												<span id="span_ramMaxima"></span></div>
 										</div>
 										<div class="col-auto"><i class="fas fa-memory fa-2x text-black-300"></i>
 										</div>
@@ -132,12 +132,14 @@
 											</div>
 											<div class="row g-0 align-items-center">
 												<div class="col-auto">
-													<div class="text-dark fw-bold h5 mb-0 me-3"><span id="span_usoDisco"></span></div>
+													<div class="text-dark fw-bold h5 mb-0 me-3"><span
+															id="span_usoDisco"></span></div>
 												</div>
 												<div class="col">
 													<div class="progress progress-sm">
-														<div class="progress-bar bg-info" id="barra_usoDisco" aria-valuenow="50"
-															aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+														<div class="progress-bar bg-info" id="barra_usoDisco"
+															aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+															style="width: 50%;">
 														</div>
 														<div></div>
 													</div>
@@ -232,7 +234,14 @@
 								</div>
 							</div>
 						</div>
-						<div id="mapaCaixa">
+						<div class="row">
+							<div id="container_mapa">
+								<h3>Localização deste Caixa:</h3>
+								<div class="col-lg-8">
+									<div id="mapaCaixa">
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -248,8 +257,7 @@
 		<script src="../js/funcoes.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
-		integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
-		crossorigin=""></script>
+			integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
 </body>
 
 </html>
@@ -349,7 +357,7 @@
 	}
 
 	function atualizarGraficoCpu(serialNumber, dados, myChartCpu) {
-		
+
 
 		fetch(`/medidas/tempo-realCpu/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
 			if (response.ok) {
@@ -485,7 +493,7 @@
 					console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
 					console.log(`Dados atuais do gráfico: ${dados}`);
 
-					span_usoRam.innerHTML = novoRegistro[0].Registro + " GB";
+					span_usoRam.innerHTML = novoRegistro[0].Registro + "GB";
 
 					// tirando e colocando valores no gráfico
 					dados.labels.shift(); // apagar o primeiro
@@ -530,7 +538,7 @@
 					resposta.reverse();
 
 					valorMaximo = resposta[0].valorMaximo;
-					
+
 				});
 			} else {
 				console.error('Nenhum dado encontrado ou erro na API');
@@ -547,10 +555,10 @@
 					resposta.reverse();
 
 					usoDisco = resposta[0].Registro;
-					
+
 					porcentagemDisco = Math.round((usoDisco / valorMaximo) * 100);
 					document.getElementById("barra_usoDisco").style.width = porcentagemDisco + "%";
-					document.getElementById("span_usoDisco").innerHTML = porcentagemDisco +  "%";
+					document.getElementById("span_usoDisco").innerHTML = porcentagemDisco + "%";
 
 					plotarGraficoDisco(valorMaximo, usoDisco);
 				});
@@ -635,7 +643,7 @@
 				resposta.json().then(json => {
 					console.log(json);
 					console.log(JSON.stringify(json));
-
+					
 					for (let i = 0; i < json.length; i++) {
 						var componente = json[i].Componente;
 
@@ -643,12 +651,12 @@
 							document.getElementById("card_cpu").style.display = "block";
 							document.getElementById("aviso_componente").style.display = "none";
 						}
-						
+
 						if (componente == "ram") {
 							document.getElementById("card_ram").style.display = "block";
 							document.getElementById("aviso_componente").style.display = "none";
 						}
-						
+
 						if (componente == "disco") {
 							document.getElementById("card_disco").style.display = "block";
 							document.getElementById("aviso_componente").style.display = "none";
@@ -689,8 +697,10 @@
 
 					valorMaximo = resposta[0].valorMaximo;
 
-					document.getElementById("span_ramMaxima").innerHTML = valorMaximo + " GB";
-					
+					if (valorMaximo != null) {
+						document.getElementById("span_ramMaxima").innerHTML = valorMaximo + "GB";
+					}
+
 				});
 			} else {
 				console.error('Nenhum dado encontrado ou erro na API');
