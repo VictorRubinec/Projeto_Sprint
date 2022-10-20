@@ -192,11 +192,12 @@ def info():
     return 0 
 
 
-def insertPeriodico(idCpu, idDisco, idRam):
+def insertPeriodico(idCpu, idDisco, idRam, serialNumber):
     time.sleep(5)
     while True:
         usoAtualMemoria = conversao_bytes(virtual_memory().used, 3)
         usoCpuPorc = cpu_percent()
+        usoAtualMemoriaPorc = virtual_memory().percent
 
         particoes = []
         if sistema == "Windows":
@@ -212,8 +213,11 @@ def insertPeriodico(idCpu, idDisco, idRam):
 
 
         discoOcupado = [] 
+        discoTotal = []
         for j in particoes:
             discoOcupado.append(conversao_bytes(disk_usage(j).used, 3))
+            discoTotal.append(conversao_bytes(disk_usage(j).total, 3))
+
 
         usoDisco = discoOcupado[0]
 
@@ -232,16 +236,16 @@ def insertPeriodico(idCpu, idDisco, idRam):
             queryRam = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoAtualMemoria}', '{dataHora}');"
             insert(queryRam)
 
-        if(float(usoDisco) > 68):
-            msg = f"Espaço de disco fora do normal: {usoDisco}"
+        if(float(usoDisco) > float(discoTotal[0]) * 0.69):
+            msg = f"USO DO DISCO FORA DO IDEAL!\nMaquina: {serialNumber}\nUso: {usoDisco}GB\nIdeal: {float(discoTotal[0]) * 0.69}GB"
             chamadoSlack(msg)
 
-        if(float(usoAtualMemoria) > 2):
-            msg = f"Uso da memoria fora do normal: {usoAtualMemoria}" 
+        if(float(usoAtualMemoriaPorc) > 69):
+            msg = f"USO DE MEMORIA FORA DO IDEAL!\nMaquina: {serialNumber}\nUso: {usoAtualMemoriaPorc}%\nIdeal: 0 ~ 69.9%"
             chamadoSlack(msg)
         
-        if(int(usoCpuPorc) > 5):
-            msg = f"Uso da cpu fora do normal: {usoCpuPorc}"
+        if(int(usoCpuPorc) > 69):
+            msg = f"USO DA CPU FORA DO IDEAL!\nMaquina: {serialNumber}\nUso: {usoCpuPorc}%\nIdeal: 0 ~ 69.9%"
             chamadoSlack(msg)
 
         time.sleep(30)
