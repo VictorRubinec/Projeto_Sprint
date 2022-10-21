@@ -20,7 +20,6 @@ public class Login extends javax.swing.JFrame {
         img.setImage(img.getImage().getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), 1));
         lblLogo.setIcon(img);
     }
-//    Tela2 in = new Tela2();
     TelaSO in = new TelaSO();
     /**
      * This method is called from within the constructor to initialize the form.
@@ -149,30 +148,30 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-//        TbUsuarioCrud usuarioCrud = new TbUsuarioCrud();
-//        TbUsuario validacao = new TbUsuario();
-//        String login = txtLogin.getText();
-//        String senha = txtSenha.getText();
-//        
-//        validacao = usuarioCrud.selecionar(login, senha);
+        TbUsuarioCrud usuarioCrud = new TbUsuarioCrud();
+        TbUsuario validacao = new TbUsuario();
+        String login = txtLogin.getText();
+        String senha = txtSenha.getText();
         
-//        if (validacao != null) {
-//            System.out.println("Deu select");
-//            if (senha.equalsIgnoreCase(validacao.getSenha()) && login.equalsIgnoreCase(validacao.getLogin())) {
+        validacao = usuarioCrud.selecionar(login, senha);
+        
+        if (validacao != null) {
+            System.out.println("Deu select");
+            if (senha.equalsIgnoreCase(validacao.getSenha()) && login.equalsIgnoreCase(validacao.getLogin())) {
                 in.setLocationRelativeTo(null);
                 in.setVisible(true);
                 in.setResizable(false);
                 this.dispose();
     //            in.getClass();
-//            }else {
-//                lblErro.setText("ERRO - Login/Senha inválidos");
-//                System.out.println("Erro no select");
-//            }
-//        }
-//        else {
-//            lblErro.setText("Desculpe, mas não encontramos seu cadastro");
-//            System.out.println("Erro no cadastro");
-//        }
+            }else {
+                lblErro.setText("ERRO - Login/Senha inválidos");
+                System.out.println("Erro no select");
+            }
+        }
+        else {
+            lblErro.setText("Desculpe, mas não encontramos seu cadastro");
+            System.out.println("Erro no cadastro");
+        }
         
     }//GEN-LAST:event_btnEntrarActionPerformed
 
