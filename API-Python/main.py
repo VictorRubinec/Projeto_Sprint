@@ -10,7 +10,7 @@ from gerarGraficos import gerarGraficoCpu, gerarGraficoDisco, gerarGraficoMemori
 
 
 def menu(serialNumber, nome, idCpu, idDisco, idRam):
-    threading.Thread(target=insertPeriodico, kwargs={'idCpu':idCpu, 'idDisco':idDisco, 'idRam':idRam, 'serialNumber':serialNumber, } ).start()
+    threading.Thread(target=insertPeriodico, kwargs={'idCpu':idCpu, 'idDisco':idDisco, 'idRam':idRam, 'serialNumber':serialNumber, 'nome':nome, } ).start()
 
     os.system(codeCleaner)
 

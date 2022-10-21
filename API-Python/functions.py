@@ -192,7 +192,7 @@ def info():
     return 0 
 
 
-def insertPeriodico(idCpu, idDisco, idRam, serialNumber):
+def insertPeriodico(idCpu, idDisco, idRam, serialNumber, nome):
     time.sleep(5)
     while True:
         usoAtualMemoria = conversao_bytes(virtual_memory().used, 3)
@@ -237,16 +237,16 @@ def insertPeriodico(idCpu, idDisco, idRam, serialNumber):
             insert(queryRam)
 
         if(float(usoDisco) > float(discoTotal[0]) * 0.69):
-            msg = f"USO DO DISCO FORA DO IDEAL!\nMaquina: {serialNumber}\nUso: {usoDisco}GB\nIdeal: {float(discoTotal[0]) * 0.69}GB"
-            chamadoSlack(msg)
+            msg = f"USO DO DISCO FORA DO IDEAL!\nSerialNumber: {serialNumber}\nUso: {usoDisco}GB\nIdeal: {float(discoTotal[0]) * 0.69}GB"
+            chamadoSlack(msg, nome)
 
         if(float(usoAtualMemoriaPorc) > 69):
-            msg = f"USO DE MEMORIA FORA DO IDEAL!\nMaquina: {serialNumber}\nUso: {usoAtualMemoriaPorc}%\nIdeal: 0 ~ 69.9%"
-            chamadoSlack(msg)
+            msg = f"USO DE MEMORIA FORA DO IDEAL!\nSerialNumber: {serialNumber}\nUso: {usoAtualMemoriaPorc}%\nIdeal: 0 ~ 69.9%"
+            chamadoSlack(msg, nome)
         
         if(int(usoCpuPorc) > 69):
-            msg = f"USO DA CPU FORA DO IDEAL!\nMaquina: {serialNumber}\nUso: {usoCpuPorc}%\nIdeal: 0 ~ 69.9%"
-            chamadoSlack(msg)
+            msg = f"USO DA CPU FORA DO IDEAL!\nSerialNumber: {serialNumber}\nUso: {usoCpuPorc}%\nIdeal: 0 ~ 69.9%"
+            chamadoSlack(msg, nome)
 
         time.sleep(30)
 
