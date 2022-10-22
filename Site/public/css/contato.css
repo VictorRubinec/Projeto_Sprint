@@ -17,7 +17,6 @@ body {
     justify-content: center;
     align-items: center;
     padding: 0.8rem;
-    
 }
 
 .endereco {
@@ -190,7 +189,7 @@ body {
     display: flex;
     justify-content: space-between;
     margin-top: 0.62rem;
-    padding: 0 .5rem;
+    padding: 0.5rem;
 }
 
 .gender-input {

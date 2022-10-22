@@ -29,8 +29,7 @@ body {
 }
 
 .banner img {
-    width: 800px;
-    height: 100%;
+    width: 400px;
     align-items: flex-start;
 }
 
@@ -38,16 +37,13 @@ body {
     display: flex;
     background-color: var(--azulBebe);
     height: 100%;
-    width: 800px;
 }
 
 .banner .conteiner .texto {
     display: flex;
-    width: 750px;
-    display: flex;
     align-items: center;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 .sobre {
@@ -102,12 +98,12 @@ body {
 }
 
 .sobre .box1 {
-    height: 220px;
+    height: clamp(220px,260px,310px);
     width: 450px;
 }
 
 .sobre .box2 {
-    height: 220px;
+    height: clamp(220px,260px,300px);
     width: 450px;
 }
 
