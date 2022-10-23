@@ -62,6 +62,7 @@ public class TelaCPU extends javax.swing.JFrame {
         lblNumCPUsFisicas = new javax.swing.JLabel();
         lblNumCPUsLogicas = new javax.swing.JLabel();
         lblUso = new javax.swing.JLabel();
+        btnProcessos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(950, 510));
@@ -87,6 +88,11 @@ public class TelaCPU extends javax.swing.JFrame {
         btnDisco.setFont(new java.awt.Font("Consolas", 0, 16)); // NOI18N
         btnDisco.setText("Disco");
         btnDisco.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        btnDisco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDiscoActionPerformed(evt);
+            }
+        });
 
         btnMemo.setFont(new java.awt.Font("Consolas", 0, 16)); // NOI18N
         btnMemo.setText("Memória");
@@ -126,7 +132,15 @@ public class TelaCPU extends javax.swing.JFrame {
 
         lblUso.setFont(new java.awt.Font("Comic Sans MS", 0, 14)); // NOI18N
         lblUso.setText("Em Uso: ");
-        lblUso.setMaximumSize(new java.awt.Dimension(56, 21));
+
+        btnProcessos.setFont(new java.awt.Font("Consolas", 0, 16)); // NOI18N
+        btnProcessos.setText("Processos");
+        btnProcessos.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        btnProcessos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProcessosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -136,40 +150,38 @@ public class TelaCPU extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(140, 140, 140)
-                        .addComponent(lblTitulo))
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSO)
+                            .addComponent(btnDisco)
+                            .addComponent(btnMemo)
+                            .addComponent(btnProcessos))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(lblTitulo)
+                        .addContainerGap(296, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(126, 126, 126)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(58, 58, 58)
-                                .addComponent(btnSO))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(59, 59, 59)
-                                .addComponent(btnDisco))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(59, 59, 59)
-                                .addComponent(btnMemo)))
-                        .addGap(244, 244, 244)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(3, 3, 3)
-                                    .addComponent(lblIdentificador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(lblNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addGap(18, 18, 18)))
-                                                .addComponent(lblFabricante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGap(41, 41, 41))
-                                        .addComponent(lblMicroarquitetura, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGap(3, 3, 3)
+                                .addComponent(lblIdentificador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addGap(18, 18, 18))
+                                            .addComponent(lblFabricante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(41, 41, 41))
+                                    .addComponent(lblMicroarquitetura, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,49 +198,48 @@ public class TelaCPU extends javax.swing.JFrame {
                                         .addComponent(lblNumPacotes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(lblNumCPUsLogicas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(lblUso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(13, 13, 13)))))
-                .addContainerGap(296, Short.MAX_VALUE))
+                                .addGap(13, 13, 13)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(77, 77, 77)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSO)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnMemo)
-                        .addGap(152, 152, 152))
+                        .addGap(29, 29, 29)
+                        .addComponent(lblTitulo)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblFabricante)
+                        .addGap(12, 12, 12)
+                        .addComponent(lblNome)
+                        .addGap(12, 12, 12)
+                        .addComponent(lblID)
+                        .addGap(12, 12, 12)
+                        .addComponent(lblIdentificador)
+                        .addGap(13, 13, 13)
+                        .addComponent(lblMicroarquitetura)
+                        .addGap(14, 14, 14)
+                        .addComponent(lblFreq)
+                        .addGap(12, 12, 12)
+                        .addComponent(lblNumPacotes)
+                        .addGap(14, 14, 14)
+                        .addComponent(lblNumCPUsFisicas)
+                        .addGap(12, 12, 12)
+                        .addComponent(lblNumCPUsLogicas)
+                        .addGap(17, 17, 17)
+                        .addComponent(lblUso))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
+                        .addContainerGap()
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(92, 92, 92)
+                        .addComponent(btnSO)
+                        .addGap(18, 18, 18)
                         .addComponent(btnDisco)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(lblTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                .addComponent(lblFabricante)
-                .addGap(12, 12, 12)
-                .addComponent(lblNome)
-                .addGap(12, 12, 12)
-                .addComponent(lblID)
-                .addGap(12, 12, 12)
-                .addComponent(lblIdentificador)
-                .addGap(13, 13, 13)
-                .addComponent(lblMicroarquitetura)
-                .addGap(14, 14, 14)
-                .addComponent(lblFreq)
-                .addGap(12, 12, 12)
-                .addComponent(lblNumPacotes)
-                .addGap(14, 14, 14)
-                .addComponent(lblNumCPUsFisicas)
-                .addGap(12, 12, 12)
-                .addComponent(lblNumCPUsLogicas)
-                .addGap(17, 17, 17)
-                .addComponent(lblUso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMemo)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnProcessos)))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -249,6 +260,22 @@ public class TelaCPU extends javax.swing.JFrame {
         in.setResizable(false);
         this.dispose();
     }//GEN-LAST:event_btnSOActionPerformed
+
+    private void btnProcessosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessosActionPerformed
+        TelaProcessos in = new TelaProcessos();
+        in.setLocationRelativeTo(null);
+        in.setVisible(true);
+        in.setResizable(false);
+        this.dispose();
+    }//GEN-LAST:event_btnProcessosActionPerformed
+
+    private void btnDiscoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiscoActionPerformed
+        TelaDisco in = new TelaDisco();
+        in.setLocationRelativeTo(null);
+        in.setVisible(true);
+        in.setResizable(false);
+        this.dispose();
+    }//GEN-LAST:event_btnDiscoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -288,6 +315,7 @@ public class TelaCPU extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDisco;
     private javax.swing.JButton btnMemo;
+    private javax.swing.JButton btnProcessos;
     private javax.swing.JButton btnSO;
     private javax.swing.JLabel lblFabricante;
     private javax.swing.JLabel lblFreq;

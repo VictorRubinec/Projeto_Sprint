@@ -34,12 +34,13 @@ public class TelaSO extends javax.swing.JFrame {
         lblSistema.setText(lblSistema.getText() + sistema.getSistemaOperacional());
         lblFabricante.setText(lblFabricante.getText() + sistema.getFabricante());
         lblArquitetura.setText(lblArquitetura.getText() + sistema.getArquitetura().toString() + "bits");
-//        lblInicializado.setText(lblInicializado + sistema.getInicializado().toString());
-//        lblPermissao.setText(lblPermissao + permissao);
-//        
-//        Double tempoHoras = Double.valueOf(sistema.getTempoDeAtividade().toString()).doubleValue()/ 60/60;
-//        
-//        lblTempo.setText(lblTempo + tempoHoras.toString() + "horas");
+        lblInicializado.setText(lblInicializado.getText() + sistema.getInicializado().toString());
+        lblPermissao.setText(lblPermissao.getText() + permissao);
+        
+        Double tempo = Double.valueOf(sistema.getTempoDeAtividade()).doubleValue()/ 60/60;
+        Double tempoHoras = Math.round(tempo * 10.0) / 10.0;
+        
+        lblTempoAtivo.setText(lblTempoAtivo.getText() + tempoHoras.toString() + " horas");
         
         img.setImage(img.getImage().getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), 1));
         lblLogo.setIcon(img);
@@ -54,6 +55,8 @@ public class TelaSO extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblTotalProcessos = new javax.swing.JLabel();
+        lblTotalThreads = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         btnCPU = new javax.swing.JButton();
@@ -62,8 +65,17 @@ public class TelaSO extends javax.swing.JFrame {
         lblSistema = new javax.swing.JLabel();
         lblFabricante = new javax.swing.JLabel();
         lblArquitetura = new javax.swing.JLabel();
+        lblInicializado = new javax.swing.JLabel();
+        lblPermissao = new javax.swing.JLabel();
+        lblTempoAtivo = new javax.swing.JLabel();
+        btnProcessos = new javax.swing.JButton();
+
+        lblTotalProcessos.setText("Total de Processos: ");
+
+        lblTotalThreads.setText("Total de Threads: ");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(950, 510));
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logoWhite.png"))); // NOI18N
         lblLogo.setAlignmentX(-18.0F);
@@ -86,6 +98,11 @@ public class TelaSO extends javax.swing.JFrame {
         btnDisco.setFont(new java.awt.Font("Consolas", 0, 16)); // NOI18N
         btnDisco.setText("Disco");
         btnDisco.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        btnDisco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDiscoActionPerformed(evt);
+            }
+        });
 
         btnMemo.setFont(new java.awt.Font("Consolas", 0, 16)); // NOI18N
         btnMemo.setText("Memória");
@@ -105,29 +122,49 @@ public class TelaSO extends javax.swing.JFrame {
         lblArquitetura.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         lblArquitetura.setText("Arquitetura: ");
 
+        lblInicializado.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        lblInicializado.setText("Inicializado: ");
+
+        lblPermissao.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        lblPermissao.setText("Permissão: ");
+
+        lblTempoAtivo.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
+        lblTempoAtivo.setText("Tempo de atividade: ");
+
+        btnProcessos.setFont(new java.awt.Font("Consolas", 0, 16)); // NOI18N
+        btnProcessos.setText("Processos");
+        btnProcessos.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        btnProcessos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProcessosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
                 .addComponent(lblTitulo)
                 .addGap(135, 135, 135))
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addGap(110, 110, 110)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCPU)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnMemo)
-                            .addComponent(btnDisco))
-                        .addGap(249, 249, 249)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblSistema)
-                            .addComponent(lblFabricante)
-                            .addComponent(lblArquitetura))))
+                    .addComponent(btnDisco)
+                    .addComponent(btnMemo)
+                    .addComponent(btnProcessos))
+                .addGap(218, 218, 218)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTempoAtivo)
+                    .addComponent(lblArquitetura)
+                    .addComponent(lblInicializado)
+                    .addComponent(lblFabricante)
+                    .addComponent(lblSistema)
+                    .addComponent(lblPermissao))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -140,22 +177,30 @@ public class TelaSO extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(lblTitulo)))
-                .addGap(53, 53, 53)
-                .addComponent(btnCPU)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
+                        .addGap(81, 81, 81)
+                        .addComponent(btnCPU)
+                        .addGap(18, 18, 18)
                         .addComponent(btnDisco)
-                        .addGap(29, 29, 29)
-                        .addComponent(btnMemo))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMemo)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnProcessos))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(37, 37, 37)
                         .addComponent(lblSistema)
                         .addGap(18, 18, 18)
                         .addComponent(lblFabricante)
                         .addGap(18, 18, 18)
-                        .addComponent(lblArquitetura)))
-                .addContainerGap(162, Short.MAX_VALUE))
+                        .addComponent(lblArquitetura)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblInicializado)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblPermissao)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblTempoAtivo)))
+                .addGap(33, 78, Short.MAX_VALUE))
         );
 
         pack();
@@ -176,6 +221,22 @@ public class TelaSO extends javax.swing.JFrame {
         in.setResizable(false);
         this.dispose();
     }//GEN-LAST:event_btnMemoActionPerformed
+
+    private void btnProcessosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessosActionPerformed
+        TelaProcessos in = new TelaProcessos();
+        in.setLocationRelativeTo(null);
+        in.setVisible(true);
+        in.setResizable(false);
+        this.dispose();
+    }//GEN-LAST:event_btnProcessosActionPerformed
+
+    private void btnDiscoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiscoActionPerformed
+        TelaDisco in = new TelaDisco();
+        in.setLocationRelativeTo(null);
+        in.setVisible(true);
+        in.setResizable(false);
+        this.dispose();
+    }//GEN-LAST:event_btnDiscoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,10 +277,16 @@ public class TelaSO extends javax.swing.JFrame {
     private javax.swing.JButton btnCPU;
     private javax.swing.JButton btnDisco;
     private javax.swing.JButton btnMemo;
+    private javax.swing.JButton btnProcessos;
     private javax.swing.JLabel lblArquitetura;
     private javax.swing.JLabel lblFabricante;
+    private javax.swing.JLabel lblInicializado;
     private javax.swing.JLabel lblLogo;
+    private javax.swing.JLabel lblPermissao;
     private javax.swing.JLabel lblSistema;
+    private javax.swing.JLabel lblTempoAtivo;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblTotalProcessos;
+    private javax.swing.JLabel lblTotalThreads;
     // End of variables declaration//GEN-END:variables
 }

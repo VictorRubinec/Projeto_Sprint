@@ -25,17 +25,17 @@ public class TelaMemoria extends javax.swing.JFrame {
     public TelaMemoria() {
         initComponents();
         
-        Double usoByte = memoria.getEmUso().doubleValue();
-        Double usoConvertido = usoByte / 1024 / 1024 / 1024;
-        Double uso = Math.round(usoConvertido * 10.0) / 10.0;
+        Double uso = memoria.getEmUso().doubleValue();
+        uso = uso / 1024 / 1024 / 1024;
+        uso = Math.round(uso * 10.0) / 10.0;
         
-        Double disponivelByte = memoria.getDisponivel().doubleValue();
-        Double disponivelConvertido = disponivelByte / 1024 / 1024 /1024;
-        Double disponivel = Math.round(disponivelConvertido * 10.0) / 10.0;
+        Double disponivel = memoria.getDisponivel().doubleValue();
+        disponivel = disponivel / 1024 / 1024 /1024;
+        disponivel = Math.round(disponivel * 10.0) / 10.0;
         
-        Double totalByte = memoria.getTotal().doubleValue();
-        Double totalConvertido = totalByte / 1024 / 1024 / 1024;
-        Double total = Math.round(totalConvertido * 10.0) / 10.0;
+        Double total = memoria.getTotal().doubleValue();
+        total = total / 1024 / 1024 / 1024;
+        total = Math.round(total * 10.0) / 10.0;
         
         lblUso.setText(lblUso.getText() + uso.toString() + "GB");
         lblDisponivel.setText(lblDisponivel.getText() + disponivel + "GB");
@@ -63,8 +63,10 @@ public class TelaMemoria extends javax.swing.JFrame {
         lblUso = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         lblDisponivel = new javax.swing.JLabel();
+        btnProcessos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(950, 510));
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logoWhite.png"))); // NOI18N
         lblLogo.setAlignmentX(-18.0F);
@@ -87,6 +89,11 @@ public class TelaMemoria extends javax.swing.JFrame {
         btnDisco.setFont(new java.awt.Font("Consolas", 0, 16)); // NOI18N
         btnDisco.setText("Disco");
         btnDisco.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        btnDisco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDiscoActionPerformed(evt);
+            }
+        });
 
         btnCPU.setFont(new java.awt.Font("Consolas", 0, 16)); // NOI18N
         btnCPU.setText("CPU");
@@ -106,6 +113,15 @@ public class TelaMemoria extends javax.swing.JFrame {
         lblDisponivel.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
         lblDisponivel.setText("Disponível: ");
 
+        btnProcessos.setFont(new java.awt.Font("Consolas", 0, 16)); // NOI18N
+        btnProcessos.setText("Processos");
+        btnProcessos.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        btnProcessos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProcessosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -116,29 +132,28 @@ public class TelaMemoria extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(106, 106, 106)
+                        .addGap(116, 116, 116)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(btnDisco))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addComponent(btnCPU))
-                            .addComponent(btnSO))))
+                            .addComponent(btnDisco)
+                            .addComponent(btnCPU)
+                            .addComponent(btnSO)
+                            .addComponent(btnProcessos))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(219, 219, 219)
-                        .addComponent(lblTitulo))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(202, 202, 202)
-                        .addComponent(lblUso))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(201, 201, 201)
-                        .addComponent(lblDisponivel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(204, 204, 204)
-                        .addComponent(lblTotal)))
-                .addContainerGap(280, Short.MAX_VALUE))
+                        .addComponent(lblTitulo)
+                        .addContainerGap(280, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(lblUso))
+                            .addComponent(lblDisponivel)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(lblTotal)))
+                        .addGap(347, 347, 347))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,20 +167,22 @@ public class TelaMemoria extends javax.swing.JFrame {
                         .addComponent(lblTitulo)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
+                        .addGap(78, 78, 78)
                         .addComponent(lblUso)
                         .addGap(44, 44, 44)
                         .addComponent(lblDisponivel)
                         .addGap(46, 46, 46)
                         .addComponent(lblTotal))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
+                        .addGap(83, 83, 83)
                         .addComponent(btnCPU)
-                        .addGap(39, 39, 39)
+                        .addGap(18, 18, 18)
                         .addComponent(btnDisco)
-                        .addGap(36, 36, 36)
-                        .addComponent(btnSO)))
-                .addContainerGap(121, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSO)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnProcessos)))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         pack();
@@ -186,6 +203,22 @@ public class TelaMemoria extends javax.swing.JFrame {
         in.setResizable(false);
         this.dispose();
     }//GEN-LAST:event_btnCPUActionPerformed
+
+    private void btnProcessosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessosActionPerformed
+        TelaProcessos in = new TelaProcessos();
+        in.setLocationRelativeTo(null);
+        in.setVisible(true);
+        in.setResizable(false);
+        this.dispose();
+    }//GEN-LAST:event_btnProcessosActionPerformed
+
+    private void btnDiscoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiscoActionPerformed
+        TelaDisco in = new TelaDisco();
+        in.setLocationRelativeTo(null);
+        in.setVisible(true);
+        in.setResizable(false);
+        this.dispose();
+    }//GEN-LAST:event_btnDiscoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,6 +258,7 @@ public class TelaMemoria extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCPU;
     private javax.swing.JButton btnDisco;
+    private javax.swing.JButton btnProcessos;
     private javax.swing.JButton btnSO;
     private javax.swing.JLabel lblDisponivel;
     private javax.swing.JLabel lblLogo;
