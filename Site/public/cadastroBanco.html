@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html lang="pt">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/geral.css">
+    <link rel="stylesheet" href="css/cadastro.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,300&display=swap" rel="stylesheet">
+
+    <title>Kash+ | Cadastro de banco</title>
+
+</head>
+
+<body>
+    <span id="mensagem_erro" class="ms"></span>
+
+    <div class="fundo">
+
+        <div class="bannerLogo">
+
+            <div class="logoLink">
+
+                <a href="index.html">
+
+                    <img class="logo" src="imgs/logoWhite.png" alt="">
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="bannerLogin">
+
+            <div class="card">
+
+                <h2>Cadastre um parceiro!</h2>
+
+                <span>
+
+
+                    <div class="email">
+
+                        <span>Nome do Banco:</span><input class="input" id="ipt_nome_banco" type="text">
+
+                    </div>
+
+                    <div class="email">
+
+                        <span>Email do Banco:</span><input class="input" id="ipt_email_banco" type="text">
+
+                    </div>
+
+                    <div class="email">
+
+                        <span>CNPJ: </span><input class="input" id="ipt_cnpj" type="number">
+
+                    </div>
+
+                    <div class="email">
+
+                        <span>User administrador:</span><input class="input" id="ipt_nome_usuario" type="text">
+
+                    </div>
+
+                    <div class="email">
+
+                        <span>Email administrador:</span><input class="input" id="ipt_email_usuario" type="email">
+
+                    </div>
+
+                    <div class="senha">
+
+                        <span>Senha administrador:</span><input class="input" id="ipt_senha_usuario" type="password">
+
+                    </div>
+
+                </span>
+
+
+
+
+                <button class="botao" onclick="cadastrar()">Cadastrar</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
+<script>
+    function cadastrar() {
+        //Recupere o valor da nova input pelo nome do id
+        // Agora vá para o método fetch logo abaixo
+        var nomeBancoVar = ipt_nome_banco.value;
+        var emailBancoVar = ipt_email_banco.value;
+        var cnpjVar = ipt_cnpj.value;
+        var nomeUserVar = ipt_nome_usuario.value;
+        var emailUserVar = ipt_email_usuario.value;
+        var senhaUserVar = ipt_senha_usuario.value;
+        var cargoVar = "adm";
+        var cadastroBanco = true;
+
+
+        if (nomeBancoVar == "" || emailBancoVar == "" || cnpjVar == "" || nomeUserVar == "" || emailUserVar == "" || senhaUserVar == "") {
+            mensagem_erro.classList.add("alerta")
+            mensagem_erro.style.display = "flex";
+            mensagem_erro.innerHTML = "Por favor não deixe nenhum campo em branco";
+            setTimeout(() => {
+                mensagem_erro.style.display = "none";
+                mensagem_erro.classList.remove("alerta");
+                mensagem_erro.innerHTML = "";
+            }, 5000)
+            return false;
+        }
+        else if (cnpjVar.length != 14) {
+            mensagem_erro.classList.add("alerta")
+            mensagem_erro.style.display = "flex";
+            mensagem_erro.innerHTML = "valor inválido para o CNPJ";
+            setTimeout(() => {
+                mensagem_erro.style.display = "none";
+                mensagem_erro.classList.remove("alerta");
+                mensagem_erro.innerHTML = "";
+            }, 5000)
+
+            return false;
+        }
+
+        // Enviando o valor da nova input
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                nomeBancoServer: nomeBancoVar,
+                emailBancoServer: emailBancoVar,
+                cnpjServer: cnpjVar,
+                nomeServer: nomeUserVar,
+                emailServer: emailUserVar,
+                senhaServer: senhaUserVar,
+                cargoServer: cargoVar,
+                cadastroBanco: cadastroBanco
+            })
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                mensagem_erro.classList.add("ok");
+                mensagem_erro.style.display = "flex";
+
+                mensagem_erro.innerHTML = "Cadastro realizado com sucesso!";
+
+                ipt_nome_banco.value = "";
+                ipt_email_banco.value = "";
+                ipt_cnpj.value = "";
+                ipt_nome_usuario.value = "";
+                ipt_email_usuario.value = "";
+                ipt_senha_usuario.value = "";
+
+                setTimeout(() => {
+                    mensagem_erro.style.display = "none";
+                    mensagem_erro.classList.remove("ok");
+                    mensagem_erro.innerHTML = "";
+                    window.location.href = "/index.html";
+                }, 5000)
+
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+                mensagem_erro.classList.add("erro");
+                mensagem_erro.style.display = "flex";
+
+                mensagem_erro.innerHTML = "Houve um erro ao tentar realizr o cadastro!";
+
+                setTimeout(() => {
+                    mensagem_erro.style.display = "none";
+                    mensagem_erro.classList.remove("erro");
+                    mensagem_erro.innerHTML = "";
+                }, 5000)
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+        return false;
+    }
+</script>

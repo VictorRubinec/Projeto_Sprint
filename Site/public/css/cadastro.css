@@ -57,7 +57,7 @@ img {
     align-items: center;
     border-radius: 8px;
     padding: 10%;
-    height: 50%;
+    height: 80%;
     width: 70%;
     box-shadow: 0px 0px 80px 5px black;
 }
@@ -74,7 +74,7 @@ img {
     margin-bottom: 10%;
     justify-content: space-between;
     align-items: center;
-    font-size: clamp(0.4rem, 0.4rem + 4vw, 2rem);
+    font-size: clamp(0.3rem, 0.3rem + 3vw, 1rem);
 }
 
 span {
@@ -87,6 +87,7 @@ span {
     width: 90%;
     border: 0;
     padding: 2%;
+
 }
 
 .botao {
@@ -160,7 +161,7 @@ span {
         align-items: center;
         border-radius: 8px;
         padding: 6%;
-        height: 50%;
+        height: 80%;
         width: 40% + 1vw;
         box-shadow: 0px 0px 80px 5px black;
     }
@@ -174,7 +175,7 @@ span {
         display: flex;
         justify-content: space-around;
         align-items: center;
-        font-size: clamp(0.4rem, 0.4rem + 2vw, 1.5rem);
+        font-size: clamp(0.3rem, 0.3rem + 3vw, 1rem);
         margin-top: 4%;
         margin-bottom: 10%;
     }
@@ -202,7 +203,6 @@ span {
         font-size: clamp(0.4rem, 0.3rem + 1.1vw, 2rem);
     }
 }
-
 
 /* alertas */
 

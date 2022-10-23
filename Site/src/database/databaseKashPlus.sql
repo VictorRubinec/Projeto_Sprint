@@ -1,6 +1,5 @@
 CREATE USER 'kashUser'@'localhost' IDENTIFIED BY 'kash';
 GRANT ALL PRIVILEGES ON dbkashplus.* TO 'kashUser'@'localhost';
-
 create database dbkashplus;
 use dbkashplus;
 
@@ -26,6 +25,8 @@ serialNumber VARCHAR(30) PRIMARY KEY
 ,fkEmpresa CHAR(14), FOREIGN KEY(fkEmpresa) REFERENCES tbEmpresa(cnpj)
 ,nome VARCHAR(100)
 ,cep CHAR(8)
+,cidade VARCHAR(100)
+,regiao VARCHAR(15)
 );
 
 CREATE TABLE tbComponente(
@@ -33,6 +34,7 @@ idComponente INT PRIMARY KEY AUTO_INCREMENT
 ,fkMaquina VARCHAR(30), FOREIGN KEY(fkMaquina) REFERENCES tbMaquina(serialNumber)
 ,tipo VARCHAR(100)
 ,metrica VARCHAR(100)
+,metricaMaxima INT
 )
 ;
 
@@ -53,6 +55,7 @@ CREATE VIEW vwMaquina AS
         ,serialNumber AS 'NumeroSerial'
         ,cep AS 'Cep'
         ,tipo AS Componente
+        ,metricaMaxima as valorMaximo
     FROM
         tbEmpresa
             JOIN
@@ -80,7 +83,7 @@ CREATE VIEW vwConsumo AS
 
 CREATE VIEW vwFuncionario AS
     SELECT 
-		tbEmpresa.nome AS 'Maquina'
+		tbEmpresa.nome AS 'Máquina'
 		,tbUsuario.nome AS 'Funcionario'
         ,cargo AS 'Cargo'
         ,login AS 'Login'
