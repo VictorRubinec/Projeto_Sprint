@@ -45,6 +45,9 @@ idRegistro INT PRIMARY KEY AUTO_INCREMENT
 ,dataHora DATETIME
 );
 
+INSERT INTO tbEmpresa VALUES ('48483604000162', 'KASH', 'kash@email.com', null, null);
+INSERT INTO tbUsuario VALUES (null, '48483604000162', 'brandao', 'brandao', '123', 'ger');
+
 -- Criando Views --
 
 CREATE VIEW vwMaquina AS
@@ -92,3 +95,5 @@ CREATE VIEW vwFuncionario AS
             JOIN
         tbUsuario ON cnpj = fkEmpresa
 ;
+
+
