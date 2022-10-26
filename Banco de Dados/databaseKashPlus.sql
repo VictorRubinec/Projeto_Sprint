@@ -45,9 +45,6 @@ idRegistro INT PRIMARY KEY AUTO_INCREMENT
 ,dataHora DATETIME
 );
 
-INSERT INTO tbEmpresa VALUES ('48483604000162', 'KASH', 'kash@email.com', null, null);
-INSERT INTO tbUsuario VALUES (null, '48483604000162', 'brandao', 'brandao', '123', 'ger');
-
 -- Criando Views --
 
 CREATE VIEW vwMaquina AS
@@ -86,7 +83,7 @@ CREATE VIEW vwConsumo AS
 
 CREATE VIEW vwFuncionario AS
     SELECT 
-		tbEmpresa.nome AS 'Máquina'
+		tbEmpresa.nome AS 'Empresa'
 		,tbUsuario.nome AS 'Funcionario'
         ,cargo AS 'Cargo'
         ,login AS 'Login'
