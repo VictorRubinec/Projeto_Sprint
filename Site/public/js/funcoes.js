@@ -1,5 +1,3 @@
-
-
 // sessão
 function validarSessao() {
 

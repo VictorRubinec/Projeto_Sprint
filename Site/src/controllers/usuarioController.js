@@ -1,6 +1,7 @@
 var usuarioModel = require("../models/usuarioModel");
 var nodemailer = require("nodemailer");
 const { query } = require("mssql");
+const { json } = require("express/lib/response");
 
 var sessoes = [];
 
@@ -117,7 +118,7 @@ function cadastrar(req, res) {
             usuarioModel.cadastrarBanco(nomeBanco, emailBanco, cnpj)
                 .then(
                     function (resultado) {
-                        enviarEmail(email, senha, emailBanco);
+                        enviarEmailCadastro(email, senha, emailBanco);
                         res.json(resultado);
                     }
                 ).catch(
@@ -229,7 +230,7 @@ function cadastrarComponente(req, res) {
 }
 
 
-function enviarEmail(email, senha, emailBanco) {
+function enviarEmailCadastro(email, senha, emailBanco) {
     var transporter = nodemailer.createTransport({
         service: 'outlook',
         auth: {
@@ -257,22 +258,63 @@ function enviarEmail(email, senha, emailBanco) {
     })
 }
 
+
+function enviarEmailContato(req, res) {
+    const emailRecebedor = "pipe302766815@mail.pipefy.com"
+
+    var nome = req.body.nomeServer;
+    var descricao = req.body.descricaoServer;
+    var emailRemetente = req.body.emailRemetenteServer;
+
+    
+
+    var transporter = nodemailer.createTransport({
+        service: 'outlook',
+        auth: {
+            user: '222-1cco-grupo10@bandtec.com.br',
+            pass: '1cco*grupo10'
+        }
+    });
+
+    var mailOptions = {
+        from: '222-1cco-grupo10@bandtec.com.br',
+        to: emailRecebedor,
+        subject: 'Dúvida de um usuário referente aos serviços Kash+',
+        html: `
+                <p>Nome do remetente ${nome}</p><br>
+                <p>Email do usuário que enviou a dǘvida: ${emailRemetente}</p><br>
+                    <p>Descrição: ${descricao}<p>
+            `,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+            alert(error);
+        } else {
+            console.log('Email enviado: ' + info.response);
+            alert('Email enviado: ' + info.response);
+        }
+    })
+
+}
+
 function listarQuantidade(req, res) {
 
-        usuarioModel.listarQuantidade()
-           .then(
-               function (resultado) {
-                   res.json(resultado);
-               }
-           ).catch(
-               function (erro) {
-                   console.log(erro);
-                   console.log(
-                       erro.sqlMessage
-                   );
-                   res.status(500).json(erro.sqlMessage);
-              }
-            );
+    usuarioModel.listarQuantidade()
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log(
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
 
 }
 
@@ -294,25 +336,25 @@ function listarMaquinasRegiao(req, res) {
                 res.status(500).json(erro.sqlMessage);
             }
         );
-    }
+}
 
 function verificarComponentes(req, res) {
     var serialNumber = req.body.serialNumberServer;
 
-        usuarioModel.listarComponentes(serialNumber)
-           .then(
-               function (resultado) {
-                   res.json(resultado);
-               }
-           ).catch(
-               function (erro) {
-                   console.log(erro);
-                   console.log(
-                       erro.sqlMessage
-                   );
-                   res.status(500).json(erro.sqlMessage);
-              }
-            );
+    usuarioModel.listarComponentes(serialNumber)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log(
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
 
 }
 
@@ -329,4 +371,5 @@ module.exports = {
     listarQuantidade,
     listarMaquinasRegiao,
     verificarComponentes,
+    enviarEmailContato,
 }

@@ -44,4 +44,8 @@ router.post("/verificarComponentes", function (req, res) {
     usuarioController.verificarComponentes(req, res);
 })
 
+router.post("/enviarEmailContato", function (req, res) {
+    usuarioController.enviarEmailContato(req, res);
+})
+
 module.exports = router;

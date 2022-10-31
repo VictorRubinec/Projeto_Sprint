@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,300&display=swap" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <title>Kash+ | Contato</title>
 </head>
@@ -28,10 +30,11 @@
                     <ul class="navbar">
                         <li title="Nossa Solução"><a href="solucao.html"><span>Solução</span><img src="imgs/lampada.png"
                                     alt=""></a></li>
-                        <li title="Sobre nós"><a href="sobre.html"><span>Sobre</span><img src="imgs/infoIcon.png" alt=""></a></li>
+                        <li title="Sobre nós"><a href="sobre.html"><span>Sobre</span><img src="imgs/infoIcon.png"
+                                    alt=""></a></li>
                         <li title="Contato"><a href="contato.html"><span>Contato</span><img src="imgs/chatIcon.png"
                                     alt=""></a></li>
-                                    
+
                     </ul>
                     <ul class="login">
                         <li title="Login de usuário"><a href="login.html"><span>Login</span><img src="imgs/userIcon.png"
@@ -52,35 +55,33 @@
                 <img src="./imgs/caixa.png" alt="">
             </div>
             <div class="form">
-                <form action="#">
-                    <div class="form-header">
-                        <div class="title">
-                            <h1>Alguma duvida? Envie sua mensagem!</h1>
-                        </div>
+                <div class="form-header">
+                    <div class="title">
+                        <h1>Alguma duvida? Envie sua mensagem!</h1>
                     </div>
+                </div>
 
-                    <div class="input-group">
-                        <div class="input-box">
-                            <label for="firstname">Nome</label>
-                            <input id="firstname" type="text" name="name" placeholder="Digite seu nome" required>
-                        </div>
-
-                        <div class="input-box">
-                            <label for="email">E-mail</label>
-                            <input id="email" type="email" name="email" placeholder="Digite seu e-mail" required>
-                        </div>
-
+                <div class="input-group">
+                    <div class="input-box">
+                        <label for="firstname">Nome</label>
+                        <input id="firstname" type="text" name="name" placeholder="Digite seu nome" required>
                     </div>
 
                     <div class="input-box">
-                        <label for="number">Descrição</label>
-                        <textarea class="descricao" id="" cols="30" rows="10"></textarea>
+                        <label for="email">E-mail</label>
+                        <input id="email" type="email" name="email" placeholder="Digite seu e-mail" required>
                     </div>
 
-                    <div class="continue-button">
-                        <button><a href="#">Enviar</a> </button>
-                    </div>
-                </form>
+                </div>
+
+                <div class="input-box">
+                    <label for="number">Descrição</label>
+                    <textarea class="descricao" id="txtarea_descricao" cols="30" rows="10"></textarea>
+                </div>
+
+                <div class="continue-button">
+                    <button onclick="enviarEmail()">Enviar</button>
+                </div>
             </div>
         </div>
 
@@ -135,3 +136,45 @@
 </body>
 
 </html>
+<script>
+    function enviarEmail() {
+        var emailRemetente = email.value;
+        var nome = firstname.value;
+        var descricao = txtarea_descricao.value;
+
+        Swal.fire(
+            'Sucesso',
+            'Mensagem enviada com sucesso',
+            'success'
+        )
+
+        email.value = "";
+        firstname.value = "";
+        txtarea_descricao.value = "";
+
+        fetch("/usuarios/enviarEmailContato", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailRemetenteServer: emailRemetente,
+                nomeServer: nome,
+                descricaoServer: descricao
+            })
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+    }
+</script>
