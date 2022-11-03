@@ -48,4 +48,8 @@ router.post("/enviarEmailContato", function (req, res) {
     usuarioController.enviarEmailContato(req, res);
 })
 
+router.post("/pegarCeps", function (req, res) {
+    usuarioController.pegarCeps(req, res);
+})
+
 module.exports = router;

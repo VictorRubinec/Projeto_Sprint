@@ -10,9 +10,11 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+		integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
 </head>
 
-<body id="page-top" onload="validarSessao(), listarQuantidade(), verificarCargo(), selectRegiao(), listarCaixas()">
+<body id="page-top" onload="validarSessao(), listarQuantidade(), verificarCargo(), selectRegiao(), listarCaixas(), pegarCeps()">
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
             style="background: rgb(0, 132, 156);">
@@ -123,6 +125,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card-body py-3">
+                    <div class="row">
+						<div id="container_mapa">
+							<div class="col-lg-8">
+								<div id="mapaCaixa">
+								</div>
+							</div>
+						</div>
+					</div>
+                    </div>
                     <footer class="bg-white sticky-footer">
                         <div class="container my-auto">
                             <div class="text-center my-auto copyright"><span>Copyright © KASH+&nbsp;2022</span></div>
@@ -135,6 +147,8 @@
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/script.min.js"></script>
     <script src="../js/funcoes.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+			integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
 </body>
 
 </html>
@@ -246,7 +260,6 @@
                 console.log(resposta);
 
                 resposta.json().then(json => {
-                    console.log(json);
                     console.log(JSON.stringify(json));
 
                     console.log(json)
@@ -303,5 +316,111 @@
         return false;
     
     }
+
+    
+    function pegarCeps() {
+ 
+        fetch("/usuarios/pegarCeps", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+            })
+        }).then(function (resposta) {
+            console.log("resposta: ", resposta);
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(JSON.stringify(json));
+
+                    console.log(json)
+
+                    console.log("Sucesso ao listar ceps");
+
+                    var cep = []
+
+                    for (var i = 0; i < json.length; i++) {
+                        cep[i] = json[i].Cep;
+
+                        var script = document.createElement('script');
+                        script.src = 'https://viacep.com.br/ws/' + cep[i] + '/json/?callback=performGeocodingRequest';
+                        document.body.appendChild(script);
+
+                        function performGeocodingRequest(conteudo) {
+                                
+                                const APIKEY = "2e20e7f8-9be2-4e04-a213-75b2a2040023";
+        
+                                var logradouro = conteudo.logradouro
+                                var bairro = conteudo.bairro
+                                var localidade = conteudo.localidade
+
+                                var text = `${logradouro}, ${bairro}, ${localidade}`
+
+                                // Set URL method depends
+
+                                URL = `https://api.mymappi.com/v2/geocoding/direct?apikey=${APIKEY}&q=${text}&country_code=BR`;
+
+                                // Create HTTP Request
+                                var xmlHttp = new XMLHttpRequest();
+                                // Send the request
+                                xmlHttp.open("GET", URL, false);
+                                // Check Status response
+                                xmlHttp.onload = function () {
+                                    // Update variable, it shows in HTML response
+                                    response_status = xmlHttp.status;
+                                    // Bad request != 200 :(
+                                    if (xmlHttp.status !== 200) {
+                                        console.log(`Response code ${response_status}. Check your browser log`)
+                                    } else {
+                                        console.log(`Response code ${response_status}. Check your browser log`);
+                                    }
+                                };
+                                // Close HTML Request
+                                xmlHttp.send(null);
+                                // Return data field from response to show on result section
+                                dados = JSON.parse(xmlHttp.responseText).data;
+                                console.log(JSON.stringify(dados))
+                                // return JSON.parse(xmlHttp.responseText).data;
+
+                                var lat = dados[0].lat;
+                                var lon = dados[0].lon;
+
+                                gerarMapa(lat, lon);
+
+                            }
+
+                            function gerarMapa(latitude, longitude) {
+
+                                var containerMapa = document.getElementById('container_mapa');
+
+                                var mapa = document.createElement('div');
+                                mapa.id = "mapaCaixa";
+
+                                containerMapa.appendChild(mapa)
+
+                                var map = L.map('mapaCaixa').setView([latitude, longitude], 20);
+
+                                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                }).addTo(map);
+
+                                L.marker([latitude, longitude]).addTo(map)
+                                    .bindPopup('')
+                            }
+
+                    }
+
+                });
+
+            } else {
+                throw ("Houve um erro ao lsitar ceps");
+            }
+        }).catch(function (resposta) {
+            console.log(`${resposta}`);            
+        });
+    }
+    
 
 </script>
