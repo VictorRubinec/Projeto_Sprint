@@ -2,7 +2,6 @@ import datetime
 from dis import disco
 from pickletools import read_int4
 import time
-from tkinter import INSERT
 from psutil import *
 import os
 import platform

@@ -6,7 +6,7 @@ var sqlServerConfig = {
     user: "kashplus",
     password: "1cco*grupo10",
     database: "dbkashplus",
-    server: "kash-plus.database.windows.net",
+    server: "kashmonitoramento.database.windows.net",
     pool: {
         max: 10,
         min: 0,
