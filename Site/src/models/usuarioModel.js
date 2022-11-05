@@ -100,19 +100,19 @@ function cadastrarComponente(serialNumber, tipo) {
     return database.executar(instrucao);
 }
 
-function listarQuantidade() {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarQuantidade():")
+function listarQuantidade(cnpj) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarQuantidade():", cnpj)
     var instrucao = `
-        SELECT serialNumber AS 'qtd', regiao AS 'regiao' FROM tbMaquina;  
+        SELECT serialNumber AS 'qtd', regiao AS 'regiao' FROM tbMaquina WHERE fkEmpresa = ${cnpj};  
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
 
-function listarMaquinasRegiao(query) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
+function listarMaquinasRegiao(query, cnpj) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()", query, cnpj);
     var instrucao = `
-        ${query};
+        SELECT serialNumber, cep, cidade, regiao FROM tbMaquina WHERE regiao = (${query}) AND fkEmpresa = ${cnpj};
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao)
@@ -128,10 +128,10 @@ function listarComponentes(serialNumber) {
     return database.executar(instrucao);
 }
 
-function pegarCeps() {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarQuantidade():")
+function criarMapaCaixas(cnpj) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarQuantidade():", cnpj)
     var instrucao = `
-        SELECT * FROM vwMaquina;  
+        SELECT cep FROM tbMaquina WHERE fkEmpresa = '${cnpj}';
     `;
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
@@ -148,5 +148,5 @@ module.exports = {
     listarQuantidade,
     listarMaquinasRegiao,
     listarComponentes,
-    pegarCeps
+    criarMapaCaixas
 };

@@ -14,7 +14,7 @@
 		integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
 </head>
 
-<body id="page-top" onload="validarSessao(), listarQuantidade(), verificarCargo(), selectRegiao(), listarCaixas(), pegarCeps()">
+<body id="page-top" onload="validarSessao(), listarQuantidade(), verificarCargo(), selectRegiao(), listarCaixas(), gerarMapa(), criarMapaCaixas()">
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
             style="background: rgb(0, 132, 156);">
@@ -125,15 +125,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body py-3">
                     <div class="row">
-						<div id="container_mapa">
-							<div class="col-lg-8">
-								<div id="mapaCaixa">
-								</div>
-							</div>
-						</div>
-					</div>
+                        <div id="container_mapa">
+                            <h3>Localização dos Caixas:</h3>
+                            <div class="col-lg-8">
+                                <div id="mapaCaixa">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <footer class="bg-white sticky-footer">
                         <div class="container my-auto">
@@ -162,6 +161,7 @@
         var qtdSudoeste = 0
         var qtdSudeste = 0
         var qtdLeste = 0
+        var cnpjVar = sessionStorage.BANCO_ID
 
         fetch("/usuarios/listarQuantidade", {
             method: "POST",
@@ -169,6 +169,7 @@
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
+                cnpjServer: cnpjVar
             })
         }).then(function (resposta) {
             console.log("resposta: ", resposta);
@@ -200,7 +201,7 @@
                     sp.innerHTML = `São Paulo: ${qtdSP}`;
                     norte.innerHTML = `Norte: ${qtdNorte}`;
                     oeste.innerHTML = `Oeste: ${qtdOeste}`;
-                    sudoeste.innerHTML = `Sudoeste: ${qtdSudoeste}`; 
+                    sudoeste.innerHTML = `Sudoeste: ${qtdSudoeste}`;  
                     sudeste.innerHTML = `Sudeste: ${qtdSudeste}`;
                     leste.innerHTML = `Leste: ${qtdLeste}`;
                 })                
@@ -214,35 +215,36 @@
     }
 
     function selectRegiao() {
+        var cnpjVar = sessionStorage.BANCO_ID
 
         table_body.innerHTML = "";
 
         if (select_list_regiao.value == "0") {
-            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina;`
+            var queryVar = `'São Paulo' OR 'Norte' OR 'Oeste' OR 'Sudoeste' OR 'Sudeste' OR 'Leste'`
         }
 
         if (select_list_regiao.value == "1") {
-            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina WHERE regiao = 'São Paulo';`
+            var queryVar = `'São Paulo'`
         }
 
         if (select_list_regiao.value == "2") {
-            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina WHERE regiao = 'Norte';`
+            var queryVar = `'Norte'`
         }
         
         if (select_list_regiao.value == "3") {
-            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina WHERE regiao = 'Oeste';`
+            var queryVar = `'Oeste'`
         }
 
         if (select_list_regiao.value == "4") {
-            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina WHERE regiao = 'Sudoeste';`
+            var queryVar = `'Sudoeste'`
         }
 
         if (select_list_regiao.value == "5") {
-            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina WHERE regiao = 'Sudeste';`
+            var queryVar = `'Sudeste'`
         }
 
         if (select_list_regiao.value == "6") {
-            var queryVar = `SELECT serialNumber, cep, cidade, regiao FROM tbMaquina WHERE regiao = 'Leste';`
+            var queryVar = `'Leste'`
         }
 
         fetch("/usuarios/listarMaquinasRegiao", {
@@ -251,6 +253,7 @@
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
+                cnpjServer: cnpjVar,
                 queryServer: queryVar
             })
         }).then(function (resposta) {
@@ -316,111 +319,114 @@
         return false;
     
     }
-
     
-    function pegarCeps() {
- 
-        fetch("/usuarios/pegarCeps", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-            })
-        }).then(function (resposta) {
-            console.log("resposta: ", resposta);
-            if (resposta.ok) {
-                console.log(resposta);
+    // function criarMapaCaixas() {
+    //     var cnpjVar = sessionStorage.BANCO_ID
 
-                resposta.json().then(json => {
-                    console.log(JSON.stringify(json));
+    //     fetch("/usuarios/criarMapaCaixas", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         },
+    //         body: JSON.stringify({
+    //             cnpjServer: cnpjVar
+    //         })
+    //     }).then(function (resposta) {
+    //         console.log("resposta: ", resposta);
+    //         if (resposta.ok) {
+    //             resposta.json().then(json => {
+    //                 cep = json[0].cep;
+                    
+    //                 var ceps = []
 
-                    console.log(json)
+    //                 for (let i = 0; i < json.length; i++) {
+    //                     ceps[i] = json[i].cep;
+                
+    //                     var script = document.createElement('script');
+    //                     script.src = 'https://viacep.com.br/ws/' + ceps[i] + '/json/?callback=performGeocodingRequest';
+    //                     document.body.appendChild(script);
 
-                    console.log("Sucesso ao listar ceps");
+    //                     function performGeocodingRequest(conteudo) {
+    //                         const APIKEY = "2e20e7f8-9be2-4e04-a213-75b2a2040023";
 
-                    var cep = []
+    //                         var logradouro = conteudo.logradouro
+    //                         var bairro = conteudo.bairro
+    //                         var localidade = conteudo.localidade
 
-                    for (var i = 0; i < json.length; i++) {
-                        cep[i] = json[i].Cep;
+    //                         var text = `${logradouro}, ${bairro}, ${localidade}`
 
-                        var script = document.createElement('script');
-                        script.src = 'https://viacep.com.br/ws/' + cep[i] + '/json/?callback=performGeocodingRequest';
-                        document.body.appendChild(script);
+    //                         // Set URL method depends
 
-                        function performGeocodingRequest(conteudo) {
-                                
-                                const APIKEY = "2e20e7f8-9be2-4e04-a213-75b2a2040023";
-        
-                                var logradouro = conteudo.logradouro
-                                var bairro = conteudo.bairro
-                                var localidade = conteudo.localidade
+    //                         URL = `https://api.mymappi.com/v2/geocoding/direct?apikey=${APIKEY}&q=${text}&country_code=BR`;
 
-                                var text = `${logradouro}, ${bairro}, ${localidade}`
+    //                         // Create HTTP Request
+    //                         var xmlHttp = new XMLHttpRequest();
+    //                         // Send the request
+    //                         xmlHttp.open("GET", URL, false);
+    //                         // Check Status response
+    //                         xmlHttp.onload = function () {
+    //                             // Update variable, it shows in HTML response
+    //                             response_status = xmlHttp.status;
+    //                             // Bad request != 200 :(
+    //                             if (xmlHttp.status !== 200) {
+    //                                 console.log(`Response code ${response_status}. Check your browser log`)
+    //                             } else {
+    //                                 console.log(`Response code ${response_status}. Check your browser log`);
+    //                             }
+    //                         };
+    //                         // Close HTML Request
+    //                         xmlHttp.send(null);
+    //                         // Return data field from response to show on result section
+    //                         dados = JSON.parse(xmlHttp.responseText).data;
+    //                         console.log(JSON.stringify(dados))
+    //                         // return JSON.parse(xmlHttp.responseText).data;
 
-                                // Set URL method depends
+    //                         var lat = dados[0].lat;
+    //                         var lon = dados[0].lon;
 
-                                URL = `https://api.mymappi.com/v2/geocoding/direct?apikey=${APIKEY}&q=${text}&country_code=BR`;
+    //                     }
+    //                 }
+                    
+    //             })                
+    //                 console.log("Sucesso ao plotar mapa");
+    //         } else {
+    //             throw ("Houve um erro ao plotar mapa");
+    //         }
+    //     }).catch(function (resposta) {
+    //         console.log(`${resposta}`);            
+    //     });
+    // }
 
-                                // Create HTTP Request
-                                var xmlHttp = new XMLHttpRequest();
-                                // Send the request
-                                xmlHttp.open("GET", URL, false);
-                                // Check Status response
-                                xmlHttp.onload = function () {
-                                    // Update variable, it shows in HTML response
-                                    response_status = xmlHttp.status;
-                                    // Bad request != 200 :(
-                                    if (xmlHttp.status !== 200) {
-                                        console.log(`Response code ${response_status}. Check your browser log`)
-                                    } else {
-                                        console.log(`Response code ${response_status}. Check your browser log`);
-                                    }
-                                };
-                                // Close HTML Request
-                                xmlHttp.send(null);
-                                // Return data field from response to show on result section
-                                dados = JSON.parse(xmlHttp.responseText).data;
-                                console.log(JSON.stringify(dados))
-                                // return JSON.parse(xmlHttp.responseText).data;
+    function gerarMapa() {
 
-                                var lat = dados[0].lat;
-                                var lon = dados[0].lon;
+        var lat = []
+        var lon = []
+        lat[0] = -23.558;
+        lat[1] = -23.620;
+        lon[0] = -46.661;
+        lon[1] = -46.570;
 
-                                gerarMapa(lat, lon);
+        const cities = L.layerGroup();
 
-                            }
-
-                            function gerarMapa(latitude, longitude) {
-
-                                var containerMapa = document.getElementById('container_mapa');
-
-                                var mapa = document.createElement('div');
-                                mapa.id = "mapaCaixa";
-
-                                containerMapa.appendChild(mapa)
-
-                                var map = L.map('mapaCaixa').setView([latitude, longitude], 20);
-
-                                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                }).addTo(map);
-
-                                L.marker([latitude, longitude]).addTo(map)
-                                    .bindPopup('')
-                            }
-
-                    }
-
-                });
-
-            } else {
-                throw ("Houve um erro ao lsitar ceps");
+        for (let i = 0; i < lat.length; i++) {
+            for (let i = 0; i < lon.length; i++) {
+                var local1 = L.marker([lat[i], lon[i]]).bindPopup('CASA').addTo(cities),
+                local2    = L.marker([lat[i], lon[i]]).bindPopup('SPTECH').addTo(cities)            
             }
-        }).catch(function (resposta) {
-            console.log(`${resposta}`);            
-        });
+                        
+        }
+
+        const map = 
+            L.map('mapaCaixa', { 
+                layers: [cities] 
+            })
+            .setView([lat[0], lon[0]], 9);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            })
+            .addTo(map);
+        ;
+
     }
-    
 
 </script>

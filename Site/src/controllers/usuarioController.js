@@ -301,7 +301,9 @@ function enviarEmailContato(req, res) {
 
 function listarQuantidade(req, res) {
 
-    usuarioModel.listarQuantidade()
+    var cnpj = req.body.cnpjServer;
+
+    usuarioModel.listarQuantidade(cnpj)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -321,8 +323,9 @@ function listarQuantidade(req, res) {
 function listarMaquinasRegiao(req, res) {
 
     var query = req.body.queryServer;
+    var cnpj = req.body.cnpjServer;
 
-    usuarioModel.listarMaquinasRegiao(query)
+    usuarioModel.listarMaquinasRegiao(query, cnpj)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);
@@ -358,26 +361,25 @@ function verificarComponentes(req, res) {
 
 }
 
-function pegarCeps(req, res) {
+function criarMapaCaixas(req, res) {
 
-    usuarioModel.pegarCeps()
-        .then(
-            function (resultado) {
-                res.json(resultado);
+    var cnpj = req.body.cnpjServer;
+
+    usuarioModel.criarMapaCaixas(cnpj)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!")
             }
-        ).catch(
+        }).catch(
             function (erro) {
                 console.log(erro);
-                console.log(
-                    erro.sqlMessage
-                );
+                console.log("Houve um erro ao realizar a consulta! Erro: ", erro.sqlMessage);
                 res.status(500).json(erro.sqlMessage);
             }
         );
-
 }
-
-
 
 module.exports = {
     entrar,
@@ -391,5 +393,5 @@ module.exports = {
     listarMaquinasRegiao,
     verificarComponentes,
     enviarEmailContato,
-    pegarCeps
+    criarMapaCaixas
 }

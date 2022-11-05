@@ -48,8 +48,8 @@ router.post("/enviarEmailContato", function (req, res) {
     usuarioController.enviarEmailContato(req, res);
 })
 
-router.post("/pegarCeps", function (req, res) {
-    usuarioController.pegarCeps(req, res);
+router.post("/criarMapaCaixas", function (req, res) {
+    usuarioController.criarMapaCaixas(req, res);
 })
 
 module.exports = router;
