@@ -12,7 +12,7 @@ function listarCaixas(cnpj) {
     }
     else if (process.env.AMBIENTE_PROCESSO == "producao") {
         var instrucao = `
-        SELECT Maquina, NumeroSerial, Cep FROM vwMaquina where Cnpj = '74810893000177' 
+        SELECT Maquina, NumeroSerial, Cep FROM vwMaquina where Cnpj = '${cnpj}' 
         GROUP BY NumeroSerial, Maquina, Cep;
         `;
     }

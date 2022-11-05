@@ -64,19 +64,16 @@ def metricasMaximas(idCpu, idDisco, idRam):
 
     for i in idCpu:
         queryCpu = f"UPDATE tbComponente SET metricaMaxima = 100 WHERE idComponente = {i};"
-        print(queryCpu)
         time.sleep(1)
         insert(queryCpu)
 
     for i in idDisco:
         queryDisco = f"UPDATE tbComponente SET metricaMaxima = {conversao_bytes(disk_usage(disco).total, 3)} WHERE idComponente = {i};"
-        print(queryDisco)
         time.sleep(1)
         insert(queryDisco)
 
     for i in idRam:
         queryRam = f"UPDATE tbComponente SET metricaMaxima = {conversao_bytes(virtual_memory().total, 3)} WHERE idComponente = {i};"
-        print(queryRam)
         time.sleep(1)
         insert(queryRam)
 
@@ -221,6 +218,7 @@ def insertPeriodico(idCpu, idDisco, idRam, serialNumber, nome):
         usoDisco = discoOcupado[0]
 
         dataHora = datetime.datetime.now()
+        dataHora = datetime.datetime.strftime(dataHora, "%Y-%m-%d %H:%M:%S")
 
         for i in idCpu:
             queryCpu = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoCpuPorc}', '{dataHora}');"
