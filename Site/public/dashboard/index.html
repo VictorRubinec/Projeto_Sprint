@@ -81,7 +81,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-6 col-xl-3 mb-4">
-							<div class="card shadow border-start-primary py-2">
+							<div id="cpu_cor" class="card shadow border-start-primary py-2">
 								<div class="card-body">
 									<div class="row align-items-center no-gutters">
 										<div class="col me-2">
@@ -107,7 +107,7 @@
 							</div>
 						</div>
 						<div class="col-md-6 col-xl-3 mb-4">
-							<div class="card shadow border-start-success py-2">
+							<div id="ram_cor" class="card shadow border-start-success py-2">
 								<div class="card-body">
 									<div class="row align-items-center no-gutters">
 										<div class="col me-2">
@@ -124,7 +124,7 @@
 							</div>
 						</div>
 						<div class="col-md-6 col-xl-3 mb-4">
-							<div class="card shadow border-start-info py-2">
+							<div id="disco_cor" class="card shadow border-start-info py-2">
 								<div class="card-body">
 									<div class="row align-items-center no-gutters">
 										<div class="col me-2">
@@ -368,6 +368,8 @@
 
 					span_usoCpu.innerHTML = novoRegistro[0].Registro + "%";
 
+					CpuCor(novoRegistro[0].Registro);
+
 					// tirando e colocando valores no gráfico
 					dados.labels.shift(); // apagar o primeiro
 					dados.labels.push(novoRegistro[0].momento_grafico); // incluir um novo momento
@@ -495,6 +497,8 @@
 
 					span_usoRam.innerHTML = novoRegistro[0].Registro + "GB";
 
+					RamCor(novoRegistro[0].Registro);
+
 					// tirando e colocando valores no gráfico
 					dados.labels.shift(); // apagar o primeiro
 					dados.labels.push(novoRegistro[0].momento_grafico); // incluir um novo momento
@@ -567,6 +571,8 @@
 					porcentagemDisco = Math.round((usoDisco / valorMaximo) * 100);
 					document.getElementById("barra_usoDisco").style.width = porcentagemDisco + "%";
 					document.getElementById("span_usoDisco").innerHTML = porcentagemDisco + "%";
+
+					DiscoCor(porcentagemDisco);
 
 					plotarGraficoDisco(valorMaximo, usoDisco);
 				});
@@ -719,6 +725,84 @@
 			console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
 		});
 
+	}
+
+	function CpuCor(registroCpu){
+
+		if (registroCpu <= 0.0) {
+			cor = "red";
+			pesoCpu = 8;
+		} else if (registroCpu >= 85.0){
+			cor = "red";
+			pesoCpu = 4;
+		} else if (registroCpu >= 70.0){
+			cor = "yellow";
+			pesoCpu = 2;
+		} else {
+			cor = "green";
+			pesoCpu = 0;
+		}
+		cpu_cor.style = "border-bottom: 3px solid " + cor;
+	}
+
+	function RamCor(registroRam){
+
+		porcRam = (registroRam*100)/valorMaximo;
+
+		if (porcRam <= 0.0) {
+			cor = "red";
+			pesoRam = 8;
+		} else if (porcRam >= 85.0){
+			cor = "red";
+			pesoRam = 4;
+		} else if (porcRam >= 70.0){
+			cor = "yellow";
+			pesoRam = 2;
+		} else {
+			cor = "green";
+			pesoRam = 0;
+		}
+		ram_cor.style = "border-bottom: 3px solid " + cor;
+
+		StatusCor();
+	}
+
+	function DiscoCor(registroDisco){
+
+		if (registroDisco <= 0.0) {
+			cor = "red";
+			pesoDisco = 8;
+		} else if (registroDisco >= 90.0){
+			cor = "red";
+			pesoDisco = 6;
+		} else if (registroDisco >= 60.0){
+			cor = "yellow";
+			pesoDisco = 3;
+		} else {
+			cor = "green";
+			pesoDisco = 0;
+		}
+		disco_cor.style = "border-bottom: 3px solid " + cor;
+	}
+
+	function StatusCor(){
+
+		peso = pesoCpu+pesoDisco+pesoRam;
+
+		if(peso >= 8){
+			status_texto = "Crítico";
+			status_cor = "red"
+		} else if(peso >= 4){
+			status_texto = "Alerta";
+			status_cor = "yellow"	
+		} else {
+			status_texto = "Bom";
+			status_cor = "green"	
+		}
+
+		span_status.innerHTML = status_texto;
+		span_status.style = "color: " + status_cor;
+		svg_status.style = "color: var(--bs-" + status_cor + ")";
 	}
 
 </script>
