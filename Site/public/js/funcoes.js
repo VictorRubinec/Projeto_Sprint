@@ -124,6 +124,7 @@ function listarCaixas() {
                     obterDadosGraficoDisco(caixas.serialNumber[0]);
                     setRamMax(caixas.serialNumber[0]);
                     recuperarDados(caixas.cep[0]);
+                    document.getElementById("span_serialNumber").innerHTML = caixas.serialNumber[0]
                 }
 
             });
@@ -238,6 +239,8 @@ function addListeners() {
             obterDadosGraficoCpu(key);
             obterDadosGraficoRam(key);
             setRamMax(key);
+
+            document.getElementById("span_serialNumber").innerHTML = key
         })
     }
 
