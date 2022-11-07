@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
-		integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+        integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
 </head>
 
-<body id="page-top" onload="validarSessao(), listarQuantidade(), verificarCargo(), selectRegiao(), listarCaixas(), gerarMapa(), criarMapaCaixas()">
+<body id="page-top" onload="validarSessao(), listarQuantidade(), verificarCargo(), selectRegiao(), listarCaixas()">
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
             style="background: rgb(0, 132, 156);">
@@ -25,12 +25,20 @@
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul id="accordionSidebar" class="navbar-nav text-light">
-					<li class="nav-item"><a class="nav-link" href="listarUser.html" id="link_list_user"><i class="fas fa-user"></i><span>Lista de usuários</span></a><a class="nav-link" href="addUser.html" id="link_add_user"><i class="fas fa-user-plus"></i><span>Adicionar Usuário</span></a><a class="nav-link" href="addCaixa.html" id="link_add_caixa"><i class="fas fa-server"></i><span>Cadastrar Caixa</span></a><a class="nav-link" href="dashMapa.html" id="link_dash_mapa"><i class="fas fa-map"></i><span>Dash - Região</span></a></li>
-                    <li class="nav-item"><a id="link_dash" class="nav-link" data-bs-toggle="collapse" href="#div_caixas" role="button" aria-expanded="false" aria-controls="div_caixas"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
-						<div class="collapse show" id="div_caixas">	
-						</div>
-					</li>
-				</ul>
+                    <li class="nav-item"><a class="nav-link" href="listarUser.html" id="link_list_user"><i
+                                class="fas fa-user"></i><span>Lista de usuários</span></a><a class="nav-link"
+                            href="addUser.html" id="link_add_user"><i class="fas fa-user-plus"></i><span>Adicionar
+                                Usuário</span></a><a class="nav-link" href="addCaixa.html" id="link_add_caixa"><i
+                                class="fas fa-server"></i><span>Cadastrar Caixa</span></a><a class="nav-link"
+                            href="dashMapa.html" id="link_dash_mapa"><i class="fas fa-map"></i><span>Dash -
+                                Região</span></a></li>
+                    <li class="nav-item"><a id="link_dash" class="nav-link" data-bs-toggle="collapse" href="#div_caixas"
+                            role="button" aria-expanded="false" aria-controls="div_caixas"><i
+                                class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+                        <div class="collapse show" id="div_caixas">
+                        </div>
+                    </li>
+                </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0"
                         id="sidebarToggle" type="button"></button></div>
             </div>
@@ -82,28 +90,34 @@
                                     <option value="5">Região Sudeste</option>
                                     <option value="6">Região Leste</option>
                                 </select>
-                            <div class="col">
-                                <div class="card-body">
-                                    <img src="./assets/img/mapa.png">
+                                <div class="col">
+                                    <div class="card-body">
+                                        <img src="./assets/img/mapa.png">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-4"><label class="form-label"><strong></strong></label></div>
+                                    <div class="mb-3"><label class="form-label" style="color: #e9eaf4;"
+                                            id="sp"><strong>São Paulo</strong></label></div>
+                                    <div class="mb-3"><label class="form-label" style="color: #0079bf;"
+                                            id="norte"><strong>Região Norte</strong></label></div>
+                                    <div class="mb-3"><label class="form-label" style="color: #008e1d;"
+                                            id="oeste"><strong>Região Oeste</strong></label></div>
+                                    <div class="mb-3"><label class="form-label" style="color: #00becd;"
+                                            id="sudoeste"><strong>Região Sudoeste</strong></label></div>
+                                    <div class="mb-3"><label class="form-label" style="color: #00fffe;"
+                                            id="sudeste"><strong>Região Sudeste</strong></label></div>
+                                    <div class="mb-3"><label class="form-label" style="color: #00ff88;"
+                                            id="leste"><strong>Região Leste</strong></label></div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="mb-4"><label class="form-label"><strong></strong></label></div>
-                                <div class="mb-3"><label class="form-label" style="color: #e9eaf4;" id="sp"><strong>São Paulo</strong></label></div>
-                                <div class="mb-3"><label class="form-label" style="color: #0079bf;" id="norte"><strong>Região Norte</strong></label></div>
-                                <div class="mb-3"><label class="form-label" style="color: #008e1d;" id="oeste"><strong>Região Oeste</strong></label></div>
-                                <div class="mb-3"><label class="form-label" style="color: #00becd;" id="sudoeste"><strong>Região Sudoeste</strong></label></div>
-                                <div class="mb-3"><label class="form-label" style="color: #00fffe;" id="sudeste"><strong>Região Sudeste</strong></label></div>
-                                <div class="mb-3"><label class="form-label" style="color: #00ff88;" id="leste"><strong>Região Leste</strong></label></div>
-                            </div>
-                        </div>
                             <div class="text-center mb-3">
                             </div>
                         </div>
                         <div class="row">
 
                         </div>
-                        
+
                         <div class="card-body">
                             <div class="table-responsive table mt-2" id="dataTable" role="grid"
                                 aria-describedby="dataTable_info">
@@ -147,11 +161,18 @@
     <script src="assets/js/script.min.js"></script>
     <script src="../js/funcoes.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
-			integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+        integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
 </body>
 
 </html>
 <script>
+
+
+    var lati = []
+    var long = []
+    var latLon = { "latitude": lati, "longitude": long };
+
+    criarMapaCaixas()
 
     function listarQuantidade() {
 
@@ -180,37 +201,37 @@
                     console.log(json)
                     for (var i = 0; i < json.length; i++) {
                         if (json[i].regiao == 'São Paulo') {
-                            qtdSP ++;
+                            qtdSP++;
                         }
                         if (json[i].regiao == 'Norte') {
-                            qtdNorte ++;
+                            qtdNorte++;
                         }
                         if (json[i].regiao == 'Oeste') {
-                            qtdOeste ++;
+                            qtdOeste++;
                         }
-                        if (json[i].regiao == 'Sudoeste') {                                
-                            qtdSudoeste ++;
+                        if (json[i].regiao == 'Sudoeste') {
+                            qtdSudoeste++;
                         }
                         if (json[i].regiao == 'Sudeste') {
-                            qtdSudeste ++;
+                            qtdSudeste++;
                         }
                         if (json[i].regiao == 'Leste') {
-                            qtdLeste ++;
+                            qtdLeste++;
                         }
                     }
                     sp.innerHTML = `São Paulo: ${qtdSP}`;
                     norte.innerHTML = `Norte: ${qtdNorte}`;
                     oeste.innerHTML = `Oeste: ${qtdOeste}`;
-                    sudoeste.innerHTML = `Sudoeste: ${qtdSudoeste}`;  
+                    sudoeste.innerHTML = `Sudoeste: ${qtdSudoeste}`;
                     sudeste.innerHTML = `Sudeste: ${qtdSudeste}`;
                     leste.innerHTML = `Leste: ${qtdLeste}`;
-                })                
-                    console.log("Sucesso ao listar máquinas");
+                })
+                console.log("Sucesso ao listar máquinas");
             } else {
                 throw ("Houve um erro ao lsitar máquinas");
             }
         }).catch(function (resposta) {
-            console.log(`${resposta}`);            
+            console.log(`${resposta}`);
         });
     }
 
@@ -230,7 +251,7 @@
         if (select_list_regiao.value == "2") {
             var queryVar = `'Norte'`
         }
-        
+
         if (select_list_regiao.value == "3") {
             var queryVar = `'Oeste'`
         }
@@ -317,116 +338,118 @@
         })
 
         return false;
-    
+
     }
-    
-    // function criarMapaCaixas() {
-    //     var cnpjVar = sessionStorage.BANCO_ID
 
-    //     fetch("/usuarios/criarMapaCaixas", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify({
-    //             cnpjServer: cnpjVar
-    //         })
-    //     }).then(function (resposta) {
-    //         console.log("resposta: ", resposta);
-    //         if (resposta.ok) {
-    //             resposta.json().then(json => {
-    //                 cep = json[0].cep;
-                    
-    //                 var ceps = []
+    function criarMapaCaixas() {
+        var cnpjVar = sessionStorage.BANCO_ID
 
-    //                 for (let i = 0; i < json.length; i++) {
-    //                     ceps[i] = json[i].cep;
-                
-    //                     var script = document.createElement('script');
-    //                     script.src = 'https://viacep.com.br/ws/' + ceps[i] + '/json/?callback=performGeocodingRequest';
-    //                     document.body.appendChild(script);
+        fetch("/usuarios/criarMapaCaixas", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                cnpjServer: cnpjVar
+            })
+        }).then(function (resposta) {
+            console.log("resposta: ", resposta);
+            if (resposta.ok) {
+                resposta.json().then(json => {
+                    cep = json[0].cep;
 
-    //                     function performGeocodingRequest(conteudo) {
-    //                         const APIKEY = "2e20e7f8-9be2-4e04-a213-75b2a2040023";
+                    var ceps = []
 
-    //                         var logradouro = conteudo.logradouro
-    //                         var bairro = conteudo.bairro
-    //                         var localidade = conteudo.localidade
+                    for (let i = 0; i < json.length; i++) {
+                        ceps[i] = json[i].cep;
 
-    //                         var text = `${logradouro}, ${bairro}, ${localidade}`
+                        var script = document.createElement('script');
+                        script.src = 'https://viacep.com.br/ws/' + ceps[i] + '/json/?callback=performGeocodingRequest2'
+                        document.body.appendChild(script);
 
-    //                         // Set URL method depends
+                    }
+                })
+                console.log("Sucesso ao plotar mapa");
+            } else {
+                throw ("Houve um erro ao plotar mapa");
+            }
+        }).catch(function (resposta) {
+            console.log(`${resposta}`);
+        });
 
-    //                         URL = `https://api.mymappi.com/v2/geocoding/direct?apikey=${APIKEY}&q=${text}&country_code=BR`;
+    }
 
-    //                         // Create HTTP Request
-    //                         var xmlHttp = new XMLHttpRequest();
-    //                         // Send the request
-    //                         xmlHttp.open("GET", URL, false);
-    //                         // Check Status response
-    //                         xmlHttp.onload = function () {
-    //                             // Update variable, it shows in HTML response
-    //                             response_status = xmlHttp.status;
-    //                             // Bad request != 200 :(
-    //                             if (xmlHttp.status !== 200) {
-    //                                 console.log(`Response code ${response_status}. Check your browser log`)
-    //                             } else {
-    //                                 console.log(`Response code ${response_status}. Check your browser log`);
-    //                             }
-    //                         };
-    //                         // Close HTML Request
-    //                         xmlHttp.send(null);
-    //                         // Return data field from response to show on result section
-    //                         dados = JSON.parse(xmlHttp.responseText).data;
-    //                         console.log(JSON.stringify(dados))
-    //                         // return JSON.parse(xmlHttp.responseText).data;
+    function performGeocodingRequest2(conteudo) {
+        var logradouro = ''
+        var bairro = ''
+        var localidade = ''
+        var text = ''
 
-    //                         var lat = dados[0].lat;
-    //                         var lon = dados[0].lon;
+        const APIKEY = "2e20e7f8-9be2-4e04-a213-75b2a2040023";
 
-    //                     }
-    //                 }
-                    
-    //             })                
-    //                 console.log("Sucesso ao plotar mapa");
-    //         } else {
-    //             throw ("Houve um erro ao plotar mapa");
-    //         }
-    //     }).catch(function (resposta) {
-    //         console.log(`${resposta}`);            
-    //     });
-    // }
+        logradouro = conteudo.logradouro
+        bairro = conteudo.bairro
+        localidade = conteudo.localidade
+
+        text = `${logradouro}, ${bairro}, ${localidade}`
+
+        // // Set URL method depends
+
+        URL = `https://api.mymappi.com/v2/geocoding/direct?apikey=${APIKEY}&q=${text}&country_code=BR`;
+
+        // // Create HTTP Request
+        var xmlHttp = new XMLHttpRequest();
+        // // Send the request
+        xmlHttp.open("GET", URL, false);
+        // // Check Status response
+        xmlHttp.onload = function () {
+            // Update variable, it shows in HTML response
+            response_status = xmlHttp.status;
+            // Bad request != 200 :(
+            if (xmlHttp.status !== 200) {
+                console.log(`Response code ${response_status}. Check your browser log`)
+            } else {
+                console.log(`Response code ${response_status}. Check your browser log`);
+            }
+        };
+        // Close HTML Request
+        xmlHttp.send(null);
+        // Return data field from response to show on result section
+        dados = JSON.parse(xmlHttp.responseText).data;
+        console.log(JSON.stringify(dados))
+        // return JSON.parse(xmlHttp.responseText).data;
+
+        lati.push(dados[0].lat)
+        latLon.latitude = lati
+        long.push(dados[0].lon)
+        latLon.longitude = long
+
+    }
 
     function gerarMapa() {
 
-        var lat = []
-        var lon = []
-        lat[0] = -23.558;
-        lat[1] = -23.620;
-        lon[0] = -46.661;
-        lon[1] = -46.570;
-
         const cities = L.layerGroup();
 
-        for (let i = 0; i < lat.length; i++) {
-            for (let i = 0; i < lon.length; i++) {
-                var local1 = L.marker([lat[i], lon[i]]).bindPopup('CASA').addTo(cities),
-                local2    = L.marker([lat[i], lon[i]]).bindPopup('SPTECH').addTo(cities)            
+        for (var i = 0; i < latLon.latitude.length; i++) {
+            var nome = "local" + i
+            var nome = L.marker([latLon.latitude[i], latLon.longitude[i]]).bindPopup().addTo(cities)
+
+            if (i == latLon.latitude.length - 1) {
+                const map =
+                    L.map('mapaCaixa', {
+                        layers: [cities],
+                        zoom: 10
+                    }).setView([-23.558, -46.661], 9);
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                })
+                    .addTo(map);
+                ;
             }
-                        
         }
 
-        const map = 
-            L.map('mapaCaixa', { 
-                layers: [cities] 
-            })
-            .setView([lat[0], lon[0]], 9);
-            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            })
-            .addTo(map);
-        ;
-
     }
+
+    setTimeout(gerarMapa, 1000)
 
 </script>
