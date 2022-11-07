@@ -35,8 +35,7 @@ idComponente INT PRIMARY KEY AUTO_INCREMENT
 ,tipo VARCHAR(100)
 ,metrica VARCHAR(100)
 ,metricaMaxima INT
-)
-;
+);
 
 CREATE TABLE tbRegistro(
 idRegistro INT PRIMARY KEY AUTO_INCREMENT
@@ -92,5 +91,3 @@ CREATE VIEW vwFuncionario AS
             JOIN
         tbUsuario ON cnpj = fkEmpresa
 ;
-
-

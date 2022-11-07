@@ -13,6 +13,7 @@ from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt # Definindo um "apelido" para a biblioteca
 import openpyxl
 from slack import chamadoSlack
+from wordCloud import cloud
 
 if os.name == "nt":
     sistema = "Windows"
@@ -172,7 +173,6 @@ def info():
     memoriaTotal = f'{conversao_bytes(virtual_memory().total, 3)}GB'
 
     print("\033[1mInformações sobre o computador\033[0m\n\n")
-
     print("\033[1mSistema Operacional\033[0m", sistema)
     print("\033[1mVersão do sistema\033[0m", versaoSistemas)
     print("\033[1mMac Address\033[0m", macString)
@@ -227,7 +227,6 @@ def insertPeriodico(idCpu, idDisco, idRam, serialNumber, nome):
         for i in idDisco:
             queryDisco = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoDisco}', '{dataHora}');"
             insert(queryDisco)
-
 
         for i in idRam:
             queryRam = f"INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ('{i}', '{usoAtualMemoria}', '{dataHora}');"

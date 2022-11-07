@@ -7,6 +7,7 @@ from login import login
 from dash import dashboard
 import threading
 from gerarGraficos import gerarGraficoCpu, gerarGraficoDisco, gerarGraficoMemoria
+from wordCloud import cloud
 
 
 def menu(serialNumber, nome, idCpu, idDisco, idRam):
@@ -14,7 +15,7 @@ def menu(serialNumber, nome, idCpu, idDisco, idRam):
 
     os.system(codeCleaner)
 
-    opcaoUser = input(f"\033[1mHardware Monitor\033[0m\n\n Bem vindo(a) {nome}!!\n\n[1] - Monitorar processos atuais da máquina \n[2] - Verificar Informações sobre o dispositivo\n[3] - Análise de dados\n[4] - Documentar meus dados\n[5] - Criar simulação de máquinas\n[6] - Sair\n\n\033[1mUsuário:\033[0m ")
+    opcaoUser = input(f"\033[1mHardware Monitor\033[0m\n\n Bem vindo(a) {nome}!!\n\n[1] - Monitorar processos atuais da máquina \n[2] - Verificar Informações sobre o dispositivo\n[3] - Análise de dados\n[4] - Documentar meus dados\n[5] - Criar simulação de máquinas\n[6] - Criar arquivo para word cloud\n[7] - Sair\n\n\033[1mUsuário:\033[0m ")
 
 
     while opcaoUser == "1":
@@ -66,6 +67,13 @@ def menu(serialNumber, nome, idCpu, idDisco, idRam):
     while opcaoUser == "5":
         opcaoUser = arquivoCSV()
     while opcaoUser == "6":
+        for i in range(20):
+            opcaoUser = cloud()
+            # time.sleep(10)
+        print("Arquivo criado com sucesso!")
+        print("Foram adicionados 20 analises de cada componente")
+        time.sleep(4)
+    while opcaoUser == "7":
         main()
         exit()
     while opcaoUser != 1 and opcaoUser != 2 and opcaoUser != 3 and opcaoUser != 4 and opcaoUser != 5 and opcaoUser != 6:
@@ -87,7 +95,7 @@ def main():
         metricasMaximas(idCpu, idDisco, idRam)
         menu(serialNumber, nome, idCpu, idDisco, idRam)
     elif opcao1tela == "2":
-        print("Obrigado por utilizar nosso serviços")
+        print("Obrigado por utilizar nossos serviços")
         time.sleep(1)
         exit()
     else: 
