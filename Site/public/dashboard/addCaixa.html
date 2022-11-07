@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="assets/css/styles.min.css">
 </head>
 
-<body id="page-top" onload="validarSessao(), listarCaixas(), verificarCargo()">
+<body id="page-top" onload="validarSessao(), verificarComponentes(), listarCaixas(), verificarCargo()">
     <span id="mensagem_erro" class="ms"></span>
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
@@ -102,12 +102,10 @@
                                                     <div id="div_primeiro_componente">
                                                         <label class="form-label"><strong id="strong_titulo">Primeiro
                                                                 componente</strong><br /></label>
-                                                        <select class="form-select" id="slct_componente"
-                                                            onchange="verificarOutro()">
+                                                        <select class="form-select" id="slct_componente">
                                                             <option value="cpu" selected>CPU</option>
                                                             <option value="ram">RAM</option>
                                                             <option value="disco">DISCO</option>
-                                                            <option value="outro">Outro</option>
                                                         </select>
                                                     </div>
 
@@ -139,35 +137,9 @@
 
 </html>
 <script>
-    var componente = "";
-    var usarOutro = false;
     var cep = '';
     var regiao = '';
-
-    function verificarOutro() {
-        var valor = document.getElementById("slct_componente").value;
-
-        if (valor == "outro") {
-            Swal.fire({
-                title: 'Insira o nome do componente',
-                input: 'text',
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
-                showCancelButton: true,
-                confirmButtonText: 'confirmar',
-                preConfirm: (texto) => {
-                    componente = texto;
-                }
-
-            }).then(() => {
-                usarOutro = true;
-            })
-        }
-        else {
-            return false;
-        }
-    }
+    var componentesUsados = [];
 
     function recuperarDados() {
 
@@ -183,8 +155,24 @@
 
     }
 
+    function verificarComponentes() {
+        for (var i = 0; i < componentesUsados.length; i++) {
+            if (componentesUsados[i] == "cpu") {
+                slct_componente.remove(0);
+            }
+            else if (componentesUsados[i] == "ram") {
+                slct_componente.remove(1);
+            }
+            else if (componentesUsados[i] == "disco") {
+                slct_componente.remove(2);
+            }
+        }
+    }
+
 
     function cadastrarCaixa(conteudo) {
+
+        var componente = slct_componente.value;
 
         var cidades = ["São Paulo", "Cajamar", "Caieiras", "Franco da Rocha", "Francisco Morato", "Mairiporã", "Pirapora do Bom Jesus", "Santana de Parnaíba", "Barueri", "Osasco", "Carapicuíba", "Jandira", "Itapevi", "Vargem Grande Paulista", "Cotia", "Taboão da Serra", "Embu das Artes", "Itapecirica da Serra", "Embu-Guaçu", "São Lourenço da Serra", "Juquitiba", "São Caetano do Sul", "Diadema", "São Bernardo do Campo", "Santo André", "Mauá", "Ribeirão Pires", "Rio Grande da Serra", "Guarulhos", "Arujá", "Santa Isabel", "Itaquaquecetuba", "Poá", "Ferraz de Vasconcelos", "Suzano", "Guararema", "Mogi das Cruzes", "Biritiba Mirim", "Salesópolis"]
         var saoPaulo = ["São Paulo"]
@@ -248,10 +236,6 @@
         var cidadeVar = cidade;
         var regiaoVar = regiao;
 
-        if (!usarOutro) {
-            componente = document.getElementById("slct_componente").value;
-        }
-
         if (cepVar == "" || serialNumberVar == "" || nomeVar == "") {
             mensagem_erro.classList.add("alerta")
             mensagem_erro.style.display = "flex";
@@ -287,6 +271,9 @@
             console.log("resposta: ", resposta);
 
             if (resposta.ok) {
+
+                componentesUsados.push(componente);
+
                 Swal.fire({
                     title: 'Cadastro da maquina e componente realizado com sucesso!',
                     text: "Deseja cadastrar outro componente?",
@@ -341,9 +328,9 @@
     function cadastrarComponente() {
         serialNumberVar = ipt_serial_number.value;
 
-        if (!usarOutro) {
-            componente = document.getElementById("slct_componente").value;
-        }
+        var componente = slct_componente.value;
+
+
 
         fetch("/usuarios/cadastrarComponente", {
             method: "POST",
@@ -361,6 +348,9 @@
             console.log("resposta: ", resposta);
 
             if (resposta.ok) {
+
+                componentesUsados.push(componente);
+
                 Swal.fire({
                     title: 'Cadastro de outro componente realizado com sucesso!',
                     text: "Deseja cadastrar outro componente?",
@@ -385,9 +375,14 @@
                         Swal.fire({
                             icon: 'success',
                             title: 'Cadastro de máquina e componentes finalizados',
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "./addCaixa.html";
+                            }
                         })
-                        window.location.href = "./addCaixa.html";
-
                     }
                 })
 

@@ -524,6 +524,14 @@
 
 	function obterDadosGraficoDisco(serialNumber) {
 
+		document.getElementById('myChartDisco').remove();
+		var divGrafico = document.getElementById("grafico_disco");
+		var canvas = document.createElement("canvas");
+		canvas.id = "myChartDisco";
+
+		divGrafico.appendChild(canvas);
+
+
 		var valorMaximo = 0;
 		var usoDisco = 0;
 
@@ -572,6 +580,8 @@
 	}
 
 	function plotarGraficoDisco(valorMaximo, usoDisco) {
+
+
 		console.log('iniciando plotagem do gráfico...');
 		console.log(serialNumber);
 
