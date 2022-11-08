@@ -67,12 +67,20 @@ def menu(serialNumber, nome, idCpu, idDisco, idRam):
     while opcaoUser == "5":
         opcaoUser = arquivoCSV()
     while opcaoUser == "6":
+        arquivo = 'wordCloudProjeto.csv'
+        validacaoArquivo = os.path.isfile(arquivo)
+        if validacaoArquivo:
+            frase = "Arquivo modificado com sucesso!"
+        else: 
+            frase = "Arquivo criado com sucesso!"
+
         for i in range(20):
             opcaoUser = cloud()
             # time.sleep(10)
-        print("Arquivo criado com sucesso!")
+
+        print(frase)
         print("Foram adicionados 20 analises de cada componente")
-        time.sleep(4)
+        time.sleep(3)
     while opcaoUser == "7":
         main()
         exit()
