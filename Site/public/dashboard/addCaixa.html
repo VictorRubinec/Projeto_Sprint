@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="assets/css/styles.min.css">
 </head>
 
-<body id="page-top" onload="validarSessao(), verificarComponentes(), listarCaixas(), verificarCargo()">
+<body id="page-top" onload="validarSessao(), listarCaixas(), verificarCargo()">
     <span id="mensagem_erro" class="ms"></span>
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
@@ -156,6 +156,7 @@
     }
 
     function verificarComponentes() {
+ 
         for (var i = 0; i < componentesUsados.length; i++) {
             if (componentesUsados[i] == "cpu") {
                 slct_componente.remove(0);
@@ -273,6 +274,7 @@
             if (resposta.ok) {
 
                 componentesUsados.push(componente);
+                verificarComponentes();
 
                 Swal.fire({
                     title: 'Cadastro da maquina e componente realizado com sucesso!',
@@ -350,6 +352,7 @@
             if (resposta.ok) {
 
                 componentesUsados.push(componente);
+                verificarComponentes();
 
                 Swal.fire({
                     title: 'Cadastro de outro componente realizado com sucesso!',

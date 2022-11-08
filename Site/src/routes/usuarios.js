@@ -52,4 +52,8 @@ router.post("/criarMapaCaixas", function (req, res) {
     usuarioController.criarMapaCaixas(req, res);
 })
 
+router.post("/deletarCaixa", function (req, res) {
+    usuarioController.deletarCaixa(req, res);
+})
+
 module.exports = router;

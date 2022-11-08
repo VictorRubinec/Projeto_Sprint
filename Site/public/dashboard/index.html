@@ -731,15 +731,15 @@
 
 	}
 
-	function CpuCor(registroCpu){
+	function CpuCor(registroCpu) {
 
 		if (registroCpu <= 0.0) {
 			cor = "red";
 			pesoCpu = 8;
-		} else if (registroCpu >= 85.0){
+		} else if (registroCpu >= 85.0) {
 			cor = "red";
 			pesoCpu = 4;
-		} else if (registroCpu >= 70.0){
+		} else if (registroCpu >= 70.0) {
 			cor = "yellow";
 			pesoCpu = 2;
 		} else {
@@ -749,17 +749,17 @@
 		cpu_cor.style = "border-bottom: 3px solid " + cor;
 	}
 
-	function RamCor(registroRam){
+	function RamCor(registroRam) {
 
-		porcRam = (registroRam*100)/valorMaximo;
+		porcRam = (registroRam * 100) / valorMaximo;
 
 		if (porcRam <= 0.0) {
 			cor = "red";
 			pesoRam = 8;
-		} else if (porcRam >= 85.0){
+		} else if (porcRam >= 85.0) {
 			cor = "red";
 			pesoRam = 4;
-		} else if (porcRam >= 70.0){
+		} else if (porcRam >= 70.0) {
 			cor = "yellow";
 			pesoRam = 2;
 		} else {
@@ -771,15 +771,15 @@
 		StatusCor();
 	}
 
-	function DiscoCor(registroDisco){
+	function DiscoCor(registroDisco) {
 
 		if (registroDisco <= 0.0) {
 			cor = "red";
 			pesoDisco = 8;
-		} else if (registroDisco >= 90.0){
+		} else if (registroDisco >= 90.0) {
 			cor = "red";
 			pesoDisco = 6;
-		} else if (registroDisco >= 60.0){
+		} else if (registroDisco >= 60.0) {
 			cor = "yellow";
 			pesoDisco = 3;
 		} else {
@@ -789,19 +789,19 @@
 		disco_cor.style = "border-bottom: 3px solid " + cor;
 	}
 
-	function StatusCor(){
+	function StatusCor() {
 
-		peso = pesoCpu+pesoDisco+pesoRam;
+		peso = pesoCpu + pesoDisco + pesoRam;
 
-		if(peso >= 8){
+		if (peso >= 8) {
 			status_texto = "Crítico";
 			status_cor = "red"
-		} else if(peso >= 4){
+		} else if (peso >= 4) {
 			status_texto = "Alerta";
-			status_cor = "yellow"	
+			status_cor = "yellow"
 		} else {
 			status_texto = "Bom";
-			status_cor = "green"	
+			status_cor = "green"
 		}
 
 		span_status.innerHTML = status_texto;
@@ -812,6 +812,57 @@
 
 	function deletarCaixa() {
 		var serialNumber = span_serialNumber.innerHTML;
+
+		Swal.fire({
+			title: 'Você tem certeza?',
+			text: "Essa ação é irreversível!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Sim, apague!'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				fetch("/usuarios/deletarCaixa", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						serialNumberServer: serialNumber
+					})
+				}).then(function (resposta) {
+
+					console.log("resposta: ", resposta);
+
+					if (resposta.ok) {
+						Swal.fire({
+							title: 'Máquina deletada com sucesso!',
+							icon: 'success',
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: 'OK'
+						}).then((result) => {
+							if (result.isConfirmed) {
+								window.location.reload();
+							}
+						})
+
+					} else {
+						throw ("Houve um erro ao tentar realizar o cadastro!");
+						Swal.fire({
+							title: 'Erro ao deletar máquina!',
+							icon: 'warning',
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: 'OK'
+						})
+					}
+				}).catch(function (resposta) {
+					console.log(`#ERRO: ${resposta}`);
+				});
+			}
+		})
+
+
 
 	}
 
