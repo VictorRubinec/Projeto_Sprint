@@ -137,6 +137,33 @@ function criarMapaCaixas(cnpj) {
     return database.executar(instrucao);
 }
 
+function deletarRegistros(serialNumber) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function deletar caixa():", serialNumber)
+    var instrucao = `
+        DELETE FROM tbRegistro WHERE fkComponente in(SELECT idComponente FROM tbComponente WHERE fkMaquina = '${serialNumber}');
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function deletarComponentes(serialNumber) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function deletar caixa():", serialNumber)
+    var instrucao = `
+        DELETE FROM tbComponente WHERE fkMaquina = '${serialNumber}';
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
+function deletarCaixa(serialNumber) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function deletar caixa():", serialNumber)
+    var instrucao = `
+        DELETE FROM tbMaquina WHERE serialNumber = '${serialNumber}';
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
+
 module.exports = {
     entrar,
     cadastrarBanco,
@@ -148,5 +175,8 @@ module.exports = {
     listarQuantidade,
     listarMaquinasRegiao,
     listarComponentes,
-    criarMapaCaixas
+    criarMapaCaixas,
+    deletarRegistros,
+    deletarComponentes,
+    deletarCaixa
 };

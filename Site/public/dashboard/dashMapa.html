@@ -142,7 +142,7 @@
                     <div class="row">
                         <div id="container_mapa">
                             <h3>Localização dos Caixas:</h3>
-                            <div class="col-lg-8">
+                            <div class="col-lg-12">
                                 <div id="mapaCaixa">
                                 </div>
                             </div>
@@ -322,14 +322,7 @@
                 console.log("Houve um erro ao tentar realizar o login!");
 
                 resposta.text().then(texto => {
-                    mensagem_erro.classList.add("erro")
-                    mensagem_erro.style.display = "flex";
-                    mensagem_erro.innerHTML = texto;
-                    setTimeout(() => {
-                        mensagem_erro.style.display = "none";
-                        mensagem_erro.classList.remove("alerta");
-                        mensagem_erro.innerHTML = "";
-                    }, "5000")
+                    console.log(texto);
                 });
             }
 

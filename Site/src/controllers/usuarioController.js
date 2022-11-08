@@ -381,6 +381,45 @@ function criarMapaCaixas(req, res) {
         );
 }
 
+function deletarCaixa(req, res) {
+
+    var serialNumber = req.body.serialNumberServer;
+
+    usuarioModel.deletarRegistros(serialNumber)
+    .then(function (resultado) {
+        res.json(resultado);
+    }).catch(
+        function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        }
+    );
+
+    usuarioModel.deletarComponentes(serialNumber)
+    .then(function (resultado) {
+        res.json(resultado);
+    }).catch(
+        function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        }
+    );
+
+    usuarioModel.deletarCaixa(serialNumber)
+        .then(function (resultado) {
+            res.json(resultado);
+        }).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+
+}
+
 module.exports = {
     entrar,
     cadastrar,
@@ -393,5 +432,6 @@ module.exports = {
     listarMaquinasRegiao,
     verificarComponentes,
     enviarEmailContato,
-    criarMapaCaixas
+    criarMapaCaixas,
+    deletarCaixa
 }
