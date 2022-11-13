@@ -74,12 +74,10 @@ def menu(serialNumber, nome, idCpu, idDisco, idRam):
         else: 
             frase = "Arquivo criado com sucesso!"
 
-        for i in range(20):
-            opcaoUser = cloud()
-            # time.sleep(10)
+        opcaoUser = cloud()
 
         print(frase)
-        print("Foram adicionados 20 analises de cada componente")
+        print("Foram adicionados 50 analises de cada componente no arquivo")
         time.sleep(3)
     while opcaoUser == "7":
         main()
