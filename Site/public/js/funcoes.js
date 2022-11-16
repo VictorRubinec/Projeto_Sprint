@@ -119,8 +119,8 @@ function listarCaixas() {
 
                     sessionStorage.INFO_CAIXA = JSON.stringify(caixas);
                     verificarComponentes(caixas.serialNumber[0]);
-                    obterDadosGraficoCpu(caixas.serialNumber[0]);
                     obterDadosGraficoRam(caixas.serialNumber[0]);
+                    obterDadosGraficoCpu(caixas.serialNumber[0]);
                     obterDadosGraficoDisco(caixas.serialNumber[0]);
                     setRamMax(caixas.serialNumber[0]);
                     recuperarDados(caixas.cep[0]);
@@ -236,8 +236,8 @@ function addListeners() {
 
             verificarComponentes(key);
             obterDadosGraficoDisco(key);
-            obterDadosGraficoCpu(key);
             obterDadosGraficoRam(key);
+            obterDadosGraficoCpu(key);
             setRamMax(key);
 
             document.getElementById("span_serialNumber").innerHTML = key
