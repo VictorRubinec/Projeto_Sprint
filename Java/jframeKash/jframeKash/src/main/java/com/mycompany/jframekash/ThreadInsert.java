@@ -75,7 +75,7 @@ public class ThreadInsert extends Thread {
         Long discoDisponivel = volumes.get(0).getDisponivel();
         Long totalDisco = volumes.get(0).getTotal();
 
-        Long usoDisco = (totalDisco - discoDisponivel) / 1024 / 1024;
+        Long usoDisco = (totalDisco - discoDisponivel) / 1024 / 1024 / 1024;
         double usoMemoria = (double) longUsoMemoria;
 
         usoMemoria = usoMemoria / 1024 / 1024 / 1024;

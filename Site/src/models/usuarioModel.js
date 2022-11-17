@@ -87,7 +87,7 @@ function cadastrarComponente(serialNumber, tipo) {
     }
     else if (tipo == "disco") {
         var instrucao = `
-        INSERT INTO tbComponente(fkMaquina, tipo, metrica) VALUES ('${serialNumber}', '${tipo}', 'MB');
+        INSERT INTO tbComponente(fkMaquina, tipo, metrica) VALUES ('${serialNumber}', '${tipo}', 'GB');
         `;
     }
     else {
