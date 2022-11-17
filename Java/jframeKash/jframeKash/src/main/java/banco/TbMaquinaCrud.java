@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class TbMaquinaCrud {
     public TbMaquina selecionar(String serial) {
 
-        Conexao con = new Conexao();
+        ConexaoAzure con = new ConexaoAzure();
         JdbcTemplate cursor = con.getConexao();
 
         List<TbMaquina> validacao = cursor.query(String.format("SELECT * FROM tbMaquina WHERE serialNumber LIKE '%s';", serial), new BeanPropertyRowMapper(TbMaquina.class));

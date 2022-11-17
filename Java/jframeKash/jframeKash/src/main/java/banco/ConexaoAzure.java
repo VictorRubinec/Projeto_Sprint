@@ -13,13 +13,8 @@ public class ConexaoAzure {
 
         dataSource​.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-        dataSource​.setUrl("jdbc:sqlserver://kashmonitoramento.database.windows.net:1433;database=dbkashplus;user=kashplus@dbkashplus;password=1cco*grupo10;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;");
+        dataSource​.setUrl("jdbc:sqlserver://kashmonitoramento.database.windows.net:1433;database=dbkashplus;user=kashplus@kashmonitoramento;password=1cco*grupo10;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;");
 
-        // Nome do usuário da conexão 
-        dataSource​.setUsername("kashplus@dbkashplus");
-
-        // Senha da conexão 
-        dataSource​.setPassword("1cco*grupo10");
 
         this.connection = new JdbcTemplate(dataSource);
 

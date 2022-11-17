@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class TbComponenteCrud {
 
     public List<TbComponente> selecionar(String numeroSerial) {
-        Conexao con = new Conexao();
+        ConexaoAzure con = new ConexaoAzure();
         JdbcTemplate cursor = con.getConexao();
         
         List<TbComponente> validacao = cursor.query(String.format("SELECT * FROM tbComponente WHERE fkMaquina = '%s';", numeroSerial), new BeanPropertyRowMapper(TbComponente.class));

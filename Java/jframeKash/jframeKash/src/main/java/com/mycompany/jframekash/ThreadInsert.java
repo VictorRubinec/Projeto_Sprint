@@ -74,21 +74,22 @@ public class ThreadInsert extends Thread {
         Long longUsoMemoria = memoria.getEmUso();
         Long discoDisponivel = volumes.get(0).getDisponivel();
         Long totalDisco = volumes.get(0).getTotal();
-  
-        
-        Long usoDisco = (totalDisco - discoDisponivel) / 1024 / 1024 ;
+
+        Long usoDisco = (totalDisco - discoDisponivel) / 1024 / 1024;
         double usoMemoria = (double) longUsoMemoria;
-        
+
         usoMemoria = usoMemoria / 1024 / 1024 / 1024;
 
         if (tipo.equals("disco")) {
-            cursor.update(String.format("INSERT INTO tbRegistro VALUES (null, '%s', '%d', '%s' )", fkComponente, usoDisco, dataHora));
+            cursor.update(String.format("INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ( '%s', '%d', '%s' )", fkComponente, usoDisco, dataHora));
+            System.out.println("Insert realizado");
         } else if (tipo.equals("ram")) {
-            cursor.update(String.format("INSERT INTO tbRegistro VALUES (null, '%s', '%.2f', '%s' )", fkComponente, usoMemoria, dataHora));
+            cursor.update(String.format("INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ( '%s', '%.2f', '%s' )", fkComponente, usoMemoria, dataHora));
+            System.out.println("Insert realizado");
 
         } else if (tipo.equals("cpu")) {
-            cursor.update(String.format("INSERT INTO tbRegistro VALUES (null, '%s', '%.2f', '%s' )", fkComponente, usoCpu, dataHora));
-
+            cursor.update(String.format("INSERT INTO tbRegistro(fkComponente, registro, dataHora) VALUES ( '%s', '%.2f', '%s' )", fkComponente, usoCpu, dataHora));
+            System.out.println("Insert realizado");
         }
     }
 

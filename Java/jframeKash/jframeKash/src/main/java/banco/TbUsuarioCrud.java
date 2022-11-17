@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class TbUsuarioCrud {
     public TbUsuario selecionar(String login, String senha) {
 
-        Conexao con = new Conexao();
+        ConexaoAzure con = new ConexaoAzure();
         JdbcTemplate cursor = con.getConexao();
 
         List<TbUsuario> validacao = cursor.query(String.format("SELECT * FROM tbUsuario WHERE login LIKE '%s' AND senha LIKE '%s'; ", login, senha), new BeanPropertyRowMapper(TbUsuario.class));
