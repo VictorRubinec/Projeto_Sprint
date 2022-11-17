@@ -1,5 +1,5 @@
-CREATE USER 'kashUser'@'localhost' IDENTIFIED BY 'kash';
-GRANT ALL PRIVILEGES ON dbkashplus.* TO 'kashUser'@'localhost';
+CREATE USER 'kashUser'@'%' IDENTIFIED BY 'kash';
+GRANT ALL PRIVILEGES ON dbkashplus.* TO 'kashUser'@'%';
 create database dbkashplus;
 use dbkashplus;
 

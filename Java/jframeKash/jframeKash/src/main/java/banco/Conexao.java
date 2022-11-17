@@ -19,11 +19,11 @@ public class Conexao {
         
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         
-        dataSource.setUrl("jdbc:mysql://172.17.0.1:3306/dbkashplus");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/dbkashplus");
         
-        dataSource.setUsername("root");
+        dataSource.setUsername("kashUser");
         
-        dataSource.setPassword("Vila2004");
+        dataSource.setPassword("kash");
         
         connection = new JdbcTemplate(dataSource);
     }

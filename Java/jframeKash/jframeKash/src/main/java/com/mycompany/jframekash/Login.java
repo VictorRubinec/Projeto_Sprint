@@ -42,6 +42,7 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(6, 35, 53));
+        setMaximizedBounds(new java.awt.Rectangle(0, 0, 381, 290));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblLogin.setFont(new java.awt.Font("Comic Sans MS", 0, 18)); // NOI18N
