@@ -7,7 +7,7 @@ from login import login
 from dash import dashboard
 import threading
 from gerarGraficos import gerarGraficoCpu, gerarGraficoDisco, gerarGraficoMemoria
-from wordCloud import cloud
+#from wordCloud import cloud
 
 
 def menu(serialNumber, nome, idCpu, idDisco, idRam):

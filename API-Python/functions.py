@@ -12,7 +12,7 @@ from random import randint
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt # Definindo um "apelido" para a biblioteca
 import openpyxl
-from wordCloud import cloud
+#from wordCloud import cloud
 
 if os.name == "nt":
     sistema = "Windows"
