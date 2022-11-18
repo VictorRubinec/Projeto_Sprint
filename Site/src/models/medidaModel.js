@@ -36,7 +36,7 @@ function buscarUltimasMedidasRam(serialNumber, limite_linhas) {
                         Registro, 
                         CONVERT(varchar, Horario, 108) as momento_grafico
                     FROM vwConsumo
-                    WHERE NumeroSerial = '${serialNumber}' AND Componente = 'cpu'
+                    WHERE NumeroSerial = '${serialNumber}' AND Componente = 'ram'
                     ORDER BY ID DESC`;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `SELECT 
