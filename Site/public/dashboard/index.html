@@ -364,7 +364,6 @@
 
 	function atualizarGraficoCpu(serialNumber, dados, myChartCpu) {
 
-
 		fetch(`/medidas/tempo-realCpu/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
 			if (response.ok) {
 				response.json().then(function (novoRegistro) {
@@ -402,6 +401,7 @@
 	}
 
 	function obterDadosGraficoRam(serialNumber) {
+
 		document.getElementById("myChartRam").remove();
 
 		var divGrafico = document.getElementById("grafico_ram");
@@ -533,6 +533,8 @@
 	}
 
 	function obterDadosGraficoDisco(serialNumber) {
+
+		span_usoDisco.innerHTML = "";
 
 		document.getElementById('myChartDisco').remove();
 		var divGrafico = document.getElementById("grafico_disco");
