@@ -44,9 +44,9 @@ if ambiente == 'desenvolvimento':
 else:
     cnx = pyodbc.connect(
         #Para windows
-        #"DRIVER={SQL Server}; Server=kashmonitoramento.database.windows.net;Database=dbkashplus; Port=myport;UID=kashplus ;PWD=1cco*grupo10")
+        "DRIVER={SQL Server}; Server=kashmonitoramento.database.windows.net;Database=dbkashplus; Port=myport;UID=kashplus ;PWD=1cco*grupo10")
         #Para Linux
-        "DRIVER={ODBC Driver 18 for SQL Server}; Server=kashmonitoramento.database.windows.net;Database=dbkashplus; Port=myport;UID=kashplus ;PWD=1cco*grupo10")
+        #"DRIVER={ODBC Driver 18 for SQL Server}; Server=kashmonitoramento.database.windows.net;Database=dbkashplus; Port=myport;UID=kashplus ;PWD=1cco*grupo10")
         
     def insert(query):
         cursor = cnx.cursor()
