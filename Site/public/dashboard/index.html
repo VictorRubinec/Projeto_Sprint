@@ -614,7 +614,6 @@
 
 	function plotarGraficoDisco(valorMaximo, usoDisco) {
 
-
 		console.log('iniciando plotagem do gráfico...');
 		console.log(serialNumber);
 
@@ -662,112 +661,94 @@
 
 	}
 
+
 	function obterDadosGraficoCondicao(serialNumber) {
 
-		document.getElementById('myChartCondicao').remove();
+		document.getElementById("myChartCondicao").remove();
+
 		var divGrafico = document.getElementById("grafico_condicao");
 		var canvas = document.createElement("canvas");
 		canvas.id = "myChartCondicao";
 
 		divGrafico.appendChild(canvas);
 
-
-		var valorMaximo = 0;
-		var usoDisco = 0;
-
 		if (proximaAtualizacao != undefined) {
 			clearTimeout(proximaAtualizacao);
 		}
 
-		fetch(`/medidas/maxDisco/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
+		fetch(`/medidas/ultimasCondicao/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
 			if (response.ok) {
 				response.json().then(function (resposta) {
 					console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 					resposta.reverse();
 
-					valorMaximo = resposta[0].valorMaximo;
-
+					plotarGraficoCondicao(resposta, serialNumber);
 				});
 			} else {
 				console.error('Nenhum dado encontrado ou erro na API');
 			}
-		}).catch(function (error) {
-			console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-		});
-
-
-		fetch(`/medidas/ultimasDisco/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
-			if (response.ok) {
-				response.json().then(function (resposta) {
-					console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-					resposta.reverse();
-
-					usoDisco = resposta[0].Registro;
-
-					porcentagemDisco = Math.round((usoDisco / valorMaximo) * 100);
-					document.getElementById("barra_usoDisco").style.width = porcentagemDisco + "%";
-					document.getElementById("span_usoDisco").innerHTML = porcentagemDisco + "%";
-
-					DiscoCor(porcentagemDisco);
-
-					plotarGraficoDisco(valorMaximo, usoDisco);
-				});
-			} else {
-				console.error('Nenhum dado encontrado ou erro na API');
-			}
-		}).catch(function (error) {
-			console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-		});
+		})
+			.catch(function (error) {
+				console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+			});
 	}
 
-	function plotarGraficoDisco(valorMaximo, usoDisco) {
-
-
+	function plotarGraficoCondicao(resposta, serialNumber) {
 		console.log('iniciando plotagem do gráfico...');
 		console.log(serialNumber);
 
-		document.getElementById("myChartDisco").remove();
-
-		var divGrafico = document.getElementById("grafico_disco");
-		divGrafico.className = "chart-area";
-		var canvas = document.createElement("canvas");
-		canvas.id = "myChartDisco";
-
-		divGrafico.appendChild(canvas);
-
-		valorMaximo = valorMaximo - usoDisco;
-
-		let labels = ["disponível", "em uso"];
+		let labels = [];
 
 		var dados = {
 			labels: labels,
 			datasets: [
 				{
-					data: [valorMaximo, usoDisco],
-					backgroundColor: [
-						'rgb(50,205,50)',
-						'rgb(255,0,0)'
-					],
+					yAxisID: 'y-condicao',
+					label: 'Registro de condicao',
+					lineTension: 0.3,
+					backgroundColor: "rgba(124, 252, 0, 0.5)",
+					borderColor: "rgba(124, 252, 0, 1)",
+					pointRadius: 3,
+					pointBackgroundColor: "rgba(124, 252, 0, 1)",
+					pointBorderColor: "rgba(124, 252, 0, 1)",
+					pointHoverRadius: 3,
+					pointHoverBackgroundColor: "rgba(124, 252, 0, 1)",
+					pointHoverBorderColor: "rgba(124, 252, 0, 1)",
+					pointHitRadius: 10,
+					pointBorderWidth: 2,
+					data: [0, 50, 20, 45, 10, 30, 22, 55, 35, 10, 95, 50],
+					fill: true,
+					data: [],
 				},
 			],
-		};
-
-		console.log(JSON.stringify(dados));
-
-		const config = {
-			type: 'doughnut',
-			data: dados,
 			options: {
 				maintainAspectRatio: false,
 				responsive: true
 			}
 		};
 
-		let myChartDisco = new Chart(
-			document.getElementById('myChartDisco'),
-			config
-		);
+		for (i = 0; i < resposta.length; i++) {
+			var registro = resposta[i];
+			labels.push(registro.momento_grafico);
+			dados.datasets[0].data.push(registro.Registro);
+		}
 
+		console.log(JSON.stringify(dados));
+
+		const configCondicao = {
+			type: 'line',
+			data: dados,
+			options: {
+				maintainAspectRatio: false,
+				responsive: true,
+			}
+
+		};
+
+		let myChartCondicao = new Chart(
+			document.getElementById('myChartCondicao'),
+			configCondicao
+		);
 	}
 
 	function verificarComponentes(serialNumber) {
@@ -775,6 +756,7 @@
 		document.getElementById("card_cpu").style.display = "none";
 		document.getElementById("card_ram").style.display = "none";
 		document.getElementById("card_disco").style.display = "none";
+		document.getElementById("card_condicao").style.display = "block";
 
 		fetch("/usuarios/verificarComponentes", {
 			method: "POST",

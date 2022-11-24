@@ -7,6 +7,10 @@ router.get("/ultimasCpu/:serialNumber", function (req, res) {
     medidaController.buscarUltimasMedidasCpu(req, res);
 });
 
+router.get("/ultimasCondicao/:serialNumber", function (req, res) {
+    medidaController.buscarUltimasCondicao(req, res);
+});
+
 router.get("/tempo-realCpu/:serialNumber", function (req, res) {
     medidaController.buscarMedidasEmTempoRealCpu(req, res);
 });
