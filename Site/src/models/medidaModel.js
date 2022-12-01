@@ -27,33 +27,69 @@ function buscarUltimasMedidasCpu(serialNumber, limite_linhas) {
     return database.executar(instrucaoSql);
 }
 
-function buscarUltimasCondicao(serialNumber, limite_linhas) {
+function buscarUltimasCondicaoCpu(serialNumber) {
 
     var instrucaoSql = ''
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
-        instrucaoSql = `SELECT top ${limite_linhas}
-                        Registro, 
-                        CONVERT(varchar, Horario, 108) as momento_grafico
-                    FROM vwConsumo
-                    WHERE NumeroSerial = '${serialNumber}' AND Componente = 'cpu'
-                    ORDER BY ID DESC
-                    
-                    select 
-	avg(tCpu.Registro) AS 'CPU'
-from vwConsumo2 AS tCpu
-	where tCpu.Horario between "2022-11-24 8:00:00" and "2022-11-24 22:00:00" 
-    and tCpu.Componente = "cpu" 
-    and tCpu.NumeroSerial = "321";
-
-insert into tbRegistro values (null, 6, 10.0, "2022-11-24 10:00:00");`;
+        instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
-        instrucaoSql = `SELECT 
-                        Registro, 
-                        DATE_FORMAT(Horario,'%H:%i:%s') as momento_grafico
-                    FROM vwConsumo
-                    WHERE NumeroSerial = '${serialNumber}' AND Componente = 'cpu'
-                    ORDER BY ID DESC LIMIT ${limite_linhas}`;
+        instrucaoSql = `select 
+                            cast(Horario as date) as 'Data',
+                            round(avg(Registro),2) as 'CPU'	
+                        from vwConsumo 
+                            where Componente = 'cpu'
+                            and NumeroSerial = '${serialNumber}' 
+                        group by cast(Horario as date)
+                        limit 7;`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarUltimasCondicaoRam(serialNumber) {
+
+    var instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `select 
+                            cast(Horario as date) as 'Data',
+                            round(avg(Registro),2) as 'RAM'	
+                        from vwConsumo 
+                            where Componente = 'ram'
+                            and NumeroSerial = '${serialNumber}' 
+                        group by cast(Horario as date)
+                        limit 7;`;
+    } else {
+        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarUltimasCondicaoDisco(serialNumber) {
+
+    var instrucaoSql = ''
+
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+        instrucaoSql = ``;
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+        instrucaoSql = `select 
+                            cast(Horario as date) as 'Data',
+                            round(avg(Registro),2) as 'Disco'	
+                        from vwConsumo 
+                            where Componente = 'disco'
+                            and NumeroSerial = '${serialNumber}' 
+                        group by cast(Horario as date)
+                        limit 7;`;
     } else {
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");
         return
@@ -199,7 +235,9 @@ function buscarMedidasEmTempoRealRam(serialNumber) {
 
 module.exports = {
     buscarUltimasMedidasCpu,
-    buscarUltimasCondicao,
+    buscarUltimasCondicaoCpu,
+    buscarUltimasCondicaoRam,
+    buscarUltimasCondicaoDisco,
     buscarUltimasMedidasRam,
     buscarMedidasEmTempoRealCpu,
     buscarMedidasEmTempoRealRam,

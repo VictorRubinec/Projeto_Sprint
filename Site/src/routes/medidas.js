@@ -7,8 +7,16 @@ router.get("/ultimasCpu/:serialNumber", function (req, res) {
     medidaController.buscarUltimasMedidasCpu(req, res);
 });
 
-router.get("/ultimasCondicao/:serialNumber", function (req, res) {
-    medidaController.buscarUltimasCondicao(req, res);
+router.get("/ultimasCondicaoCpu/:serialNumber", function (req, res) {
+    medidaController.buscarUltimasCondicaoCpu(req, res);
+});
+
+router.get("/ultimasCondicaoRam/:serialNumber", function (req, res) {
+    medidaController.buscarUltimasCondicaoRam(req, res);
+});
+
+router.get("/ultimasCondicaoDisco/:serialNumber", function (req, res) {
+    medidaController.buscarUltimasCondicaoDisco(req, res);
 });
 
 router.get("/tempo-realCpu/:serialNumber", function (req, res) {

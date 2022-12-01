@@ -70,6 +70,7 @@ CREATE VIEW vwConsumo AS
         ,serialNumber AS 'NumeroSerial'
         ,tipo AS 'Componente'
         ,metrica AS 'Metrica'
+        ,metricamaxima as 'Maxima'
         ,registro AS 'Registro'
         ,dataHora AS 'Horario'
     FROM

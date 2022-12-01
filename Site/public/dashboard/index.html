@@ -576,7 +576,7 @@
 					console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 					resposta.reverse();
 
-					valorMaximo = resposta[0].valorMaximo;
+					valorMaximoD = resposta[0].valorMaximo;
 
 				});
 			} else {
@@ -595,13 +595,13 @@
 
 					usoDisco = resposta[0].Registro;
 
-					porcentagemDisco = Math.round((usoDisco / valorMaximo) * 100);
+					porcentagemDisco = Math.round((usoDisco / valorMaximoD) * 100);
 					document.getElementById("barra_usoDisco").style.width = porcentagemDisco + "%";
 					document.getElementById("span_usoDisco").innerHTML = porcentagemDisco + "%";
 
 					DiscoCor(porcentagemDisco);
 
-					plotarGraficoDisco(valorMaximo, usoDisco);
+					plotarGraficoDisco(valorMaximoD, usoDisco);
 				});
 			} else {
 				console.error('Nenhum dado encontrado ou erro na API');
@@ -612,7 +612,7 @@
 
 	}
 
-	function plotarGraficoDisco(valorMaximo, usoDisco) {
+	function plotarGraficoDisco(valorMaximoD, usoDisco) {
 
 		console.log('iniciando plotagem do gráfico...');
 		console.log(serialNumber);
@@ -626,7 +626,7 @@
 
 		divGrafico.appendChild(canvas);
 
-		valorMaximo = valorMaximo - usoDisco;
+		valorMaximoD = valorMaximoD - usoDisco;
 
 		let labels = ["disponível", "em uso"];
 
@@ -634,7 +634,7 @@
 			labels: labels,
 			datasets: [
 				{
-					data: [valorMaximo, usoDisco],
+					data: [valorMaximoD, usoDisco],
 					backgroundColor: [
 						'rgb(50,205,50)',
 						'rgb(255,0,0)'
@@ -676,16 +676,99 @@
 			clearTimeout(proximaAtualizacao);
 		}
 
-		fetch(`/medidas/ultimasCondicao/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
+		peso = [];
+
+		fetch(`/medidas/ultimasCondicaoCpu/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
 			if (response.ok) {
 				response.json().then(function (resposta) {
 					console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 					resposta.reverse();
 
-					plotarGraficoCondicao(resposta, serialNumber);
+					for (let i = 0; i < resposta.length; i++) {
+
+						if (resposta[i] <= 0.0) {
+							cal = 8;
+						} else if (resposta[i] >= 85.0) {
+							cal = 4;
+						} else if (resposta[i] >= 70.0) {
+							cal = 2;
+						} else {
+							cal = 7;
+						}
+
+						peso.push(cal);
+					}
+
 				});
 			} else {
-				console.error('Nenhum dado encontrado ou erro na API');
+				console.error('Nenhum dado encontrado ou erro na API condicao');
+			}
+		})
+			.catch(function (error) {
+				console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+			});
+
+
+		fetch(`/medidas/ultimasCondicaoRam/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
+			if (response.ok) {
+				response.json().then(function (resposta) {
+					console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+					resposta.reverse();
+
+					for (let i = 0; i < resposta.length; i++) {
+
+						porcRam = (resposta[i] * 100) / valorMaximoR;
+
+						if (porcRam <= 0.0) {
+							cal = 8;
+						} else if (porcRam >= 85.0) {
+							cal = 4;
+						} else if (porcRam >= 70.0) {
+							cal = 2;
+						} else {
+							cal = 7;
+						}
+
+						peso[i]+=cal;
+					}
+
+				});
+			} else {
+				console.error('Nenhum dado encontrado ou erro na API condicao');
+			}
+		})
+			.catch(function (error) {
+				console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+			});
+
+
+		fetch(`/medidas/ultimasCondicaoDisco/${serialNumber}`, { cache: 'no-store' }).then(function (response) {
+			if (response.ok) {
+				response.json().then(function (resposta) {
+					console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+					resposta.reverse();
+
+					for (let i = 0; i < resposta.length; i++) {
+
+						porcentagemDisco = Math.round((resposta[i] / valorMaximoD) * 100);
+
+						if (porcentagemDisco <= 0.0) {
+							cal = 8;
+						} else if (porcentagemDisco >= 60.0) {
+							cal = 4;
+						} else if (porcentagemDisco >= 90.0) {
+							cal = 2;
+						} else {
+							cal = 7;
+						}
+
+						peso[i]+=cal;
+					}
+
+					plotarGraficoCondicao(resposta, peso)
+				});
+			} else {
+				console.error('Nenhum dado encontrado ou erro na API condicao');
 			}
 		})
 			.catch(function (error) {
@@ -693,9 +776,9 @@
 			});
 	}
 
-	function plotarGraficoCondicao(resposta, serialNumber) {
+	function plotarGraficoCondicao(resposta, peso) {
 		console.log('iniciando plotagem do gráfico...');
-		console.log(serialNumber);
+		console.log(peso);
 
 		let labels = [];
 
@@ -729,8 +812,9 @@
 
 		for (i = 0; i < resposta.length; i++) {
 			var registro = resposta[i];
-			labels.push(registro.momento_grafico);
-			dados.datasets[0].data.push(registro.Registro);
+			var p = peso[i]
+			labels.push(registro.Data);
+			dados.datasets[0].data.push(p);
 		}
 
 		console.log(JSON.stringify(dados));
@@ -827,10 +911,10 @@
 					console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
 					resposta.reverse();
 
-					valorMaximo = resposta[0].valorMaximo;
+					valorMaximoR = resposta[0].valorMaximo;
 
-					if (valorMaximo != null) {
-						document.getElementById("span_ramMaxima").innerHTML = valorMaximo + "GB";
+					if (valorMaximoR != null) {
+						document.getElementById("span_ramMaxima").innerHTML = valorMaximoR + "GB";
 					}
 
 				});
@@ -863,7 +947,7 @@
 
 	function RamCor(registroRam) {
 
-		porcRam = (registroRam * 100) / valorMaximo;
+		porcRam = (registroRam * 100) / valorMaximoR;
 
 		if (porcRam <= 0.0) {
 			cor = "red";
