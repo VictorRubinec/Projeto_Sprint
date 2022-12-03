@@ -238,17 +238,52 @@
 						</div>
 
 						<div class="row">
-							<div class="col-lg-12 col-xl-12">
+							<div class="col-lg-9 col-xl-9">
 								<div class="card shadow mb-4" id="card_condicao" style="display: none;">
 									<div class="card-header d-flex justify-content-between align-items-center">
-										<h6 class="text-primary fw-bold m-0">Média de condição: </h6>
+										<h6 class="text-primary fw-bold m-0">Registro de Status: </h6>
 									</div>
 									<div class="card-body">
-										<div class="chart-area">
+										<div class="chart-area" id="Condicao_area">
 											<div class="chart-container" id="grafico_condicao">
 												<canvas id="myChartCondicao">
 												</canvas>
 											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-3 col-xl-3">
+								<div class="card shadow mb-4" id="card_condicao" style="display: block;">
+									<div class="card-header d-flex justify-content-between align-items-center">
+										<h6 class="text-primary fw-bold m-0">Legenda Status: </h6>
+									</div>
+									<div class="card-body">
+										<div class="div_legenda">
+											<table>
+												<tr class="leg_bom">
+													<td>
+														<div class="leg_circulo" id="leg_c_bom"></div>
+													</td>
+													<td id="leg_bom">3</td>
+													<td>Bom</td>
+												</tr>
+												<tr class="leg_analise">
+													<td>
+														<div class="leg_circulo" id="leg_c_analise"></div>
+													</td>
+													<td id="leg_analise">2</td>
+													<td>Análise</td>
+												</tr>
+												<tr class="leg_critico">
+													<td>
+														<div class="leg_circulo" id="leg_c_critico"></div>
+													</td>
+													<td id="leg_critico">1</td>
+													<td>Crítico</td>
+												</tr>
+											</table>
 										</div>
 									</div>
 								</div>
@@ -693,7 +728,7 @@
 						} else if (resposta[i] >= 70.0) {
 							cal = 2;
 						} else {
-							cal = 7;
+							cal = 0;
 						}
 
 						peso.push(cal);
@@ -726,10 +761,10 @@
 						} else if (porcRam >= 70.0) {
 							cal = 2;
 						} else {
-							cal = 7;
+							cal = 0;
 						}
 
-						peso[i]+=cal;
+						peso[i] += cal;
 					}
 
 				});
@@ -759,10 +794,10 @@
 						} else if (porcentagemDisco >= 90.0) {
 							cal = 2;
 						} else {
-							cal = 7;
+							cal = 0;
 						}
 
-						peso[i]+=cal;
+						peso[i] += cal;
 					}
 
 					plotarGraficoCondicao(resposta, peso)
@@ -787,7 +822,7 @@
 			datasets: [
 				{
 					yAxisID: 'y-condicao',
-					label: 'Registro de condicao',
+					label: 'Status',
 					lineTension: 0.3,
 					backgroundColor: "rgba(124, 252, 0, 0.5)",
 					borderColor: "rgba(124, 252, 0, 1)",
@@ -814,13 +849,24 @@
 			var registro = resposta[i];
 			var p = peso[i]
 			labels.push(registro.Data);
-			dados.datasets[0].data.push(p);
+
+			if (p >= 8) {
+				v_condicao = 1;
+				
+			} else if (p >= 4) {
+				v_condicao = 2;
+			} else {
+				v_condicao = 3;
+				
+			}
+
+			dados.datasets[0].data.push(v_condicao);
 		}
 
 		console.log(JSON.stringify(dados));
 
 		const configCondicao = {
-			type: 'line',
+			type: 'bar',
 			data: dados,
 			options: {
 				maintainAspectRatio: false,

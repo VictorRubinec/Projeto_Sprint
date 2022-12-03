@@ -35,11 +35,11 @@ function buscarUltimasCondicaoCpu(serialNumber) {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `select 
-                            cast(Horario as date) as 'Data',
                             round(avg(Registro),2) as 'CPU'	
                         from vwConsumo 
                             where Componente = 'cpu'
                             and NumeroSerial = '${serialNumber}' 
+                            and cast(Horario as time) between '10:00:00' and '22:00:00'
                         group by cast(Horario as date)
                         limit 7;`;
     } else {
@@ -59,11 +59,11 @@ function buscarUltimasCondicaoRam(serialNumber) {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `select 
-                            cast(Horario as date) as 'Data',
                             round(avg(Registro),2) as 'RAM'	
                         from vwConsumo 
                             where Componente = 'ram'
                             and NumeroSerial = '${serialNumber}' 
+                            and cast(Horario as time) between '10:00:00' and '22:00:00'
                         group by cast(Horario as date)
                         limit 7;`;
     } else {
@@ -83,11 +83,12 @@ function buscarUltimasCondicaoDisco(serialNumber) {
         instrucaoSql = ``;
     } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
         instrucaoSql = `select 
-                            cast(Horario as date) as 'Data',
+                            DATE_FORMAT(Horario,'%Y/%m/%d') as 'Data',
                             round(avg(Registro),2) as 'Disco'	
                         from vwConsumo 
                             where Componente = 'disco'
                             and NumeroSerial = '${serialNumber}' 
+                            and cast(Horario as time) between '10:00:00' and '22:00:00'
                         group by cast(Horario as date)
                         limit 7;`;
     } else {

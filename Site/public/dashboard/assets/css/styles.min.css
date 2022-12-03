@@ -1,64 +1,155 @@
-#content{
+#content {
   height: 100vh;
 }
 
-h6:hover{color:#000}
+h6:hover {
+  color: #000
+}
 
 /* alertas */
 
 @keyframes fade {
-    0%,100% { opacity: 0; }
-    50% { opacity: 1 }
+  0%, 100% {
+    opacity: 0;
   }
 
-
-.ms{ 
-    opacity: 1;
-    animation: fade 4s linear forwards;
-    display:none; 
-    width:30%; 
-    padding:1em; 
-    position: fixed;
-    left: 33vw; 
-    justify-content: center;
-    margin-bottom:10px;
-    font-family:Verdana, Arial, Helvetica, sans-serif; 
-    font-weight:100; 
-    font-size:16px;
-    z-index: 1;
+  50% {
+    opacity: 1
+  }
 }
-	 
-.erro   { background-color:#FFCACA; border:2px #a60202 solid; color:#a60202; border-radius:5px; }
-.ok     { background-color:#A6FFBC; border:2px #00bd00 solid; color:#00bd00; border-radius:5px; }
-.alerta { background-color:#FFFFBF; border:2px #2b2b2b solid; color:#2b2b2b; border-radius:5px; }
-.info   { background-color:#B3E7FF; border:2px #018ace solid; color:#018ace; border-radius:5px; }
 
 
-#myChartCpu{
+.ms {
+  opacity: 1;
+  animation: fade 4s linear forwards;
+  display: none;
+  width: 30%;
+  padding: 1em;
+  position: fixed;
+  left: 33vw;
+  justify-content: center;
+  margin-bottom: 10px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-weight: 100;
+  font-size: 16px;
+  z-index: 1;
+}
+
+.erro {
+  background-color: #FFCACA;
+  border: 2px #a60202 solid;
+  color: #a60202;
+  border-radius: 5px;
+}
+
+.ok {
+  background-color: #A6FFBC;
+  border: 2px #00bd00 solid;
+  color: #00bd00;
+  border-radius: 5px;
+}
+
+.alerta {
+  background-color: #FFFFBF;
+  border: 2px #2b2b2b solid;
+  color: #2b2b2b;
+  border-radius: 5px;
+}
+
+.info {
+  background-color: #B3E7FF;
+  border: 2px #018ace solid;
+  color: #018ace;
+  border-radius: 5px;
+}
+
+
+#myChartCpu {
   height: 45vh;
 }
 
-#myChartRam{
+#myChartRam {
   width: 75vw;
   height: 42vh;
 }
 
-#mapaCaixa{
+#myChartCondicao{
+  height: 20vh;
+}
+
+#mapaCaixa {
   height: 40vh;
 }
 
+.div_legenda{
+  font-size: 22px;
+  height: 10rem;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
 
-@media (max-width: 765px){
-  #myChartCpu{
+.leg_bom {
+  display: flex;
+  align-items: center;
+}
+
+.leg_analise {
+  display: flex;
+  align-items: center;
+}
+
+.leg_critico {
+  display: flex;
+  align-items: center;
+}
+
+.leg_circulo {
+  height: 22px;
+  width: 22px;
+  border-radius: 100%;
+  margin-right: 5px;
+}
+
+#leg_bom {
+  color: green;
+}
+
+#leg_analise {
+  color: rgb(196, 119, 4);
+}
+
+#leg_critico {
+  color: red;
+}
+
+#leg_c_bom{
+  background-color: green;
+}
+
+#leg_c_analise{
+  background-color: rgb(196, 119, 4);
+}
+
+#leg_c_critico{
+  background-color: red;
+}
+
+@media (max-width: 765px) {
+  #myChartCpu {
     height: 15vh !important;
   }
 
-  #myChartRam{
+  #myChartRam {
     height: 15vh !important;
   }
 
- #mapaCaixa{
+  #myChartCondicao{
+    height: 20vh !important;
+  }
+
+  #mapaCaixa {
     height: 15vh !important;
   }
- 
+
 }
