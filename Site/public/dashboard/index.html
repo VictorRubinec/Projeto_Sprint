@@ -816,6 +816,17 @@
 		console.log(peso);
 
 		let labels = [];
+		let cores = [];
+
+		for (let i = 0; i < peso.length; i++) {
+			if (peso[i] >= 8) {
+				cores.push("red")
+			} else if (peso[i] >= 4) {
+				cores.push("yellow")
+			} else {
+				cores.push("green")
+			}
+		}
 
 		var dados = {
 			labels: labels,
@@ -824,14 +835,14 @@
 					yAxisID: 'y-condicao',
 					label: 'Status',
 					lineTension: 0.3,
-					backgroundColor: "rgba(124, 252, 0, 0.5)",
-					borderColor: "rgba(124, 252, 0, 1)",
+					backgroundColor: cores,
+					borderColor: cores,
 					pointRadius: 3,
-					pointBackgroundColor: "rgba(124, 252, 0, 1)",
-					pointBorderColor: "rgba(124, 252, 0, 1)",
+					pointBackgroundColor: cores,
+					pointBorderColor: cores,
 					pointHoverRadius: 3,
-					pointHoverBackgroundColor: "rgba(124, 252, 0, 1)",
-					pointHoverBorderColor: "rgba(124, 252, 0, 1)",
+					pointHoverBackgroundColor: cores,
+					pointHoverBorderColor: cores,
 					pointHitRadius: 10,
 					pointBorderWidth: 2,
 					data: [0, 50, 20, 45, 10, 30, 22, 55, 35, 10, 95, 50],
@@ -852,12 +863,10 @@
 
 			if (p >= 8) {
 				v_condicao = 1;
-				
 			} else if (p >= 4) {
 				v_condicao = 2;
 			} else {
 				v_condicao = 3;
-				
 			}
 
 			dados.datasets[0].data.push(v_condicao);
